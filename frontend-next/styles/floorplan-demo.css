@@ -1,0 +1,741 @@
+/*
+ * 평면 공간구조 분석 패널 (`components/demo/FloorplanResult.tsx`).
+ *
+ * 화면 껍데기는 여기 없다 — 데모가 한 URL(`/demo`)로 합쳐지면서 상단·탭·2열
+ * 배치는 `styles/demo.css`의 `.res-*`·`.demo-*`가 맡는다(2026-08-24). 이 파일에는
+ * **패널 안쪽 글 모양**만 남는다. 색은 tokens.css를 통해서만 쓴다. 예외는 문제
+ * 심각도 색인데, 그것은 lib/demoFloorplan.ts가 문자열로 들고 있다 — SVG가 CSS
+ * 변수 대신 색 문자열을 받아야 하는 자리가 있기 때문이다.
+ */
+
+/* 결과 패널(.res-body)이 이미 스크롤과 여백을 갖고 있다 — 여기서 또 주면 안쪽에
+   스크롤이 두 겹으로 생긴다. */
+.res-body .fp-pane {
+  padding: 0;
+  overflow: visible;
+}
+
+.fp-pane {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* 패널 맨 위에는 이 탭이 답하는 질문 하나가 온다. */
+.fp-q {
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--label-strong);
+}
+
+.fp-h {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--label-strong);
+}
+
+.fp-h5 {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--label-alternative);
+}
+
+.fp-p {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 1.7;
+  color: var(--label-normal);
+}
+
+/* AI가 쓴 문단은 사람이 쓴 표와 구분되어야 한다. */
+.fp-p--ai {
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--accent-background-light-blue);
+  color: var(--label-neutral);
+}
+
+.fp-note {
+  margin: 0;
+  padding-left: var(--space-3);
+  border-left: 2px solid var(--line-normal-normal);
+  font-size: var(--text-xs);
+  line-height: 1.65;
+  color: var(--label-alternative);
+}
+
+.fp-note b {
+  color: var(--label-neutral);
+}
+
+.fp-ul {
+  margin: 0;
+  padding-left: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--label-normal);
+}
+
+/* ── 이름/값 줄 — 근거·지표·면적이 전부 이 모양이다 ──────────────────── */
+
+.fp-ev {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--line-normal-neutral);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.fp-ev li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--line-normal-alternative);
+  font-size: var(--text-sm);
+  color: var(--label-neutral);
+}
+
+.fp-ev li:last-child {
+  border-bottom: none;
+}
+
+.fp-ev b {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--label-strong);
+  text-align: right;
+}
+
+/* ── 0단계 인식 ───────────────────────────────────────────────────────── */
+
+.fp-counts {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--space-2);
+}
+
+.fp-counts li {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  font-size: var(--text-xs);
+  color: var(--label-alternative);
+}
+
+.fp-counts b {
+  font-size: var(--text-lg);
+  font-variant-numeric: tabular-nums;
+  color: var(--label-strong);
+}
+
+/* 인식 못 한 것은 세는 것이 아니라 고쳐야 하는 것이다. */
+.fp-count--bad {
+  background: var(--accent-background-red-orange);
+}
+
+.fp-count--bad b {
+  color: var(--status-cautionary);
+}
+
+.fp-recog {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.fp-recog li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--label-normal);
+}
+
+/* 도면 위 번호와 패널의 번호는 같은 모양이어야 한다 — 눈이 둘을 잇는다. */
+.fp-no {
+  width: 1.4rem;
+  height: 1.4rem;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-pill);
+  background: var(--label-assistive);
+  color: var(--static-white);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.fp-no--warn {
+  background: var(--status-cautionary);
+}
+
+/* ── 문제 카드 ────────────────────────────────────────────────────────── */
+
+.fp-issue {
+  border: 1px solid var(--line-normal-neutral);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.fp-issue--open {
+  border-color: var(--interaction-inactive);
+  box-shadow: var(--shadow-normal);
+}
+
+.fp-issue-head {
+  appearance: none;
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: none;
+  background: transparent;
+  text-align: left;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.fp-issue-title {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--label-strong);
+}
+
+.fp-sev {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.fp-issue-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 0 var(--space-3) var(--space-3);
+}
+
+/* ── 버튼 ─────────────────────────────────────────────────────────────── */
+
+.fp-acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.fp-btn {
+  appearance: none;
+  padding: 6px var(--space-3);
+  border: 1px solid var(--line-normal-normal);
+  border-radius: var(--radius-sm);
+  background: var(--surface-1);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  color: var(--label-neutral);
+  cursor: pointer;
+}
+
+.fp-btn:hover {
+  border-color: var(--interaction-inactive);
+  color: var(--label-normal);
+}
+
+.fp-btn--sm {
+  padding: 4px var(--space-2);
+  font-size: var(--text-xs);
+}
+
+.fp-btn--go {
+  border-color: var(--blue-50);
+  background: var(--blue-50);
+  color: var(--static-white);
+  font-weight: 600;
+}
+
+.fp-btn--go:hover {
+  background: var(--blue-45);
+  color: var(--static-white);
+}
+
+/* ── 칩 · 세그먼트 ────────────────────────────────────────────────────── */
+
+.fp-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.fp-chip {
+  appearance: none;
+  padding: 4px var(--space-3);
+  border: 1px solid var(--line-normal-normal);
+  border-radius: var(--radius-pill);
+  background: var(--surface-1);
+  font-family: inherit;
+  font-size: var(--text-xs);
+  color: var(--label-neutral);
+  cursor: pointer;
+}
+
+.fp-chip--on {
+  border-color: var(--blue-50);
+  background: var(--accent-background-light-blue);
+  color: var(--blue-45);
+  font-weight: 600;
+}
+
+.fp-chip--static {
+  cursor: default;
+  color: var(--label-alternative);
+}
+
+.fp-chip:disabled {
+  color: var(--label-disable);
+  cursor: not-allowed;
+}
+
+.fp-seg {
+  display: inline-flex;
+  padding: 2px;
+  border-radius: var(--radius-sm);
+  background: var(--fill-normal);
+}
+
+.fp-seg-b {
+  appearance: none;
+  padding: 5px var(--space-3);
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  font-family: inherit;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--label-alternative);
+  cursor: pointer;
+}
+
+.fp-seg-b--on {
+  background: var(--surface-1);
+  color: var(--label-strong);
+  box-shadow: var(--shadow-normal);
+}
+
+.fp-od {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+/* ── 공간 클릭 결과 ───────────────────────────────────────────────────── */
+
+.fp-picked {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--accent-background-light-blue);
+  font-size: var(--text-sm);
+}
+
+.fp-picked b {
+  color: var(--blue-45);
+}
+
+.fp-picked span {
+  font-size: var(--text-xs);
+  color: var(--label-neutral);
+}
+
+/* ── 안전·접근성 ──────────────────────────────────────────────────────── */
+
+.fp-safe {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.fp-safe li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--line-normal-neutral);
+  border-radius: var(--radius-sm);
+}
+
+.fp-safe li .fp-p {
+  grid-column: 1 / -1;
+  font-size: var(--text-xs);
+  color: var(--label-neutral);
+}
+
+.fp-safe-k {
+  font-size: var(--text-sm);
+  color: var(--label-normal);
+}
+
+.fp-safe-v {
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--label-alternative);
+}
+
+.fp-lv {
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.fp-lv--ok {
+  background: var(--accent-background-lime);
+  color: var(--accent-foreground-green);
+}
+
+.fp-lv--check {
+  background: var(--orange-90);
+  color: var(--orange-39);
+}
+
+.fp-lv--risk {
+  background: var(--red-90);
+  color: var(--accent-foreground-red);
+}
+
+/* ── 개선안 ───────────────────────────────────────────────────────────── */
+
+.fp-imp {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--line-normal-neutral);
+  border-radius: var(--radius-md);
+}
+
+.fp-imp--on {
+  border-color: var(--blue-50);
+  background: var(--accent-background-light-blue);
+}
+
+.fp-imp-head {
+  appearance: none;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-align: left;
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--label-strong);
+  cursor: pointer;
+}
+
+.fp-imp--on .fp-imp-head {
+  color: var(--blue-45);
+}
+
+.fp-imp--on .fp-ev {
+  background: var(--surface-1);
+}
+
+/* ── A/B 표 ───────────────────────────────────────────────────────────── */
+
+.fp-tablewrap {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  border: 1px solid var(--line-normal-neutral);
+  border-radius: var(--radius-md);
+}
+
+.fp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-xs);
+  white-space: nowrap;
+}
+
+.fp-table th {
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+  font-weight: 600;
+  color: var(--label-alternative);
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--line-normal-normal);
+}
+
+.fp-table td {
+  padding: var(--space-2) var(--space-3);
+  font-variant-numeric: tabular-nums;
+  color: var(--label-normal);
+  border-bottom: 1px solid var(--line-normal-alternative);
+}
+
+.fp-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* 좋아진 것과 그대로인 것을 색으로 갈라 둔다 — 표가 길면 눈이 못 훑는다. */
+.fp-d {
+  font-weight: 600;
+}
+
+.fp-d--better {
+  color: var(--accent-foreground-green);
+}
+
+.fp-d--worse {
+  color: var(--status-cautionary);
+}
+
+.fp-d--flat {
+  color: var(--label-alternative);
+}
+
+/* ── 보고서 ───────────────────────────────────────────────────────────── */
+
+.fp-toc {
+  margin: 0;
+  padding-left: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--label-normal);
+}
+
+/* ── 하단 AI 질문창 ───────────────────────────────────────────────────── */
+
+.fp-ask {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-1);
+  border-top: 1px solid var(--line-normal-neutral);
+}
+
+.fp-ask-chips {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.fp-ask-chips::-webkit-scrollbar {
+  display: none;
+}
+
+.fp-ask-chips .fp-chip {
+  flex: 0 0 auto;
+}
+
+.fp-ask-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.fp-ask-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--line-normal-normal);
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  color: var(--label-normal);
+}
+
+.fp-ask-note {
+  flex: 0 0 auto;
+  font-size: var(--text-xs);
+  color: var(--label-alternative);
+}
+
+/* ── 좁은 화면 ────────────────────────────────────────────────────────── */
+
+@media (max-width: 1000px) {
+  /* 도면과 패널을 나란히 두면 둘 다 못 읽는다. 도면을 위로 올린다 —
+     이 화면에서 먼저 봐야 하는 것은 도면이다. */
+  .fp-body {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(240px, 45%) minmax(0, 1fr);
+  }
+  .fp-pane {
+    padding: var(--space-4);
+  }
+  .fp-top {
+    flex-wrap: wrap;
+  }
+  .fp-dl {
+    margin-left: 0;
+  }
+  .fp-ask-note {
+    display: none;
+  }
+}
+
+/* ── 도면 SVG (components/demo/FloorplanCanvas.tsx) ───────────────────── */
+
+/* SVG 안에 <style>을 넣지 않는다 — 같은 페이지의 다른 SVG까지 물들이고,
+   Next의 CSS 파이프라인을 타지 않아 토큰을 못 쓴다. 여기서 붙인다. */
+
+.fpc-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.fpc-space {
+  transition:
+    fill-opacity 0.12s ease,
+    fill 0.12s ease;
+}
+
+/* 공간을 누를 수 있는 것은 「공간 효율」 탭뿐이다 — 다른 탭에서 커서가 바뀌면
+   눌러도 아무 일이 없는 곳을 누르게 된다. */
+.fpc-space--clickable {
+  cursor: pointer;
+}
+
+.fpc-space--clickable:hover {
+  fill-opacity: 1;
+}
+
+.fpc-badge {
+  user-select: none;
+}
+
+.fpc-badge--clickable {
+  cursor: pointer;
+}
+
+.fpc-badge--clickable:hover {
+  filter: brightness(1.12);
+}
+
+/* 글자가 아래 공간의 클릭을 가로채면 안 된다. */
+.fpc-badge-text,
+.fpc-label {
+  pointer-events: none;
+  user-select: none;
+}
+
+.fpc-route,
+.fpc-overlap,
+.fpc-arrow,
+.fpc-recog-ring,
+.fpc-deadend,
+.fpc-scope {
+  pointer-events: none;
+}
+
+/* ── 평면 캔버스 (components/demo/PlanCanvas.tsx) ─────────────────────── */
+
+.pc {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.pc-space {
+  transition: fill-opacity 0.12s ease;
+}
+
+/* 방을 누를 수 있는 탭에서만 커서가 바뀐다 — 아니면 눌러도 아무 일이 없는
+   곳을 누르게 된다. */
+.pc-space--click {
+  cursor: pointer;
+}
+
+.pc-space--click:hover {
+  fill-opacity: 1;
+}
+
+/* 글자가 아래 방의 클릭을 가로채면 안 된다. */
+.pc-label {
+  pointer-events: none;
+  user-select: none;
+}
+
+/* 색만 있고 범례가 없으면 히트맵은 읽을 수 없는 그림이다. */
+.pc-legend {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--label-alternative);
+}
+
+.pc-legend i {
+  flex: 1 1 auto;
+  height: 8px;
+  border-radius: var(--radius-pill);
+}
+
+/* ── 용어 카드 ────────────────────────────────────────────────────────── */
+
+.fp-term {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--line-normal-neutral);
+  border-radius: var(--radius-md);
+}
+
+/* 계산하지 않는 지표는 자리만 두고 옅게 둔다 — 없는 값을 그럴듯하게 보이게
+   하지 않기 위해서다. */
+.fp-term--off {
+  background: var(--surface-2);
+}
+
+.fp-term-name {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-base);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--label-strong);
+}

@@ -1,0 +1,44 @@
+.env
+# `.env`만으로는 backend/.env.prod 같은 변형을 못 잡는다 — 2026-08-22에 운영
+# 시크릿 파일이 untracked(=ignore 안 됨)로 떠 있었고, 누구든 `git add -A`를
+# 하면 그대로 커밋될 상태였다. 예시 파일만 예외로 남긴다.
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+pgdata/
+data/osm/*.pbf
+*.log
+.firebase/
+.omc/
+data/sgis-grid/
+data/golmok/
+data/trdar-area/
+data/trdar-zone/
+data/hira/
+data/land/
+data/localdata/
+backend/.rc_subject_test.json
+frontend-react/.env
+frontend-react/.omc/
+frontend-react/dist/
+frontend-react/node_modules
+frontend-react/*.tsbuildinfo
+frontend-next/.env.local
+frontend-next/.next/
+frontend-next/node_modules
+frontend-next/*.tsbuildinfo
+frontend-next/out/
+frontend-next/.claude/
+# 세션별 git worktree만 제외한다 — .claude/settings.json은 팀이 공유해야 해서
+# .claude/ 전체를 무시하면 안 된다.
+.claude/worktrees/
+# 에디터 로컬 설정. SQLTools 연결 프로필은 랩탑마다 달라서 공유할 값이 아니다.
+.vscode/
+
+# 상담 답변 비교 결과(tools/eval_agent_answers.py)
+backend/tools/out/

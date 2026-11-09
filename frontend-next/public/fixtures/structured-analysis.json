@@ -1,0 +1,653 @@
+{
+  "cases": {
+    "above_peers": {
+      "attributes": [
+        {
+          "key": "zoning",
+          "label": "용도지역",
+          "note": null,
+          "value": "일반상업지역"
+        },
+        {
+          "key": "land_category",
+          "label": "지목",
+          "note": null,
+          "value": "대"
+        },
+        {
+          "key": "area",
+          "label": "면적",
+          "note": null,
+          "value": "642.0㎡"
+        },
+        {
+          "key": "road_frontage",
+          "label": "도로접면",
+          "note": null,
+          "value": "광대한면 (25m 이상)"
+        },
+        {
+          "key": "shape",
+          "label": "형상",
+          "note": null,
+          "value": "정형"
+        }
+      ],
+      "audit": {
+        "model_version": "fixture-0",
+        "notes": [],
+        "rank_check": {
+          "agreement": "agree",
+          "gap_score_rank_pct": 91.0,
+          "unexplained_discount_rank_pct": 88.0
+        },
+        "rules_version": "g5.1",
+        "thresholds": {
+          "above_peers_min_unexplained_pct": 15.0,
+          "cheap_max_price_percentile": 30.0,
+          "cheap_min_total_discount_pct": 10.0,
+          "confidence_high_min": 0.7,
+          "confidence_medium_min": 0.4,
+          "min_peers_for_strong": 200.0,
+          "min_peers_for_verdict": 30.0,
+          "model_uncertainty_heavy": 0.4,
+          "model_uncertainty_warn": 0.2,
+          "peer_similarity_warn": 0.5,
+          "rank_top_pct": 10.0,
+          "strong_unexplained_pct": 25.0,
+          "undervalued_min_unexplained_pct": 15.0
+        }
+      },
+      "caveats": [
+        "개별공시지가 기준입니다. 시세·감정평가액과 다릅니다.",
+        "같은 조건 필지들에 매겨진 공시지가 수준과의 비교이며, 시세 대비 저평가를 뜻하지 않습니다.",
+        "인과 추정이 아닙니다. 개통 전후 비교로 검증하지 않았습니다.",
+        "우리가 보지 않는 요인(한강뷰·학군·역세권 등)으로 높을 수 있습니다. 고평가라는 뜻이 아닙니다."
+      ],
+      "current_valuation": {
+        "discount": {
+          "explained_pct": -5.33,
+          "total_pct": -30.0,
+          "unexplained_pct": -24.67
+        },
+        "expected_official_price": {
+          "high": 17600000.0,
+          "low": 14200000.0,
+          "point": 15800000.0,
+          "unit": "원/㎡"
+        },
+        "is_cheap": false,
+        "is_undervalued": false
+      },
+      "factors": [
+        {
+          "detail": null,
+          "direction": "positive",
+          "explains_discount": false,
+          "key": "wide_road",
+          "label": "넓은 길에 접함",
+          "magnitude_label": "큰 가점"
+        },
+        {
+          "detail": null,
+          "direction": "positive",
+          "explains_discount": false,
+          "key": "large_area",
+          "label": "면적이 넉넉함",
+          "magnitude_label": "가점"
+        }
+      ],
+      "growth_outlook": null,
+      "narrative": {
+        "headline": "같은 조건 대비 높게 매겨진 땅",
+        "paragraphs": [
+          "같은 동·같은 용도지역·같은 도로접면 96필지와 견주면 같은 조건 필지들보다 높게 매겨진 땅으로 보입니다.",
+          "2026년 개별공시지가는 ㎡당 19,500,000원이고, 조건이 비슷한 필지들로 미루어 본 값은 14,200,000원~17,600,000원 범위입니다. 미루어 본 값보다 25%쯤 높습니다.",
+          "값을 올리는 쪽으로는 넓은 길에 접함이 가장 크게 작용합니다. 눈에 걸리는 단점은 따로 잡히지 않았습니다.",
+          "다만 비교 필지가 96개로 넉넉하지 않습니다. 추정 범위가 다소 넓습니다. 참고로만 보세요."
+        ],
+        "source": "static"
+      },
+      "official_price": {
+        "base_year": 2026,
+        "disclaimer": "개별공시지가는 나지상정 평가액으로 시세·감정평가액과 다릅니다. 시세반영률이 100%가 아니므로 금액 자체를 거래가로 읽지 마세요.",
+        "label": "개별공시지가",
+        "per_sqm": 19500000.0
+      },
+      "peer_group": {
+        "criteria": [
+          "여의도동",
+          "일반상업지역",
+          "광대한면"
+        ],
+        "description": "같은 동·같은 용도지역·같은 도로접면 96필지",
+        "level": "dong_zone_road",
+        "median_official_price_per_sqm": 15000000.0,
+        "size": 96
+      },
+      "peer_position": {
+        "gap_score": -22.0,
+        "price_percentile": 94.0,
+        "structure_percentile": 72.0
+      },
+      "price_forecast": null,
+      "schema_version": "1",
+      "subject": {
+        "address": "영등포구 여의도동 8-12",
+        "area_sqm": 642.0,
+        "base_year": 2026,
+        "jibun": "8-12",
+        "lat": 37.5211,
+        "ldong_name": "여의도동",
+        "lng": 126.9302,
+        "pnu": "1156011000100080012"
+      },
+      "verdict": {
+        "confidence": {
+          "in_training_distribution": true,
+          "level": "high",
+          "model_uncertainty_pct": 0.215,
+          "peer_count": 96,
+          "peer_similarity": 0.61,
+          "reasons": [
+            "비교 필지가 96개로 넉넉하지 않습니다.",
+            "추정 범위가 다소 넓습니다."
+          ],
+          "score": 0.75
+        },
+        "headline": "같은 조건 대비 높게 매겨진 땅",
+        "label": "above_peers",
+        "strength": "moderate",
+        "undetermined_reason": null
+      }
+    },
+    "cheap_with_reason": {
+      "attributes": [
+        {
+          "key": "zoning",
+          "label": "용도지역",
+          "note": null,
+          "value": "제3종일반주거지역"
+        },
+        {
+          "key": "land_category",
+          "label": "지목",
+          "note": null,
+          "value": "대"
+        },
+        {
+          "key": "area",
+          "label": "면적",
+          "note": null,
+          "value": "118.7㎡"
+        },
+        {
+          "key": "road_frontage",
+          "label": "도로접면",
+          "note": null,
+          "value": "맹지 (도로에 닿지 않음)"
+        },
+        {
+          "key": "shape",
+          "label": "형상",
+          "note": null,
+          "value": "부정형"
+        }
+      ],
+      "audit": {
+        "model_version": "fixture-0",
+        "notes": [],
+        "rank_check": {
+          "agreement": "agree",
+          "gap_score_rank_pct": 52.0,
+          "unexplained_discount_rank_pct": 47.0
+        },
+        "rules_version": "g5.1",
+        "thresholds": {
+          "above_peers_min_unexplained_pct": 15.0,
+          "cheap_max_price_percentile": 30.0,
+          "cheap_min_total_discount_pct": 10.0,
+          "confidence_high_min": 0.7,
+          "confidence_medium_min": 0.4,
+          "min_peers_for_strong": 200.0,
+          "min_peers_for_verdict": 30.0,
+          "model_uncertainty_heavy": 0.4,
+          "model_uncertainty_warn": 0.2,
+          "peer_similarity_warn": 0.5,
+          "rank_top_pct": 10.0,
+          "strong_unexplained_pct": 25.0,
+          "undervalued_min_unexplained_pct": 15.0
+        }
+      },
+      "caveats": [
+        "개별공시지가 기준입니다. 시세·감정평가액과 다릅니다.",
+        "같은 조건 필지들에 매겨진 공시지가 수준과의 비교이며, 시세 대비 저평가를 뜻하지 않습니다.",
+        "인과 추정이 아닙니다. 개통 전후 비교로 검증하지 않았습니다."
+      ],
+      "current_valuation": {
+        "discount": {
+          "explained_pct": 31.11,
+          "total_pct": 34.44,
+          "unexplained_pct": 3.33
+        },
+        "expected_official_price": {
+          "high": 7000000.0,
+          "low": 5400000.0,
+          "point": 6200000.0,
+          "unit": "원/㎡"
+        },
+        "is_cheap": true,
+        "is_undervalued": false
+      },
+      "factors": [
+        {
+          "detail": "도로에 접하지 않아 그대로는 건축 허가를 받기 어렵습니다.",
+          "direction": "negative",
+          "explains_discount": true,
+          "key": "no_road_access",
+          "label": "맹지 (도로에 닿지 않음)",
+          "magnitude_label": "큰 감점"
+        },
+        {
+          "detail": null,
+          "direction": "negative",
+          "explains_discount": true,
+          "key": "irregular_shape",
+          "label": "부정형 (땅 모양이 고르지 않음)",
+          "magnitude_label": "감점"
+        },
+        {
+          "detail": null,
+          "direction": "negative",
+          "explains_discount": true,
+          "key": "small_area",
+          "label": "면적이 작음",
+          "magnitude_label": "약한 감점"
+        }
+      ],
+      "growth_outlook": null,
+      "narrative": {
+        "headline": "싸지만 그 이유가 설명되는 땅",
+        "paragraphs": [
+          "같은 동·같은 용도지역 412필지와 견주면 값이 낮지만 그 이유가 설명되는 땅으로 보입니다.",
+          "2026년 개별공시지가는 ㎡당 5,900,000원이고, 조건이 비슷한 필지들로 미루어 본 값은 5,400,000원~7,000,000원 범위입니다.",
+          "값을 끌어내리는 쪽으로는 맹지 (도로에 닿지 않음)가 가장 크게 작용합니다.",
+          "다만 추정 범위가 다소 넓습니다. 참고로만 보세요."
+        ],
+        "source": "static"
+      },
+      "official_price": {
+        "base_year": 2026,
+        "disclaimer": "개별공시지가는 나지상정 평가액으로 시세·감정평가액과 다릅니다. 시세반영률이 100%가 아니므로 금액 자체를 거래가로 읽지 마세요.",
+        "label": "개별공시지가",
+        "per_sqm": 5900000.0
+      },
+      "peer_group": {
+        "criteria": [
+          "여의도동",
+          "제3종일반주거지역"
+        ],
+        "description": "같은 동·같은 용도지역 412필지",
+        "level": "dong_zone",
+        "median_official_price_per_sqm": 9000000.0,
+        "size": 412
+      },
+      "peer_position": {
+        "gap_score": 23.3,
+        "price_percentile": 11.2,
+        "structure_percentile": 34.5
+      },
+      "price_forecast": null,
+      "schema_version": "1",
+      "subject": {
+        "address": "영등포구 여의도동 45-1",
+        "area_sqm": 118.7,
+        "base_year": 2026,
+        "jibun": "45-1",
+        "lat": 37.5196,
+        "ldong_name": "여의도동",
+        "lng": 126.9331,
+        "pnu": "1156011000100450001"
+      },
+      "verdict": {
+        "confidence": {
+          "in_training_distribution": true,
+          "level": "high",
+          "model_uncertainty_pct": 0.258,
+          "peer_count": 412,
+          "peer_similarity": 0.74,
+          "reasons": [
+            "추정 범위가 다소 넓습니다."
+          ],
+          "score": 0.9
+        },
+        "headline": "싸지만 그 이유가 설명되는 땅",
+        "label": "cheap_with_reason",
+        "strength": "moderate",
+        "undetermined_reason": null
+      }
+    },
+    "undervalued": {
+      "attributes": [
+        {
+          "key": "zoning",
+          "label": "용도지역",
+          "note": null,
+          "value": "일반상업지역"
+        },
+        {
+          "key": "land_category",
+          "label": "지목",
+          "note": null,
+          "value": "대"
+        },
+        {
+          "key": "area",
+          "label": "면적",
+          "note": null,
+          "value": "331.4㎡"
+        },
+        {
+          "key": "road_frontage",
+          "label": "도로접면",
+          "note": null,
+          "value": "중로한면 (12~25m)"
+        },
+        {
+          "key": "shape",
+          "label": "형상",
+          "note": null,
+          "value": "정형"
+        }
+      ],
+      "audit": {
+        "model_version": "fixture-0",
+        "notes": [],
+        "rank_check": {
+          "agreement": "agree",
+          "gap_score_rank_pct": 6.1,
+          "unexplained_discount_rank_pct": 3.2
+        },
+        "rules_version": "g5.1",
+        "thresholds": {
+          "above_peers_min_unexplained_pct": 15.0,
+          "cheap_max_price_percentile": 30.0,
+          "cheap_min_total_discount_pct": 10.0,
+          "confidence_high_min": 0.7,
+          "confidence_medium_min": 0.4,
+          "min_peers_for_strong": 200.0,
+          "min_peers_for_verdict": 30.0,
+          "model_uncertainty_heavy": 0.4,
+          "model_uncertainty_warn": 0.2,
+          "peer_similarity_warn": 0.5,
+          "rank_top_pct": 10.0,
+          "strong_unexplained_pct": 25.0,
+          "undervalued_min_unexplained_pct": 15.0
+        }
+      },
+      "caveats": [
+        "개별공시지가 기준입니다. 시세·감정평가액과 다릅니다.",
+        "같은 조건 필지들에 매겨진 공시지가 수준과의 비교이며, 시세 대비 저평가를 뜻하지 않습니다.",
+        "인과 추정이 아닙니다. 개통 전후 비교로 검증하지 않았습니다."
+      ],
+      "current_valuation": {
+        "discount": {
+          "explained_pct": 4.17,
+          "total_pct": 30.83,
+          "unexplained_pct": 26.67
+        },
+        "expected_official_price": {
+          "high": 12600000.0,
+          "low": 10400000.0,
+          "point": 11500000.0,
+          "unit": "원/㎡"
+        },
+        "is_cheap": true,
+        "is_undervalued": true
+      },
+      "factors": [
+        {
+          "detail": "폭 12~25m 도로에 한 면이 접합니다.",
+          "direction": "positive",
+          "explains_discount": false,
+          "key": "road_access",
+          "label": "큰길에 바로 닿음",
+          "magnitude_label": "큰 가점"
+        },
+        {
+          "detail": "주변 도로망에서 통과 동선이 모이는 위치입니다.",
+          "direction": "positive",
+          "explains_discount": false,
+          "key": "through_traffic",
+          "label": "지나다니는 길목",
+          "magnitude_label": "가점"
+        },
+        {
+          "detail": null,
+          "direction": "negative",
+          "explains_discount": true,
+          "key": "depth",
+          "label": "깊이가 다소 얕음",
+          "magnitude_label": "약한 감점"
+        }
+      ],
+      "growth_outlook": {
+        "excess_growth_pct": 4.4,
+        "horizon_years": 3,
+        "hot_probability": 0.61,
+        "own_growth_pct": 14.2,
+        "peer_growth_pct": 9.8
+      },
+      "narrative": {
+        "headline": "같은 조건 필지들보다 낮게 매겨진 땅",
+        "paragraphs": [
+          "같은 동·같은 용도지역·같은 도로접면 1,586필지와 견주면 같은 조건 필지들에 매겨진 공시지가 수준보다 낮은 땅입니다.",
+          "2026년 개별공시지가는 ㎡당 8,300,000원이고, 조건이 비슷한 필지들로 미루어 본 값은 10,400,000원~12,600,000원 범위입니다. 설명되지 않는 차이가 27%쯤 남습니다.",
+          "깊이가 다소 얕음이 값을 끌어내리는데도 큰길에 바로 닿음이라는 점이 남아 있어, 단점만으로는 지금 값이 다 설명되지 않습니다.",
+          "지난 3년 동안 이 땅의 공시지가는 비슷한 조건 필지들보다 4%쯤 빠르게 올랐습니다. 5년 뒤 공시지가는 ㎡당 9,600,000원~13,800,000원 범위로 내다봅니다 — 확정된 값이 아니라 지금 조건이 이어질 때의 범위입니다."
+        ],
+        "source": "static"
+      },
+      "official_price": {
+        "base_year": 2026,
+        "disclaimer": "개별공시지가는 나지상정 평가액으로 시세·감정평가액과 다릅니다. 시세반영률이 100%가 아니므로 금액 자체를 거래가로 읽지 마세요.",
+        "label": "개별공시지가",
+        "per_sqm": 8300000.0
+      },
+      "peer_group": {
+        "criteria": [
+          "여의도동",
+          "일반상업지역",
+          "중로한면"
+        ],
+        "description": "같은 동·같은 용도지역·같은 도로접면 1,586필지",
+        "level": "dong_zone_road",
+        "median_official_price_per_sqm": 12000000.0,
+        "size": 1586
+      },
+      "peer_position": {
+        "gap_score": 62.8,
+        "price_percentile": 18.4,
+        "structure_percentile": 81.2
+      },
+      "price_forecast": {
+        "horizons": [
+          {
+            "annualized_change_pct": 6.6,
+            "expected_official_price": {
+              "high": 9200000.0,
+              "low": 8500000.0,
+              "point": 8850000.0,
+              "unit": "원/㎡"
+            },
+            "years": 1
+          },
+          {
+            "annualized_change_pct": 7.1,
+            "expected_official_price": {
+              "high": 11400000.0,
+              "low": 9100000.0,
+              "point": 10200000.0,
+              "unit": "원/㎡"
+            },
+            "years": 3
+          },
+          {
+            "annualized_change_pct": 6.9,
+            "expected_official_price": {
+              "high": 13800000.0,
+              "low": 9600000.0,
+              "point": 11600000.0,
+              "unit": "원/㎡"
+            },
+            "years": 5
+          }
+        ]
+      },
+      "schema_version": "1",
+      "subject": {
+        "address": "영등포구 여의도동 12-3",
+        "area_sqm": 331.4,
+        "base_year": 2026,
+        "jibun": "12-3",
+        "lat": 37.5202,
+        "ldong_name": "여의도동",
+        "lng": 126.9317,
+        "pnu": "1156011000100120003"
+      },
+      "verdict": {
+        "confidence": {
+          "in_training_distribution": true,
+          "level": "high",
+          "model_uncertainty_pct": 0.191,
+          "peer_count": 1586,
+          "peer_similarity": 0.82,
+          "reasons": [],
+          "score": 1.0
+        },
+        "headline": "같은 조건 필지들보다 낮게 매겨진 땅",
+        "label": "undervalued",
+        "strength": "strong",
+        "undetermined_reason": null
+      }
+    },
+    "undetermined": {
+      "attributes": [
+        {
+          "key": "zoning",
+          "label": "용도지역",
+          "note": null,
+          "value": "자연녹지지역"
+        },
+        {
+          "key": "land_category",
+          "label": "지목",
+          "note": null,
+          "value": "임야"
+        },
+        {
+          "key": "road_frontage",
+          "label": "도로접면",
+          "note": "이 항목은 전체 필지의 82%에만 채워져 있습니다.",
+          "value": "확인되지 않음"
+        }
+      ],
+      "audit": {
+        "model_version": "fixture-0",
+        "notes": [],
+        "rank_check": {
+          "agreement": "unknown",
+          "gap_score_rank_pct": null,
+          "unexplained_discount_rank_pct": null
+        },
+        "rules_version": "g5.1",
+        "thresholds": {
+          "above_peers_min_unexplained_pct": 15.0,
+          "cheap_max_price_percentile": 30.0,
+          "cheap_min_total_discount_pct": 10.0,
+          "confidence_high_min": 0.7,
+          "confidence_medium_min": 0.4,
+          "min_peers_for_strong": 200.0,
+          "min_peers_for_verdict": 30.0,
+          "model_uncertainty_heavy": 0.4,
+          "model_uncertainty_warn": 0.2,
+          "peer_similarity_warn": 0.5,
+          "rank_top_pct": 10.0,
+          "strong_unexplained_pct": 25.0,
+          "undervalued_min_unexplained_pct": 15.0
+        }
+      },
+      "caveats": [
+        "개별공시지가 기준입니다. 시세·감정평가액과 다릅니다.",
+        "같은 조건 필지들에 매겨진 공시지가 수준과의 비교이며, 시세 대비 저평가를 뜻하지 않습니다.",
+        "인과 추정이 아닙니다. 개통 전후 비교로 검증하지 않았습니다."
+      ],
+      "current_valuation": null,
+      "factors": [],
+      "growth_outlook": null,
+      "narrative": {
+        "headline": "비교할 필지가 모자라 판정하지 않았습니다",
+        "paragraphs": [
+          "비교할 필지가 모자라 판정하지 않았습니다. 비교 대상은 같은 동·같은 용도지역 7필지입니다.",
+          "2026년 개별공시지가는 ㎡당 9,000,000원입니다.",
+          "다만 비교할 필지가 7개뿐입니다. 비교 필지들과 조건이 많이 다릅니다. 비슷한 조건의 필지로 학습한 적이 없는 유형입니다. 참고로만 보세요."
+        ],
+        "source": "static"
+      },
+      "official_price": {
+        "base_year": 2026,
+        "disclaimer": "개별공시지가는 나지상정 평가액으로 시세·감정평가액과 다릅니다. 시세반영률이 100%가 아니므로 금액 자체를 거래가로 읽지 마세요.",
+        "label": "개별공시지가",
+        "per_sqm": 9000000.0
+      },
+      "peer_group": {
+        "criteria": [
+          "여의도동",
+          "자연녹지지역"
+        ],
+        "description": "같은 동·같은 용도지역 7필지",
+        "level": "dong_zone",
+        "median_official_price_per_sqm": 11000000.0,
+        "size": 7
+      },
+      "peer_position": {
+        "gap_score": null,
+        "price_percentile": 28.0,
+        "structure_percentile": null
+      },
+      "price_forecast": null,
+      "schema_version": "1",
+      "subject": {
+        "address": "영등포구 여의도동 99-7",
+        "area_sqm": 87.2,
+        "base_year": 2026,
+        "jibun": "99-7",
+        "lat": 37.5188,
+        "ldong_name": "여의도동",
+        "lng": 126.9345,
+        "pnu": "1156011000100990007"
+      },
+      "verdict": {
+        "confidence": {
+          "in_training_distribution": false,
+          "level": "low",
+          "model_uncertainty_pct": null,
+          "peer_count": 7,
+          "peer_similarity": 0.38,
+          "reasons": [
+            "비교할 필지가 7개뿐입니다.",
+            "비교 필지들과 조건이 많이 다릅니다.",
+            "비슷한 조건의 필지로 학습한 적이 없는 유형입니다."
+          ],
+          "score": 0.2
+        },
+        "headline": "비교할 필지가 모자라 판정하지 않았습니다",
+        "label": "undetermined",
+        "strength": "weak",
+        "undetermined_reason": "few_peers"
+      }
+    }
+  },
+  "generated_by": "backend/tools/write_structured_analysis_fixture.py",
+  "note": "코드에서 생성한 fixture입니다. 손으로 고치지 마세요 — 규칙이나 스키마를 바꾼 뒤 스크립트를 다시 돌리세요."
+}

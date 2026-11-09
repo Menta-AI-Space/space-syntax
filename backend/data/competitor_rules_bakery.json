@@ -1,0 +1,59 @@
+{
+  "vertical": "bakery",
+  "distance_bands_m": [
+    { "max": 100, "weight": 1.0 },
+    { "max": 200, "weight": 0.8 },
+    { "max": 300, "weight": 0.6 },
+    { "max": 500, "weight": 0.4 },
+    { "max": 1000, "weight": 0.2 }
+  ],
+  "intensity_thresholds": [18, 35, 55],
+  "buckets": [
+    {
+      "key": "direct",
+      "label": "직접 경쟁 (베이커리·제과)",
+      "weight": 1.0,
+      "scls_codes": ["I21001"],
+      "keywords": ["제과", "베이커리", "빵집", "도넛", "케이크", "생과자", "파리바게뜨", "뚜레쥬르"]
+    },
+    {
+      "key": "franchise_bakery",
+      "label": "프랜차이즈 빵집",
+      "weight": 1.1,
+      "keywords": ["파리바게뜨", "뚜레쥬르", "성심당", "던킨", "크리스피"]
+    },
+    {
+      "key": "dessert_specialty",
+      "label": "디저트·케이크 전문",
+      "weight": 0.85,
+      "keywords": ["케이크", "마카롱", "쿠키", "디저트", "도넛"]
+    },
+    {
+      "key": "substitute_cafe",
+      "label": "카페·브런치",
+      "weight": 0.45,
+      "mcls_codes": ["I212"],
+      "keywords": ["카페", "커피", "브런치"]
+    },
+    {
+      "key": "substitute_convenience",
+      "label": "편의점·마트",
+      "weight": 0.4,
+      "mcls_codes": ["G204"],
+      "keywords": ["편의점", "마트", "슈퍼", "이마트", "CU", "GS25"]
+    },
+    {
+      "key": "substitute_ricecake",
+      "label": "떡·한과",
+      "weight": 0.35,
+      "scls_codes": ["I21002"],
+      "keywords": ["떡", "한과"]
+    },
+    {
+      "key": "substitute_sandwich",
+      "label": "샌드위치·샐러드",
+      "weight": 0.5,
+      "keywords": ["샌드위치", "샐러드", "써브웨이"]
+    }
+  ]
+}

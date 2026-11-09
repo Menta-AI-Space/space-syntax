@@ -1,0 +1,16 @@
+{
+  "radius500_cityhall": {
+    "cells": 4,
+    "pop": 18244,
+    "hh": 9210,
+    "wrk": 380340,
+    "corp": 32719
+  },
+  "em_keys_sample": [
+    "to_em_020"
+  ],
+  "fa_keys_sample": [
+    "to_fa_010"
+  ],
+  "all_codes_count": 70
+}

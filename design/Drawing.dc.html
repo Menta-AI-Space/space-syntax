@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
+  <style>
+    body { margin: 0; }
+    a { color: #2563eb; } a:hover { color: #1d4ed8; }
+    .sc { font-family: "Pretendard Variable", "Pretendard", "Noto Sans KR", "Segoe UI", "Malgun Gothic", sans-serif; }
+  </style>
+</helmet>
+
+<div class="sc" style="width: 1280px; height: 800px; background: #f5f5f6; color: #171719; display: flex; flex-direction: column; overflow: hidden;">
+
+  <div style="display: flex; align-items: center; gap: 12px; height: 56px; padding: 0 24px; background: #ffffff; border-bottom: 1px solid #eceef2; flex-shrink: 0;">
+    <div style="display: inline-flex; width: 30px; height: 30px; border-radius: 9px; background: #2563eb; color: #ffffff; font-weight: 800; font-size: 14px; align-items: center; justify-content: center;">S</div>
+    <div style="font-size: 15px; font-weight: 700; color: #0f0f10;">Space Syntax 상권분석</div>
+    <div style="flex-grow: 1;"></div>
+    <div style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 999px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#47474a" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </div>
+  </div>
+
+  <div style="flex-grow: 1; padding: 26px 32px; display: flex; flex-direction: column; gap: 16px; overflow: hidden;">
+
+    <div style="display: flex; flex-direction: column; gap: 5px;">
+      <div style="font-size: 21px; font-weight: 800; letter-spacing: -0.01em; color: #0f0f10;">평면도 분석 — 세 단계</div>
+      <div style="font-size: 13.5px; color: #47474a;">자동으로 벽을 뽑고, 사람이 확인·수정한 뒤 계산합니다. 자동 인식을 그대로 믿지 않는 것이 핵심입니다.</div>
+    </div>
+
+    <div style="display: flex; gap: 14px; flex-grow: 1; overflow: hidden;">
+
+      <!-- 1 -->
+      <div style="flex-grow: 1; display: flex; flex-direction: column; background: #ffffff; border: 1px solid #eceef2; border-radius: 16px; overflow: hidden;">
+        <div style="display: flex; align-items: center; gap: 9px; padding: 15px 17px 12px;">
+          <div style="display: inline-flex; align-items: center; justify-content: center; width: 23px; height: 23px; border-radius: 999px; background: #2563eb; color: #ffffff; font-size: 12px; font-weight: 700; flex-shrink: 0;">1</div>
+          <div style="font-size: 15px; font-weight: 700; color: #0f0f10;">평면도 업로드</div>
+        </div>
+        <div style="padding: 0 17px 13px; font-size: 12.5px; color: #47474a; line-height: 1.55;">DXF는 벽 선을 그대로 읽고, 문·창 레이어를 따로 읽어 벽에서 뚫습니다. 사진·PNG는 윤곽에서 벽을 추적합니다.</div>
+        <div style="margin: 0 17px; padding: 20px 14px; border: 1.5px dashed #d8d8dc; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 9px;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#87878a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+          <div style="font-size: 12.5px; font-weight: 600; color: #47474a;">파일을 끌어다 놓기</div>
+          <div style="font-size: 11px; color: #a4a4a8;">DXF · PNG · JPG</div>
+        </div>
+        <div style="margin: 13px 17px 0; display: flex; flex-direction: column; gap: 5px;">
+          <div style="display: flex; align-items: center; gap: 7px; font-size: 11.5px; color: #059669;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            DXF — 벽·문·창 레이어를 읽음
+          </div>
+          <div style="display: flex; align-items: center; gap: 7px; font-size: 11.5px; color: #d97706;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v5M12 16.5v.5"/><circle cx="12" cy="12" r="9"/></svg>
+            사진 — 추적 후 사람이 보정
+          </div>
+          <div style="display: flex; align-items: center; gap: 7px; font-size: 11.5px; color: #a4a4a8;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#a4a4a8" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            DWG — 무료 파서가 없어 미지원
+          </div>
+        </div>
+        <div style="flex-grow: 1;"></div>
+      </div>
+
+      <!-- 2 -->
+      <div style="flex-grow: 1; display: flex; flex-direction: column; background: #ffffff; border: 1px solid #eceef2; border-radius: 16px; overflow: hidden;">
+        <div style="display: flex; align-items: center; gap: 9px; padding: 15px 17px 12px;">
+          <div style="display: inline-flex; align-items: center; justify-content: center; width: 23px; height: 23px; border-radius: 999px; background: #2563eb; color: #ffffff; font-size: 12px; font-weight: 700; flex-shrink: 0;">2</div>
+          <div style="font-size: 15px; font-weight: 700; color: #0f0f10;">벽 선 확인 · 수정</div>
+        </div>
+        <div style="padding: 0 17px 13px; font-size: 12.5px; color: #47474a; line-height: 1.55;">캔버스에서 잘못 잡힌 벽을 지우고 빠진 벽을 그립니다. 확인 안 된 벽 위에서 나온 수치는 정직하지 않습니다.</div>
+        <div style="margin: 0 17px; border-radius: 12px; overflow: hidden; border: 1px solid #eceef2;">
+          <svg width="100%" height="188" viewBox="0 0 340 188" preserveAspectRatio="none" style="display: block;">
+            <rect width="340" height="188" fill="#fafafa"/>
+            <!-- 외벽 -->
+            <path d="M40 30 H300 M40 158 H300 M40 30 V158 M300 30 V158" stroke="#171719" stroke-width="3" fill="none"/>
+            <!-- 내벽 -->
+            <path d="M150 30 V80 M150 118 V158 M150 100 H230 M230 100 V158" stroke="#171719" stroke-width="2.5" fill="none"/>
+            <!-- 문(개구부) — 벽이 끊긴 자리 -->
+            <path d="M150 80 V118" stroke="#2563eb" stroke-width="3" stroke-dasharray="4 3" fill="none"/>
+            <path d="M40 95 V125" stroke="#2563eb" stroke-width="3" stroke-dasharray="4 3" fill="none"/>
+            <!-- 편집 핸들 -->
+            <circle cx="150" cy="80" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+            <circle cx="150" cy="118" r="4" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+          </svg>
+        </div>
+        <div style="margin: 13px 17px 0; display: flex; gap: 6px; flex-wrap: wrap;">
+          <div style="padding: 6px 11px; border: 1px solid #e2e5ea; border-radius: 999px; font-size: 11.5px; font-weight: 600; color: #47474a;">선 지우기</div>
+          <div style="padding: 6px 11px; border: 1px solid #e2e5ea; border-radius: 999px; font-size: 11.5px; font-weight: 600; color: #47474a;">선 그리기</div>
+          <div style="padding: 6px 11px; border: 1px solid #e2e5ea; border-radius: 999px; font-size: 11.5px; font-weight: 600; color: #2563eb;">문 자리 표시</div>
+        </div>
+        <div style="flex-grow: 1;"></div>
+        <div style="padding: 12px 17px; background: #eff6ff; font-size: 11px; color: #1d4ed8;">문이 막혀 있으면 방 하나만 분석된다 — 실측에서 겪은 문제</div>
+      </div>
+
+      <!-- 3 -->
+      <div style="flex-grow: 1; display: flex; flex-direction: column; background: #ffffff; border: 1px solid #eceef2; border-radius: 16px; overflow: hidden;">
+        <div style="display: flex; align-items: center; gap: 9px; padding: 15px 17px 12px;">
+          <div style="display: inline-flex; align-items: center; justify-content: center; width: 23px; height: 23px; border-radius: 999px; background: #059669; color: #ffffff; font-size: 12px; font-weight: 700; flex-shrink: 0;">3</div>
+          <div style="font-size: 15px; font-weight: 700; color: #0f0f10;">가시성 분석</div>
+        </div>
+        <div style="padding: 0 17px 13px; font-size: 12.5px; color: #47474a; line-height: 1.55;">격자 가시성 그래프로 Integration · Connectivity를 계산해 색으로 덮습니다.</div>
+        <div style="margin: 0 17px; border-radius: 12px; overflow: hidden; border: 1px solid #eceef2;">
+          <svg width="100%" height="188" viewBox="0 0 340 188" preserveAspectRatio="none" style="display: block;">
+            <rect width="340" height="188" fill="#fafafa"/>
+            <!-- 통합도 색: 가운데 복도가 붉고 구석이 파랗다 -->
+            <rect x="42" y="32" width="106" height="60" fill="#60a5fa" fill-opacity="0.55"/>
+            <rect x="42" y="126" width="106" height="30" fill="#93c5fd" fill-opacity="0.55"/>
+            <rect x="42" y="92" width="106" height="34" fill="#f97316" fill-opacity="0.6"/>
+            <rect x="152" y="32" width="146" height="66" fill="#dc2626" fill-opacity="0.55"/>
+            <rect x="152" y="102" width="76" height="54" fill="#facc15" fill-opacity="0.6"/>
+            <rect x="232" y="102" width="66" height="54" fill="#93c5fd" fill-opacity="0.55"/>
+            <!-- 빠진 공간 회색 빗금 -->
+            <rect x="232" y="102" width="66" height="54" fill="#9ca3af" fill-opacity="0.45"/>
+            <path d="M40 30 H300 M40 158 H300 M40 30 V158 M300 30 V158 M150 30 V80 M150 118 V158 M150 100 H230 M230 100 V158" stroke="#171719" stroke-width="2.5" fill="none"/>
+          </svg>
+        </div>
+        <div style="margin: 13px 17px 0; display: flex; flex-direction: column; gap: 7px;">
+          <div style="display: flex; align-items: center; gap: 9px; padding: 9px 12px; background: #fef2f2; border-radius: 10px;">
+            <div style="width: 18px; height: 12px; border-radius: 3px; background: #dc2626; opacity: 0.6; flex-shrink: 0;"></div>
+            <div style="font-size: 12px; color: #171719;"><strong>잘 통하는 공간</strong> — 통합도 상위</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 9px; padding: 9px 12px; background: #f8fafc; border-radius: 10px;">
+            <div style="width: 18px; height: 12px; border-radius: 3px; background: #9ca3af; opacity: 0.5; flex-shrink: 0;"></div>
+            <div style="font-size: 12px; color: #47474a;">분석에서 빠진 공간 — 회색으로 표시</div>
+          </div>
+        </div>
+        <div style="flex-grow: 1;"></div>
+        <div style="padding: 12px 17px; background: #ecfdf5; font-size: 11px; color: #047857;">“도면 반영률”을 함께 표시 — 70% 미만이면 경고</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

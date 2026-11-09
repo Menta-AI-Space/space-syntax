@@ -1,0 +1,229 @@
+{
+  "id": "academy",
+  "name": "학원",
+  "parentCategory": "education",
+  "version": "1.0.0",
+  "effectiveFrom": "2026-07-12",
+  "supportedUserTypes": [
+    "entrepreneur",
+    "franchise"
+  ],
+  "matchRules": {
+    "sbizCodes": {
+      "lcls": ["P1"],
+      "mcls": ["P105", "P106"],
+      "scls": ["P10501"]
+    },
+    "businessTypePresets": ["academy"],
+    "fallbackArchetype": "education"
+  },
+  "analysis": {
+    "catchment": {
+      "primary": "residential",
+      "walkMinutes": [
+        10,
+        20
+      ],
+      "transitMinutes": [
+        10,
+        30
+      ]
+    },
+    "timeSlots": [
+      "after_school",
+      "evening"
+    ],
+    "competitorGroups": {
+      "direct": [
+        "same_subject_grade"
+      ],
+      "secondary": [
+        "same_subject_other_grade"
+      ],
+      "indirect": [
+        "online_education"
+      ],
+      "channel": []
+    },
+    "siteFeatures": {
+      "integration": 0.20,
+      "choice": 0.05,
+      "mean_depth": 0.05,
+      "connectivity": 0.05,
+      "transit": 0.20,
+      "demand": 0.35,
+      "competition": 0.10
+    },
+    "competitorRules": {
+      "vertical": "academy",
+      "distance_bands_m": [
+        { "max": 100, "weight": 1.0 },
+        { "max": 200, "weight": 0.8 },
+        { "max": 300, "weight": 0.6 },
+        { "max": 500, "weight": 0.4 },
+        { "max": 1000, "weight": 0.2 }
+      ],
+      "intensity_thresholds": [18, 35, 55],
+      "buckets": [
+        {
+          "key": "direct",
+          "label": "직접 경쟁 (학원·교습)",
+          "weight": 1.0,
+          "mcls_codes": ["P105", "P106"],
+          "keywords": ["학원", "교습소", "교습", "어학원"]
+        },
+        {
+          "key": "subject_exam",
+          "label": "입시·보습·종합",
+          "weight": 1.0,
+          "keywords": ["입시", "보습", "종합학원", "재수", "검정고시"]
+        },
+        {
+          "key": "subject_english",
+          "label": "영어·어학",
+          "weight": 1.0,
+          "keywords": ["영어", "어학", "토익", "토플", "영어유치원"]
+        },
+        {
+          "key": "subject_math",
+          "label": "수학·사고력",
+          "weight": 1.0,
+          "keywords": ["수학", "사고력", "연산"]
+        },
+        {
+          "key": "subject_arts",
+          "label": "예체능",
+          "weight": 0.9,
+          "keywords": ["미술", "음악", "피아노", "발레", "태권도", "무술", "요가", "필라테스"]
+        },
+        {
+          "key": "subject_coding",
+          "label": "코딩·로봇",
+          "weight": 0.9,
+          "keywords": ["코딩", "로봇", "AI", "프로그래밍", "컴퓨터학원"]
+        },
+        {
+          "key": "substitute_study",
+          "label": "공부방·스터디카페",
+          "weight": 0.55,
+          "keywords": ["공부방", "스터디카페", "스터디", "독서실"]
+        },
+        {
+          "key": "substitute_culture",
+          "label": "문화센터·방과후",
+          "weight": 0.4,
+          "keywords": ["문화센터", "방과후", "유아", "놀이학교"]
+        },
+        {
+          "key": "substitute_online",
+          "label": "자격증·성인교육",
+          "weight": 0.5,
+          "keywords": ["자격증", "고시", "직무", "취미", "성인"]
+        }
+      ]
+    },
+    "publicSalesMappings": [
+      {
+        "code": "P10501",
+        "service_code": "CS100078",
+        "service_name": "일반 교육 학원",
+        "keywords": ["학원"]
+      }
+    ]
+  },
+  "ui": {
+    "summaryKpis": [
+      {
+        "key": "school_age_population",
+        "label": "학령인구"
+      },
+      {
+        "key": "school_access",
+        "label": "학교 접근성"
+      },
+      {
+        "key": "same_subject_competition",
+        "label": "동일 과목 경쟁"
+      },
+      {
+        "key": "commute_access",
+        "label": "방과 후 접근성"
+      }
+    ],
+    "primaryTabs": [
+      "student_demand",
+      "school_housing",
+      "same_subject",
+      "commute_area",
+      "compare"
+    ],
+    "secondaryTabs": [
+      "academy_cluster"
+    ],
+    "mapLayers": [
+      "schools",
+      "apartments",
+      "school_age_population",
+      "same_subject_academies",
+      "commute_area",
+      "academy_cluster"
+    ],
+    "alerts": [
+      "student_decline",
+      "subject_saturation"
+    ],
+    "recommendations": [
+      "target_grade",
+      "commute_route"
+    ],
+    "reportSections": [
+      "summary",
+      "students",
+      "schools",
+      "competition",
+      "commute"
+    ]
+  },
+  "userOverrides": {
+    "franchise": {
+      "summaryKpis": [
+        {
+          "key": "cannibalization_risk",
+          "label": "기존 통학권 중첩"
+        },
+        {
+          "key": "new_coverage",
+          "label": "신규 학생권"
+        },
+        {
+          "key": "brand_whitespace",
+          "label": "브랜드 공백"
+        },
+        {
+          "key": "network_efficiency",
+          "label": "학원망 효율"
+        }
+      ],
+      "primaryTabs": [
+        "network",
+        "commute_overlap",
+        "new_coverage",
+        "candidates"
+      ],
+      "mapLayers": [
+        "existing_stores",
+        "existing_store_overlap",
+        "schools",
+        "new_coverage",
+        "brand_whitespace"
+      ],
+      "reportSections": [
+        "approval_summary",
+        "network_impact",
+        "commute_overlap",
+        "new_market",
+        "decision"
+      ]
+    }
+  }
+}

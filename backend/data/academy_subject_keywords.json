@@ -1,0 +1,369 @@
+{
+  "source": "상가(상권)정보 업종분류(247) — 빅데이터플랫폼 연계표",
+  "categories": [
+    {
+      "key": "math",
+      "label": "수학·사고력",
+      "mcls_codes": [
+        "P105"
+      ],
+      "scls_codes": [],
+      "scls_names": [],
+      "keywords": [
+        "수학",
+        "매쓰",
+        "math",
+        "사고력",
+        "연산",
+        "cms",
+        "와이즈",
+        "중등수학",
+        "고등수학",
+        "입시수학"
+      ]
+    },
+    {
+      "key": "english",
+      "label": "영어·어학",
+      "mcls_codes": [
+        "P106"
+      ],
+      "scls_codes": [
+        "P10615"
+      ],
+      "scls_names": [
+        "외국어학원"
+      ],
+      "keywords": [
+        "영어",
+        "english",
+        "어학",
+        "토익",
+        "토플",
+        "파닉스",
+        "리딩",
+        "스피킹",
+        "영어유치원",
+        "어린이영어"
+      ]
+    },
+    {
+      "key": "korean",
+      "label": "국어·논술",
+      "mcls_codes": [
+        "P105"
+      ],
+      "scls_codes": [],
+      "scls_names": [],
+      "keywords": [
+        "국어",
+        "논술",
+        "독서",
+        "글쓰기",
+        "문해력",
+        "토론",
+        "한글"
+      ]
+    },
+    {
+      "key": "science",
+      "label": "과학",
+      "mcls_codes": [
+        "P105"
+      ],
+      "scls_codes": [],
+      "scls_names": [],
+      "keywords": [
+        "과학",
+        "물리",
+        "화학",
+        "생명",
+        "생물",
+        "지구과학",
+        "실험"
+      ]
+    },
+    {
+      "key": "exam_cram",
+      "label": "입시·보습·종합",
+      "mcls_codes": [
+        "P105"
+      ],
+      "scls_codes": [
+        "P10501"
+      ],
+      "scls_names": [
+        "입시·교과학원"
+      ],
+      "keywords": [
+        "입시",
+        "보습",
+        "종합학원",
+        "재수",
+        "검정고시",
+        "교습소",
+        "공부방"
+      ]
+    },
+    {
+      "key": "arts",
+      "label": "예체능",
+      "mcls_codes": [
+        "P106"
+      ],
+      "scls_codes": [
+        "P10601",
+        "P10603",
+        "P10609",
+        "P10611",
+        "P10613"
+      ],
+      "scls_names": [
+        "태권도/무술학원",
+        "요가/필라테스 학원",
+        "음악학원",
+        "미술학원",
+        "기타 예술/스포츠 교육기관"
+      ],
+      "keywords": [
+        "미술",
+        "음악",
+        "피아노",
+        "바이올린",
+        "발레",
+        "댄스",
+        "태권도",
+        "무술",
+        "요가",
+        "필라테스"
+      ]
+    },
+    {
+      "key": "coding",
+      "label": "코딩·로봇",
+      "mcls_codes": [
+        "P106"
+      ],
+      "scls_codes": [
+        "P10627"
+      ],
+      "scls_names": [
+        "컴퓨터 학원"
+      ],
+      "keywords": [
+        "코딩",
+        "로봇",
+        "AI",
+        "프로그래밍",
+        "소프트웨어"
+      ]
+    },
+    {
+      "key": "infant",
+      "label": "유아·놀이",
+      "mcls_codes": [
+        "P106"
+      ],
+      "scls_codes": [
+        "P10605",
+        "P10607"
+      ],
+      "scls_names": [
+        "레크리에이션 교육기관",
+        "청소년 수련시설"
+      ],
+      "keywords": [
+        "유아",
+        "놀이",
+        "키즈",
+        "오감"
+      ]
+    },
+    {
+      "key": "adult_cert",
+      "label": "성인·자격증",
+      "mcls_codes": [
+        "P106"
+      ],
+      "scls_codes": [
+        "P10617",
+        "P10621",
+        "P10625"
+      ],
+      "scls_names": [
+        "전문자격/고시학원",
+        "직원 훈련기관",
+        "기타 기술/직업 훈련학원"
+      ],
+      "keywords": [
+        "자격증",
+        "고시",
+        "직무",
+        "성인",
+        "국가고시",
+        "공인중개사",
+        "취업"
+      ]
+    },
+    {
+      "key": "study_infra",
+      "label": "학습 인프라",
+      "mcls_codes": [
+        "R102",
+        "G213"
+      ],
+      "scls_codes": [
+        "R10202",
+        "G21301",
+        "G21302"
+      ],
+      "scls_names": [
+        "독서실/스터디 카페",
+        "서점",
+        "문구/회화용품 소매업"
+      ],
+      "keywords": [
+        "스터디",
+        "독서실",
+        "문구",
+        "서점",
+        "도서관"
+      ]
+    },
+    {
+      "key": "risk_pc",
+      "label": "PC방",
+      "mcls_codes": [
+        "R104"
+      ],
+      "scls_codes": [
+        "R10406"
+      ],
+      "scls_names": [
+        "PC방"
+      ],
+      "keywords": [
+        "pc방",
+        "PC방",
+        "인터넷PC",
+        "게임룸"
+      ]
+    },
+    {
+      "key": "risk_karaoke",
+      "label": "노래방",
+      "mcls_codes": [
+        "R104"
+      ],
+      "scls_codes": [
+        "R10407"
+      ],
+      "scls_names": [
+        "노래방"
+      ],
+      "keywords": [
+        "노래방",
+        "코인노래",
+        "코인노래방"
+      ]
+    },
+    {
+      "key": "risk_adult_ent",
+      "label": "유흥·단란",
+      "mcls_codes": [
+        "I211"
+      ],
+      "scls_codes": [
+        "I21101",
+        "I21102"
+      ],
+      "scls_names": [
+        "일반 유흥 주점",
+        "무도 유흥 주점"
+      ],
+      "keywords": [
+        "유흥",
+        "단란",
+        "룸살롱",
+        "무도"
+      ]
+    },
+    {
+      "key": "risk_motel",
+      "label": "모텔·숙박",
+      "mcls_codes": [
+        "I101"
+      ],
+      "scls_codes": [
+        "I10102"
+      ],
+      "scls_names": [
+        "여관/모텔"
+      ],
+      "keywords": [
+        "모텔",
+        "여관",
+        "여인숙"
+      ]
+    },
+    {
+      "key": "risk_bar",
+      "label": "주점·술집",
+      "mcls_codes": [
+        "I211"
+      ],
+      "scls_codes": [
+        "I21103",
+        "I21104"
+      ],
+      "scls_names": [
+        "생맥주 전문",
+        "요리 주점"
+      ],
+      "keywords": [
+        "주점",
+        "술집",
+        "포장마차",
+        "이자카야",
+        "생맥주"
+      ]
+    },
+    {
+      "key": "generic_academy",
+      "label": "기타 학원",
+      "mcls_codes": [
+        "P105",
+        "P106"
+      ],
+      "scls_codes": [
+        "P10629"
+      ],
+      "scls_names": [
+        "그 외 기타 교육기관"
+      ],
+      "keywords": [
+        "학원",
+        "교습",
+        "교습소"
+      ]
+    }
+  ],
+  "priority_order": [
+    "risk_adult_ent",
+    "risk_motel",
+    "risk_pc",
+    "risk_karaoke",
+    "risk_bar",
+    "math",
+    "english",
+    "korean",
+    "science",
+    "coding",
+    "arts",
+    "infant",
+    "adult_cert",
+    "exam_cram",
+    "study_infra",
+    "generic_academy"
+  ]
+}

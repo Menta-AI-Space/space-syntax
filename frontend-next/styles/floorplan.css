@@ -1,0 +1,2117 @@
+/* 건축 평면도 분석 화면.
+   2026-10-24 다시 정리 — 사용자 지적 "색상·글자 크기·띄어쓰기가 조잡하다, AI로 방금 만든 티가 난다".
+   원칙: ① 색·여백·글자는 styles/tokens.css 변수만 쓴다(하드코딩 회색 6종을 없앴다)
+   ② 글자 크기는 네 단계(--text-xs/sm/base/lg)와 제목 하나만 ③ 상자 안의 상자를 만들지 않는다 —
+   카드 안에서는 선·여백·옅은 바탕으로만 나눈다.
+   ⚠️ 이 파일 가운데의 `.ps-*`·`.plan-*` 규칙은 「신도시 계획도면」 화면 것이다 — 도면 화면과 따로 고친다. */
+
+/* ── 공유 클래스 — 「신도시 계획도면」·「필지 구조」 화면(PlannedSitePanel·ParcelStructurePanel)도 쓴다.
+   그 화면을 바꾸지 않으려고 원래 규칙을 그대로 둔다. 도면 화면의 새 모양은 아래 .fp-analyzer 안에만. ── */
+.tab-page--floorplan {
+  max-width: 800px;
+}
+
+.floorplan-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.floorplan-help-text {
+  font-size: 13px;
+  color: var(--label-neutral);
+  line-height: 1.5;
+}
+
+.floorplan-file-input {
+  display: block;
+  margin: 8px 0;
+}
+
+.floorplan-editor-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.floorplan-toolbar-btn--active {
+  background: var(--blue-90);
+  border-color: var(--blue-50);
+  color: var(--blue-45);
+}
+
+.floorplan-line-count {
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--label-neutral);
+}
+
+.floorplan-analyze-btn {
+  margin-top: 12px;
+  width: 100%;
+}
+
+.floorplan-result-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.floorplan-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.floorplan-summary-grid dt {
+  font-size: 12px;
+  color: var(--label-assistive);
+}
+
+.floorplan-summary-grid dd {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--label-normal);
+}
+
+.floorplan-summary-grid small {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--label-assistive);
+}
+
+.floorplan-excluded-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--label-normal);
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .floorplan-line-count {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* 축척 입력 — 도면 가로 길이(m) */
+.floorplan-scale-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+  font-size: 0.9rem;
+}
+.floorplan-scale-input {
+  width: 6.5rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+.floorplan-scale-hint {
+  color: #6b7280;
+  font-size: 0.8rem;
+}
+
+/* 공간별 비교 표 */
+.floorplan-room-table-wrap { max-height: 22rem; overflow: auto; }
+.floorplan-room-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.floorplan-room-table th,
+.floorplan-room-table td {
+  text-align: left;
+  padding: 0.3rem 0.5rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+.floorplan-room-table th {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  color: #6b7280;
+  font-weight: 600;
+}
+.floorplan-room-row--active { background: #eef2ff; }
+.floorplan-room-noname { color: #9ca3af; }
+
+.floorplan-layer-table { max-height: 18rem; }
+
+.fp-analyzer > .card {
+  padding: var(--space-6);
+}
+
+/* 카드 머리 — 작은 꼬리표 + 제목 + 한 줄 설명 */
+.floorplan-card-head {
+  margin-bottom: var(--space-4);
+}
+
+.floorplan-card-head h2,
+.fp-analyzer .floorplan-result-header h2 {
+  margin: 2px 0 0;
+  font-size: var(--text-xl);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  color: var(--label-strong);
+}
+
+.floorplan-card-head--row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.floorplan-eyebrow {
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--blue-50);
+}
+
+.fp-analyzer .floorplan-help-text {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--label-neutral);
+}
+
+/* 업로드 — 브라우저 기본 「파일 선택」 대신 누르거나 끌어다 놓는 자리.
+   input을 자리 전체에 투명하게 깔아 끌어다 놓기도 브라우저가 그대로 처리한다. */
+.floorplan-dropzone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  min-height: 112px;
+  padding: var(--space-5);
+  border: 1.5px dashed var(--line-normal-normal);
+  border-radius: var(--radius-md);
+  background: var(--cool-neutral-98);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.floorplan-dropzone:hover,
+.floorplan-dropzone:focus-within {
+  border-color: var(--blue-50);
+  background: var(--accent-background-light-blue);
+}
+
+.floorplan-dropzone--busy {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.floorplan-dropzone .floorplan-file-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.floorplan-dropzone-title {
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--label-strong);
+}
+
+.floorplan-dropzone-sub {
+  font-size: var(--text-sm);
+  color: var(--label-alternative);
+}
+
+.floorplan-sample-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin: var(--space-3) 0 0;
+  font-size: var(--text-sm);
+  color: var(--label-alternative);
+}
+
+.floorplan-file-name {
+  font-size: var(--text-sm);
+  color: var(--label-neutral);
+}
+
+/* 편집 도구 */
+.fp-analyzer .floorplan-editor-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.fp-analyzer .floorplan-editor-toolbar .secondary-button {
+  padding: 6px 12px;
+  font-size: var(--text-sm);
+}
+
+.fp-analyzer .floorplan-toolbar-btn--active {
+  background: var(--blue-90);
+  border-color: var(--blue-50);
+  color: var(--blue-45);
+}
+
+/* 문 자리 모드는 캔버스의 개구부 색(초록)과 같은 색으로 물들여, 지금 찍는 게
+   벽이 아니라 구멍이라는 걸 버튼만 보고도 알게 한다. */
+.floorplan-toolbar-btn--door {
+  background: var(--accent-background-lime);
+  border-color: var(--status-positive);
+  color: var(--accent-foreground-green);
+}
+
+/* 편집 도구 4개 — 세그먼트 버튼. 켜진 도구는 흰 바탕으로 떠오른다. */
+.floorplan-mode-group {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--radius-sm);
+  background: var(--fill-normal);
+}
+
+.floorplan-mode-btn {
+  padding: 6px 14px;
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  color: var(--label-alternative);
+  cursor: pointer;
+}
+
+.floorplan-mode-btn:hover {
+  color: var(--label-normal);
+}
+
+.floorplan-mode-btn--on {
+  background: var(--background-elevated-normal);
+  color: var(--label-strong);
+  box-shadow: var(--shadow-normal);
+}
+
+.floorplan-mode-btn--door.floorplan-mode-btn--on {
+  color: var(--accent-foreground-green);
+}
+
+.floorplan-mode-btn--erase.floorplan-mode-btn--on {
+  color: var(--accent-foreground-red);
+}
+
+/* 휴대폰에선 편집 도구 넷이 높이 32px에 2px 간격으로 붙어 「벽 그리기」를 누르려다 옆
+   「문 뚫기」가 눌리기 쉬웠다 — 640px 이하에서 도구와 「되돌리기」를 40px로 키운다.
+   한 줄 폭은 그대로라 줄이 꺾이지 않는다 (2026-11-06 UX 자동 개선, 390px). */
+@media (max-width: 640px) {
+  .floorplan-mode-btn {
+    min-height: 40px;
+  }
+  /* 「말로 고치기」가 다섯 번째로 붙자(2026-11-09) 390px에서 버튼 글자가 「선/택」「말로 고/치기」로
+     한 글자씩 꺾였다 — 도구 묶음을 한 줄 전체로 펴고, 글자는 꺾지 않고 넘치면 버튼째 다음 줄로. */
+  .floorplan-mode-group {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .floorplan-mode-btn {
+    flex: 1 1 auto;
+    padding: 6px 10px;
+    white-space: nowrap;
+  }
+  .fp-analyzer .floorplan-editor-toolbar .secondary-button {
+    min-height: 40px;
+  }
+}
+
+.floorplan-mode-hint {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--label-alternative);
+}
+
+.floorplan-canvas--select,
+.floorplan-canvas--erase {
+  cursor: pointer;
+}
+
+.fp-analyzer .floorplan-line-count {
+  flex-shrink: 0;
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--label-alternative);
+}
+
+.floorplan-canvas {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--line-normal-neutral);
+  border-radius: var(--radius-md);
+  cursor: crosshair;
+}
+
+.fp-analyzer .floorplan-analyze-btn {
+  margin-top: var(--space-4);
+  width: 100%;
+}
+
+/* 결과 머리 */
+.fp-analyzer .floorplan-result-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.floorplan-report-btn {
+  flex-shrink: 0;
+}
+
+/* 결과 탭 — 밑줄 탭. 「결과」 묶음과 「지도 보기」 묶음 사이에 세로선. */
+.floorplan-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 var(--space-4);
+  margin: var(--space-4) 0;
+  border-bottom: 1px solid var(--line-normal-normal);
+}
+
+.floorplan-tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 0;
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--label-alternative);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.floorplan-tab:hover {
+  color: var(--label-normal);
+}
+
+.floorplan-tab--on {
+  color: var(--label-strong);
+}
+
+.floorplan-tab--on::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--label-strong);
+}
+
+.floorplan-tab-count {
+  min-width: 18px;
+  padding: 0 6px;
+  border-radius: var(--radius-pill);
+  background: var(--red-90);
+  color: var(--accent-foreground-red);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+}
+
+.floorplan-tab-divider {
+  width: 1px;
+  height: 16px;
+  background: var(--line-normal-normal);
+}
+
+.floorplan-tab-group-label {
+  margin-right: calc(var(--space-2) * -1);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--label-assistive);
+}
+
+/* 휴대폰(카드 안 308px)에선 「지도 보기」 묶음이 줄 끝에서 쪼개져 첫 줄이
+   「… 공간별 비교 | 지도 보기 목」, 둘째 줄이 묶음 이름 없는 세 탭이 됐다 — 「지도 보기 목」이
+   한 말처럼 읽혔다. 세로선 자리에서 줄을 바꿔 묶음이 늘 제 줄에서 시작하게 한다
+   (2026-11-06 UX 자동 개선). */
+@media (max-width: 640px) {
+  .floorplan-tabs {
+    column-gap: var(--space-3);
+  }
+
+  .floorplan-tab-divider {
+    flex-basis: 100%;
+    width: auto;
+    height: 0;
+  }
+
+  /* 「목」 탭은 글자 하나라 누름 칸 폭이 12px였다 — 손가락으로 맞히기 어려웠다.
+     폭을 최소 40px로, 글자는 가운데 (2026-11-07 UX 자동 개선). */
+  .floorplan-tab {
+    min-width: 40px;
+    min-height: 40px;
+    justify-content: center;
+  }
+}
+
+/* 용어 옆에 정의를 붙인다 — UndervaluedPanel의 .uv-def와 같은 규칙. */
+.floorplan-def {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--label-neutral);
+}
+
+.floorplan-def strong {
+  color: var(--label-normal);
+}
+
+/* 요약 숫자 — 옅은 바탕의 한 줄 띠. 칸마다 상자를 두르지 않는다. */
+.fp-analyzer .floorplan-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--space-2);
+  margin: var(--space-5) 0;
+}
+
+.fp-analyzer .floorplan-summary-grid > div {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--cool-neutral-98);
+}
+
+.fp-analyzer .floorplan-summary-grid dt {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--label-alternative);
+}
+
+.fp-analyzer .floorplan-summary-grid dd {
+  margin: 4px 0 0;
+  font-size: var(--text-lg);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--label-strong);
+}
+
+.fp-analyzer .floorplan-summary-grid small {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--text-xs);
+  line-height: 1.45;
+  color: var(--label-alternative);
+}
+
+.floorplan-excluded-legend {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-top: var(--space-3);
+}
+
+.fp-analyzer .floorplan-excluded-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--label-normal);
+  cursor: pointer;
+}
+
+/* 캔버스의 회색 채움 + 빨간 빗금과 같은 표기를 그대로 축소해 보여준다. */
+.floorplan-excluded-swatch {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  border: 1px solid var(--line-normal-normal);
+  border-radius: 3px;
+  background:
+    linear-gradient(45deg, transparent 44%, var(--red-50) 44%, var(--red-50) 56%, transparent 56%),
+    rgba(107, 114, 128, 0.35);
+}
+
+.floorplan-excluded-hint {
+  font-size: var(--text-xs);
+  line-height: 1.55;
+  color: var(--label-neutral);
+}
+
+/* 도면의 일부만 분석됐을 때 — 조용히 지나가면 한 방짜리 결과를 전체로 오해한다. */
+.floorplan-coverage-low {
+  color: var(--status-cautionary) !important;
+}
+
+.floorplan-explanation {
+  margin: var(--space-2) 0;
+  font-size: var(--text-base);
+  line-height: 1.7;
+  color: var(--label-normal);
+}
+
+@media (max-width: 480px) {
+  .fp-analyzer > .card {
+    padding: var(--space-4);
+  }
+  .floorplan-card-head--row,
+  .fp-analyzer .floorplan-result-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  /* 2026-11-07 UX 루프: 390px에서 결과 머리가 「분석 결과 / 발견된 문제(제목) / 보고서 내려받기」
+     세 줄이고 바로 밑 탭이 또 「발견된 문제」라 같은 말이 두 번, 탭이 약 120px 아래로 밀렸다.
+     휴대폰에선 제목을 화면에서만 숨기고(읽기 도구엔 남김) 「분석 결과」와 단추를 한 줄에 둔다. */
+  .fp-analyzer .floorplan-result-header {
+    flex-direction: row;
+    align-items: center;
+  }
+  .fp-analyzer .floorplan-result-header h2 {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
+
+/* 축척 입력 — 도면 가로 길이(m) */
+.fp-analyzer .floorplan-scale-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--label-neutral);
+}
+
+.fp-analyzer .floorplan-scale-input {
+  width: 6.5rem;
+  padding: 6px 10px;
+  font: inherit;
+  border: 1px solid var(--line-normal-normal);
+  border-radius: var(--radius-sm);
+  background: var(--background-elevated-normal);
+  color: var(--label-strong);
+}
+
+.fp-analyzer .floorplan-scale-input:focus {
+  outline: none;
+  border-color: var(--blue-50);
+  box-shadow: 0 0 0 3px var(--blue-90);
+}
+
+/* 아이폰 사파리는 16px보다 작은 입력칸에 초점이 가면 화면을 확대하고 되돌리지 않는다 —
+   가로 길이를 고치려 누르면 도면 카드가 옆으로 잘렸다(13px였다). 휴대폰에서만 16px
+   (2026-11-06 UX 자동 개선, 지도 탭 검색칸과 같은 이유). */
+@media (max-width: 640px) {
+  .fp-analyzer .floorplan-scale-input {
+    font-size: 16px;
+  }
+}
+
+.fp-analyzer .floorplan-scale-hint {
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--label-alternative);
+}
+
+/* 도면 위 번호와 짝을 이루는 자리 목록 */
+.floorplan-spot-lists {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-4) var(--space-6);
+  margin: var(--space-3) 0;
+}
+
+.floorplan-spot-list h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--label-strong);
+}
+
+.floorplan-spot-swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.floorplan-spot-list ol {
+  margin: 0;
+  padding-left: 1.3rem;
+  font-size: var(--text-sm);
+  color: var(--label-neutral);
+}
+
+.floorplan-spot-list li {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line-normal-alternative);
+}
+
+.floorplan-spot-list li > span:first-child {
+  margin-right: var(--space-2);
+}
+
+.floorplan-spot-pct {
+  float: right;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--label-normal);
+  white-space: nowrap;
+}
+
+/* 발견된 문제 목록 — 도면 위 번호와 짝. 굵은 왼쪽 색띠 대신 번호 원과 등급 알약으로 구분. */
+.floorplan-edit-notice {
+  margin: var(--space-1) 0 var(--space-2);
+  color: var(--blue-700, #1d4ed8);
+  font-weight: 600;
+}
+
+.floorplan-stale-banner {
+  margin-bottom: var(--space-3);
+}
+
+.floorplan-zone-swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 0 2px -1px;
+  border-radius: 2px;
+}
+
+.floorplan-zone-swatch--good {
+  background: #ea580c;
+}
+
+.floorplan-zone-swatch--bad {
+  background: #2563eb;
+}
+
+.floorplan-issue-guide {
+  margin: 0 0 var(--space-2);
+  color: var(--text-muted, #6b7280);
+  font-size: 0.9rem;
+}
+
+.floorplan-issue-list {
+  list-style: none;
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* 문제 카드와 「가장 목 좋은 곳」(참고) 카드 사이 구분 줄 (2026-11-08 UX 자동 개선) */
+.floorplan-issue-sep {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--line-normal-neutral);
+  color: var(--text-muted, #6b7280);
+  font-size: 0.9rem;
+  font-weight: 600;
+  word-break: keep-all;
+}
+
+.floorplan-issue {
+  display: flex;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  border: 1px solid var(--line-normal-neutral);
+  border-radius: var(--radius-md);
+  background: var(--background-elevated-normal);
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.floorplan-issue:hover {
+  border-color: var(--line-normal-normal);
+  box-shadow: var(--shadow-normal);
+}
+
+.floorplan-issue--active {
+  border-color: var(--blue-50);
+  box-shadow: 0 0 0 3px var(--blue-90);
+}
+
+/* 문제 카드의 위치 그림 — 「남서쪽 매장 68 부근」을 글이 아니라 그림으로 (2026-10-24). */
+.floorplan-issue-thumb {
+  flex-shrink: 0;
+  width: 200px;
+  max-width: 36%;
+  height: auto;
+  border: 1px solid var(--line-normal-neutral);
+  border-radius: var(--radius-sm);
+  background: var(--background-elevated-normal);
+}
+
+@media (max-width: 640px) {
+  .floorplan-issue {
+    flex-wrap: wrap;
+  }
+  .floorplan-issue-thumb {
+    order: 3;
+    width: 100%;
+    max-width: 100%;
+  }
+  /* 휴대폰에선 번호 동그라미가 왼쪽 칸을 통째로 차지해 글이 약 235px 폭으로 눌리고 제목이
+     세 줄로 꺾였다 — 동그라미를 제목 줄 앞에 띄우고 본문은 카드 폭을 다 쓴다
+     (2026-11-08 UX 자동 개선). */
+  .floorplan-issue {
+    position: relative;
+  }
+  .floorplan-issue-marker {
+    position: absolute;
+    top: calc(var(--space-4) + 1px);
+    left: var(--space-4);
+  }
+  .floorplan-issue-body {
+    flex-basis: 100%;
+  }
+  .floorplan-issue-head {
+    padding-left: 32px;
+  }
+}
+
+.floorplan-issue-marker {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: var(--static-white);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.floorplan-issue-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.floorplan-issue-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font-size: var(--text-base);
+  line-height: 1.45;
+  color: var(--label-strong);
+}
+
+.floorplan-sev-pill {
+  flex-shrink: 0;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.floorplan-sev-pill--high {
+  background: var(--red-95);
+  color: var(--accent-foreground-red);
+}
+
+.floorplan-sev-pill--medium {
+  background: var(--orange-90);
+  color: var(--orange-39);
+}
+
+.floorplan-sev-pill--low {
+  background: var(--accent-background-light-blue);
+  color: var(--blue-45);
+}
+
+.floorplan-issue-body p {
+  margin: 6px 0;
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--label-neutral);
+}
+
+.floorplan-issue-body small {
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--label-alternative);
+}
+
+/* AI 해석 — 규칙 문장 자리에 도착하면 바꿔 끼운다 */
+.floorplan-narrative {
+  margin-top: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line-normal-neutral);
+}
+
+.floorplan-narrative-tag {
+  display: inline-block;
+  margin-bottom: var(--space-1);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--purple-90);
+  color: var(--purple-40);
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+
+.floorplan-narrative .floorplan-explanation {
+  white-space: pre-line;
+}
+
+.floorplan-narrative-loading {
+  margin: var(--space-1) 0 0;
+  font-size: var(--text-sm);
+  color: var(--label-alternative);
+}
+
+/* 도면에서 읽은 의미 요소 요약 (0단계 인식) */
+.floorplan-recognized {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  /* 캔버스 아래로 내려온 뒤(2026-11-06) 위에도 띄운다. */
+  margin: var(--space-3) 0;
+  font-size: var(--text-sm);
+  color: var(--label-neutral);
+}
+
+.floorplan-recognized strong {
+  font-weight: 600;
+  color: var(--label-normal);
+}
+
+.floorplan-recognized ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.floorplan-recognized li {
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--fill-normal);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--label-neutral);
+}
+
+/* 공간별 비교 표 */
+.fp-analyzer .floorplan-room-table-wrap {
+  max-height: 22rem;
+  overflow: auto;
+}
+
+.fp-analyzer .floorplan-room-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.fp-analyzer .floorplan-room-table th,
+.fp-analyzer .floorplan-room-table td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line-normal-alternative);
+}
+
+.fp-analyzer .floorplan-room-table th {
+  position: sticky;
+  top: 0;
+  background: var(--background-elevated-normal);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--label-alternative);
+}
+
+.fp-analyzer .floorplan-room-row--active {
+  background: var(--accent-background-light-blue);
+}
+
+.floorplan-room-noname {
+  color: var(--label-assistive);
+}
+
+/* A/B 비교 */
+.floorplan-compare-card {
+  margin-top: var(--space-4);
+}
+
+.floorplan-compare-headline {
+  margin: 0 0 var(--space-3);
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.floorplan-compare-note {
+  display: block;
+  margin-top: 2px;
+  color: var(--text-muted, #6b7280);
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.floorplan-compare-why {
+  margin: var(--space-3) 0;
+  color: var(--text-muted, #6b7280);
+}
+
+.floorplan-delta {
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.floorplan-delta--better {
+  color: var(--status-positive);
+}
+
+.floorplan-delta--worse {
+  color: var(--status-negative);
+}
+
+.floorplan-delta--same {
+  color: var(--label-alternative);
+  font-weight: 400;
+}
+
+/* 레이어 확인·수정 — 사무소마다 레이어 이름이 달라 자동 추측이 자주 틀린다 */
+.floorplan-layer-card {
+  margin-top: var(--space-4);
+}
+
+.fp-analyzer .floorplan-layer-table {
+  max-height: 18rem;
+}
+
+.floorplan-layer-select {
+  padding: 4px 8px;
+  font: inherit;
+  font-size: var(--text-sm);
+  border: 1px solid var(--line-normal-normal);
+  border-radius: 6px;
+  background: var(--background-elevated-normal);
+}
+
+/* 아이폰 사파리는 16px보다 작은 칸에 초점이 가면 화면을 확대하고 되돌리지 않는다 — 레이어
+   역할 고르기(계획도면 탭은 표 글씨 13.6px를 물려받은 기본 select였다)도 휴대폰에서 16px,
+   손가락으로 누를 높이 40px (2026-11-06 UX 자동 개선, 계획도면·평면도 탭 공통). */
+@media (max-width: 640px) {
+  .floorplan-layer-select {
+    font-size: 16px;
+    min-height: 40px;
+  }
+}
+
+.floorplan-layer-suspect {
+  color: var(--status-cautionary);
+}
+
+/* 필지 등급 지도 */
+.ps-map-wrap { margin-top: 0.75rem; }
+.ps-map-wrap .pm-canvas { width: 100%; height: 480px; border-radius: 8px; }
+
+/* 계획 도면 — 좌표계 확인 (2026-10-22). 확인 전엔 주황, 확인 뒤엔 초록 테두리. */
+.plan-crs-check {
+  margin: var(--space-3) 0;
+  padding: var(--space-3);
+  border: 1px solid var(--status-cautionary);
+  border-radius: var(--radius-md);
+  background: var(--accent-background-red-orange);
+  display: grid;
+  gap: 8px;
+}
+
+.plan-crs-check--ok {
+  border-color: var(--status-positive);
+  background: transparent;
+}
+
+.plan-crs-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+
+.plan-crs-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.plan-crs-option small {
+  color: var(--label-neutral);
+}
+
+/* 지도 바로 밑 「이 위치가 맞습니다」 — 위 확인 상자와 같은 동작 (2026-11-07). */
+.plan-crs-confirm-below {
+  width: 100%;
+  min-height: 44px;
+  margin-top: var(--space-2);
+}
+
+/* 계획 도면 — 고른 획지의 변과 옆 땅 비교 (2026-10-24, 등급 색칠 대신). */
+.plan-pick {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: var(--space-3);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.plan-pick select {
+  flex: 1;
+  min-width: 0;
+  max-width: 420px;
+  /* 브라우저 기본(높이 21px·13px 글씨)은 휴대폰에서 누르기 어렵고 획지 이름이 잘렸다. 16px 미만이면
+     iOS가 고를 때 화면을 확대해 버린다 (2026-11-06 UX 자동 개선, 390px). */
+  min-height: 44px;
+  padding: 8px 10px;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--label-normal);
+  border: 1px solid var(--line-normal-normal);
+  border-radius: 8px;
+  background: var(--background-elevated-normal);
+}
+
+.plan-sides {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.plan-side {
+  padding: 10px 12px;
+  border: 1px solid var(--line-normal, #e2e8f0);
+  border-radius: var(--radius-md, 8px);
+}
+
+.plan-side-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+}
+
+.plan-side-head i {
+  display: inline-block;
+  width: 18px;
+  height: 6px;
+  border-radius: 3px;
+}
+
+.plan-side-head small {
+  color: var(--label-neutral);
+}
+
+.plan-side-badge {
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.plan-side ul {
+  margin: 6px 0 4px;
+  padding-left: 18px;
+  font-size: 14px;
+}
+
+.plan-neighbor-row {
+  cursor: pointer;
+}
+
+/* 지도 위 「색 읽는 법」 — 눈이 안 좋은 사용자도 읽게 15px. */
+.plan-legend {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 8px;
+  padding: 12px 14px;
+  border: 1px solid var(--line-normal, #e2e8f0);
+  border-radius: var(--radius-md, 8px);
+  font-size: 15px;
+  /* 390에서 「빨강일 / 수록」「F10 (업무복 / 합용지)」처럼 낱말 가운데서 꺾였다 (2026-11-08 UX 자동 개선) */
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.plan-legend-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 18px;
+}
+
+.plan-legend-title {
+  flex-basis: 100%;
+  font-weight: 700;
+}
+
+.plan-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.plan-legend-item i {
+  display: inline-block;
+  width: 18px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid rgb(0 0 0 / 0.15);
+}
+
+.plan-legend-item i.plan-legend-line {
+  height: 6px;
+  border: none;
+}
+
+.plan-legend-note {
+  color: var(--label-neutral);
+  font-size: 14px;
+}
+
+.plan-neighbor-row:hover td {
+  background: var(--fill-alternative, #f1f5f9);
+}
+
+/* 찍은 자리의 점수 (2026-10-24) — 「원하는 곳을 찍으면 분석해 주는 걸로」.
+   테두리 상자 대신 옅은 바탕 한 장. 숫자는 요약 띠와 같은 크기 체계. */
+.floorplan-probe-hint {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-xs);
+  color: var(--label-alternative);
+}
+
+.floorplan-probe {
+  margin: var(--space-3) 0 0;
+  padding: var(--space-4);
+  border: 1px solid var(--line-normal-neutral);
+  border-radius: var(--radius-md);
+  background: var(--cool-neutral-98);
+}
+
+.floorplan-probe-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-size: var(--text-base);
+  color: var(--label-strong);
+}
+
+.floorplan-probe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(130px, 40%), 1fr));
+  gap: var(--space-3) var(--space-4);
+  margin: var(--space-3) 0 var(--space-2);
+}
+
+.floorplan-probe-grid dt {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--label-alternative);
+}
+
+.floorplan-probe-grid dd {
+  margin: 4px 0 0;
+  font-size: var(--text-lg);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--label-strong);
+}
+
+.floorplan-probe-grid dd small {
+  /* 390px에서 「(상위 / 4%)」로 괄호 안이 갈렸다 — 통째로 다음 줄로 (2026-11-08 UX 자동 개선). */
+  white-space: nowrap;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--label-alternative);
+}
+
+.floorplan-probe-none {
+  margin: var(--space-2) 0;
+  font-size: var(--text-sm);
+  color: var(--label-neutral);
+}
+
+.floorplan-probe-note {
+  font-size: var(--text-xs);
+  color: var(--label-assistive);
+}
+
+/* 도면 색 범례 (2026-10-24) — 「색깔이 무엇을 의미하는지 안 적혀 있다」. 상자 없이 도면 바로 아래. */
+.floorplan-legend {
+  margin: var(--space-3) 0 0;
+  font-size: var(--text-xs);
+  color: var(--label-neutral);
+}
+
+.floorplan-legend-ramp {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-weight: 600;
+  color: var(--label-normal);
+}
+
+.floorplan-legend-ramp i {
+  flex: 1;
+  height: 8px;
+  min-width: 80px;
+  border-radius: var(--radius-pill);
+}
+
+.floorplan-legend-how {
+  margin: var(--space-2) 0;
+  line-height: 1.55;
+  color: var(--label-alternative);
+}
+
+.floorplan-legend-keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.floorplan-legend-keys li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.floorplan-legend-keys i {
+  display: inline-block;
+  width: 18px;
+  height: 0;
+}
+
+.floorplan-legend-wall {
+  border-top: 2px solid var(--label-strong);
+}
+
+.floorplan-legend-door {
+  border-top: 2px dashed var(--status-positive);
+}
+
+.floorplan-legend-excluded {
+  height: 10px !important;
+  width: 12px !important;
+  background: repeating-linear-gradient(135deg, rgba(107, 114, 128, 0.4) 0 3px, var(--red-50) 3px 4px);
+}
+
+.floorplan-legend-dot {
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50%;
+}
+
+@media (max-width: 640px) {
+  .floorplan-legend-ramp {
+    flex-wrap: wrap;
+  }
+  .floorplan-legend-ramp i {
+    flex-basis: 100%;
+    order: 2;
+  }
+}
+
+/* 레이어를 짐작했을 때만 업로드 카드에 뜨는 한 줄 (2026-10-24). */
+.floorplan-layer-alert {
+  margin: var(--space-3) 0 0;
+  font-size: var(--text-sm);
+  color: var(--status-cautionary);
+}
+
+.floorplan-link-button {
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--blue-45);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.floorplan-link-button:disabled {
+  color: var(--label-disable);
+  cursor: default;
+}
+
+/* 휴대폰: 「샘플 도면으로 해 보기」가 글씨 높이(약 20px)만큼만 눌렸다 — 도면 없는 사람이
+   처음 누르는 단추라 손가락 높이(44px)를 준다. 밑줄 링크 모양은 그대로 (2026-11-06). */
+@media (max-width: 640px) {
+  .floorplan-sample-row .floorplan-link-button {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 15px;
+  }
+}
+
+/* 계획도면 땅 색 기준 고르기 (2026-10-27) */
+.plan-color-toggle { border: 1px solid #cbd5e1; background: #fff; color: #334155; border-radius: 999px; padding: 2px 10px; font-size: 0.85rem; cursor: pointer; }
+.plan-color-toggle.is-active { background: #1e293b; border-color: #1e293b; color: #fff; }
+/* 휴대폰: 땅 색 기준 두 단추가 26px 높이라 손가락으로 옆 단추를 잘못 눌렀다 — 40px로 (2026-11-06). */
+@media (max-width: 640px) {
+  .plan-color-toggle { min-height: 40px; padding: 4px 14px; }
+}
+
+/* 계획도면 — 고른 땅 한 줄 요약·옆 땅 비교 표 (2026-10-27 소유자: 「표인지도 모르겠고 눈에 안 들어온다」) */
+.plan-summary {
+  margin: 4px 0 10px;
+  padding: 10px 12px;
+  border-left: 4px solid #0f172a;
+  background: #f8fafc;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.55;
+  word-break: keep-all;
+}
+.plan-summary strong { font-weight: 700; }
+
+.plan-side-text {
+  margin: 6px 0 4px;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.plan-compare-table {
+  font-size: 14px;
+  /* 1280에서 5칸 표가 「가게 들어설 가능/성」「F10 (업무복합용/지)」처럼 낱말 가운데서
+     꺾였다 — 어절 단위로만 꺾는다 (2026-11-08 UX 자동 개선). */
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.plan-compare-table thead th {
+  background: #1e293b;
+  color: #fff;
+  font-weight: 700;
+}
+
+.plan-compare-table tbody td {
+  border-bottom: 1px solid #cbd5e1;
+  vertical-align: top;
+  line-height: 1.45;
+}
+
+.plan-compare-table tbody td small {
+  color: var(--label-neutral, #64748b);
+}
+
+.plan-compare-table .plan-compare-picked td {
+  background: #fef3c7;
+}
+
+.plan-compare-table .plan-compare-picked td:first-child {
+  box-shadow: inset 4px 0 0 #0f172a;
+}
+
+.plan-compare-table .plan-neighbor-row:hover td {
+  background: #f1f5f9;
+}
+
+/* 옆 땅은 많아야 8곳(planned_site.MAX_NEIGHBORS) — 22rem 안쪽 스크롤에 넣으면 1280에서
+   넷째 줄이 반쯤 잘리고 다섯째 줄은 있는 줄도 모른다. 표를 다 펼친다 (2026-11-07 UX 자동 개선). */
+.floorplan-room-table-wrap.plan-compare-wrap {
+  max-height: none;
+}
+
+/* 휴대폰: 비교 표를 땅마다 카드로 쌓는다 (2026-11-06 UX 자동 개선) */
+@media (max-width: 640px) {
+  .plan-compare-wrap {
+    max-height: none;
+    overflow: visible;
+  }
+  .plan-compare-table,
+  .plan-compare-table tbody,
+  .plan-compare-table tr,
+  .plan-compare-table td {
+    display: block;
+    width: 100%;
+  }
+  .plan-compare-table thead {
+    display: none;
+  }
+  .plan-compare-table tr {
+    margin-bottom: var(--space-3, 12px);
+    border: 1px solid #cbd5e1;
+    border-radius: var(--radius-md, 8px);
+    overflow: hidden;
+  }
+  .plan-compare-table tbody td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .plan-compare-table tbody td:last-child {
+    border-bottom: 0;
+  }
+  .plan-compare-table tbody td::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 2px;
+    color: var(--label-neutral, #64748b);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .plan-compare-table tbody td:first-child::before {
+    content: none;
+  }
+  /* 칸 이름을 값 위가 아니라 왼쪽에 둔다 — 위에 두면 카드 하나가 약 350px, 다섯 장이 1,730px라
+     「옆 땅과 견주면」을 훑으려면 화면 두 장 넘게 내려야 했다 (2026-11-07 UX 자동 개선). */
+  .plan-compare-table tbody td:not(:first-child) {
+    display: grid;
+    grid-template-columns: 6.5em minmax(0, 1fr);
+    column-gap: 10px;
+    align-items: start;
+  }
+  .plan-compare-table tbody td:not(:first-child)::before {
+    margin-bottom: 0;
+    padding-top: 2px;
+    line-height: 1.35;
+    /* 「가게 들어설 가능/성 (예상)」처럼 낱말 가운데서 꺾였다 — 낱말 단위로만 꺾는다
+       (2026-11-07 UX 자동 개선, 390px). */
+    word-break: keep-all;
+  }
+  /* 옆 땅 카드는 누르면 그 땅으로 바뀐다 — 휴대폰엔 hover가 없어 누를 수 있는 줄 몰랐다. */
+  .plan-compare-table .plan-neighbor-row td:first-child {
+    position: relative;
+    padding-right: 36px;
+  }
+  .plan-compare-table .plan-neighbor-row td:first-child::after {
+    content: "›";
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    color: #64748b;
+    font-size: 24px;
+    line-height: 1;
+  }
+}
+
+/* 계획도면 지도 — 땅 위에 마우스를 올리면 이름·용지 (2026-10-27) */
+.plan-lot-tip {
+  padding: 4px 8px;
+  border: 1px solid #0f172a;
+  border-radius: 6px;
+  background: #fff;
+  color: #0f172a;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* 키보드·마우스 전용 덧말(Delete·Esc·Ctrl+Z·끌어다 놓기)은 터치 화면에서 숨긴다 (2026-11-06). */
+@media (hover: none) and (pointer: coarse) {
+  .floorplan-desktop-hint {
+    display: none;
+  }
+}
+
+/* 그 반대 — 터치 화면에서만 보이는 덧말 (2026-11-06, 공간별 비교 표 「줄을 누르면」). */
+.floorplan-touch-hint {
+  display: none;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .floorplan-touch-hint {
+    display: inline;
+  }
+
+  .fp-analyzer .floorplan-room-table tbody tr {
+    cursor: pointer;
+  }
+}
+
+/* 휴대폰에서 공간별 비교 표가 「순/위」「매장/11」「2612/㎡」처럼 글자 단위로 꺾였다 —
+   이름 칸만 줄바꿈을 허용하고 나머지는 한 줄로, 칸 여백을 줄인다 (2026-11-06 UX 자동 개선).
+   「지나가는 길목」 머리글은 길어서 꺾이게 둔다. */
+@media (max-width: 640px) {
+  .fp-analyzer .floorplan-room-table th,
+  .fp-analyzer .floorplan-room-table td {
+    padding: 8px 6px;
+  }
+
+  .fp-analyzer .floorplan-room-table th:not(:last-child),
+  .fp-analyzer .floorplan-room-table td:not(:nth-child(2)) {
+    white-space: nowrap;
+  }
+}
+
+/* 휴대폰 옆 땅 카드: 결론(「F10보다 유리」)이 카드 맨 아래라 네 칸을 다 읽어야 나왔고,
+   고른 땅 카드엔 뜻 없는 「F10과 비교 —」 칸이 붙어 카드 다섯 장이 약 1,800px로 길었다.
+   비교 칸을 땅 이름 바로 밑으로 올리고, 고른 땅 카드에선 뺀다 (2026-11-06 UX 자동 개선). */
+@media (max-width: 640px) {
+  .plan-compare-table tbody tr {
+    display: flex;
+    flex-direction: column;
+  }
+  .plan-compare-table tbody td {
+    order: 2;
+  }
+  .plan-compare-table tbody td:first-child {
+    order: 0;
+  }
+  .plan-compare-table tbody td:last-child {
+    order: 1;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .plan-compare-table tbody td:nth-last-child(2) {
+    border-bottom: 0;
+  }
+  .plan-compare-table tbody tr.plan-compare-picked td:last-child {
+    display: none;
+  }
+}
+
+/* 회색 땅(주거·학교·공공) 이름표 — 늘 보인다 (2026-11-06 소유자: 상업용지 이외는 회색). */
+.plan-lot-label {
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #475569;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* 휴대폰 도면 크게 보기 (2026-11-07 UX 자동 개선) — 도면만 키우고 그 칸 안에서 밀어 옮긴다. */
+.floorplan-zoom-toggle {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .floorplan-zoom-toggle {
+    display: inline-flex;
+  }
+
+  .floorplan-canvas-scroll--zoomed {
+    overflow: auto;
+    max-height: 60vh;
+    border: 1px solid var(--line-normal-neutral);
+    border-radius: var(--radius-md);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .floorplan-canvas-scroll--zoomed .floorplan-canvas {
+    width: 250%;
+    max-width: none;
+    border: 0;
+    border-radius: 0;
+  }
+}
+
+/* 2026-11-07 UX 루프: 390px에서 「바꾸면 무엇이 달라지나」 표가 공간별 비교 표의 nowrap 규칙을
+   그대로 받아 첫 칸(설명 문장)이 한 줄로 늘어나고, 고치기 전·고친 뒤·변화 세 칸이 화면 오른쪽
+   밖으로 밀려 숫자가 하나도 안 보였다. 또 결과 머리 h2를 숨기는 규칙 때문에 카드 제목도
+   사라지고 「닫기」만 남았다. 휴대폰에선 줄마다 설명 밑에 세 칸을 나란히 두고, 제목은 되살린다. */
+@media (max-width: 640px) {
+  .fp-analyzer .floorplan-compare-card .floorplan-result-header h2 {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    margin: 0;
+  }
+  .fp-analyzer .floorplan-compare-card .floorplan-result-header {
+    justify-content: space-between;
+  }
+  .fp-analyzer .floorplan-compare-table thead {
+    display: none;
+  }
+  .fp-analyzer .floorplan-compare-table tbody tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    column-gap: var(--space-3);
+    row-gap: 6px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line-normal-alternative);
+  }
+  .fp-analyzer .floorplan-compare-table tbody td {
+    padding: 0;
+    border: 0;
+  }
+  .fp-analyzer .floorplan-compare-table tbody td:first-child {
+    grid-column: 1 / -1;
+    white-space: normal;
+    word-break: keep-all;
+  }
+  .fp-analyzer .floorplan-compare-table td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    font-size: var(--text-xs);
+    font-weight: 400;
+    color: var(--label-alternative);
+  }
+}
+
+/* 2026-11-07 UX 루프: 390px 계획도면 탭 첫 제목이 「신도시 계획도면 — 이 땅 vs 옆 / 땅」으로
+   「땅」 한 글자만 둘째 줄에 떨어지고, 땅 설명 제목도 「…— 정면은 / 어디, 손님은 누구」처럼
+   어절 중간에서 갈렸다. 제목 줄 길이를 고르게 나누고 어절 단위로만 꺾는다. */
+.floorplan-panel h2,
+.floorplan-panel h3 {
+  text-wrap: balance;
+  word-break: keep-all;
+}
+
+/* 2026-11-07 UX 루프: 390px 평면도 결과 글이 낱말 가운데서 꺾였다 — 요약 문단 「확 / 인한」,
+   문제 카드 제목 「찾아가 / 기 먼 바닥」, 안내문 「찍 / 힌」. 결과 카드 글은 어절 단위로만
+   꺾고, 너무 긴 낱말(파일 이름 등)만 넘칠 때 자른다. 표는 칸이 좁아 넓어질 수 있어 그대로 둔다. */
+.floorplan-result-card {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  text-wrap: pretty; /* 「약 1,031 / ㎡」처럼 끝 한 토막만 떨어지는 줄을 막는다 */
+}
+.floorplan-result-card table {
+  word-break: normal;
+}
+
+/* 2026-11-07 UX 루프: 390px 평면도 첫 화면·편집 화면 안내 글이 낱말 가운데서 꺾였다 —
+   소개 「자리 / 마다」「계산합니 / 다」, 편집 안내 「지웁니 / 다」「잘못 / 했으면」. 결과 카드만
+   keep-all이었다(1ba896a). 패널 안 문단·목록 글도 어절 단위로만 꺾고, 긴 파일 이름만 자른다. */
+.floorplan-panel p,
+.floorplan-panel li {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* 벽 읽기 실패 문장 옆 「다시 시도」 — 폭이 모자라면 단추가 아래로 (2026-11-08 UX 자동 개선). */
+.floorplan-error-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.floorplan-error-row > span {
+  flex: 1 1 14em;
+  word-break: keep-all;
+}
+
+/* 말로 고치기 (2026-11-09) — 도면 위에서 끌어 네모를 고르므로 그동안 페이지가 굴러가면 안 된다.
+   이 모드일 때만 도면 위 손가락 스크롤을 막는다(다른 모드는 그대로). */
+.floorplan-canvas--voice {
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.floorplan-mode-btn--voice.floorplan-mode-btn--on {
+  color: var(--blue-700, #1d4ed8);
+}
+
+.fp-voice {
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--line-normal-normal);
+  border-radius: var(--radius-md);
+  background: var(--background-elevated-normal);
+}
+
+.fp-voice__where {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--label-alternative);
+}
+
+.fp-voice__where strong {
+  color: var(--label-strong);
+  margin-right: 4px;
+}
+
+.fp-voice__form {
+  display: flex;
+  gap: var(--space-2);
+  align-items: stretch;
+}
+
+.fp-voice__form .text-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.fp-voice__form button {
+  flex-shrink: 0;
+  min-height: 44px;
+}
+
+.fp-voice__mic--on {
+  color: var(--accent-foreground-red);
+  border-color: var(--accent-foreground-red);
+}
+
+.fp-voice__quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: var(--space-2);
+}
+
+.fp-voice__chip {
+  min-height: 36px;
+  padding: 6px 12px;
+  font: inherit;
+  font-size: var(--text-sm);
+  color: var(--label-normal);
+  background: var(--fill-normal);
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.fp-voice__chip:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.fp-voice__plan-title {
+  margin: 0 0 4px;
+  font-weight: 700;
+  color: var(--label-strong);
+}
+
+.fp-voice__plan-message {
+  margin: 0 0 var(--space-2);
+  color: var(--label-normal);
+}
+
+.fp-voice__steps,
+.fp-voice__warnings {
+  margin: 0 0 var(--space-2);
+  padding-left: 18px;
+  font-size: var(--text-sm);
+}
+
+.fp-voice__warnings {
+  color: var(--accent-foreground-red);
+}
+
+.fp-voice__legend {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--label-alternative);
+}
+
+.fp-voice__swatch {
+  display: inline-block;
+  width: 16px;
+  height: 0;
+  vertical-align: middle;
+  border-top: 3px solid var(--accent-foreground-green);
+}
+
+.fp-voice__swatch--remove {
+  border-top: 3px dashed var(--accent-foreground-red);
+}
+
+.fp-voice__actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.fp-voice__actions button {
+  min-height: 44px;
+  min-width: 88px;
+}
+
+.fp-voice__reply {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-sm);
+  color: var(--label-normal);
+}
+
+.fp-voice__error {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-sm);
+  color: var(--accent-foreground-red);
+}
+
+/* 도면 상담 — AI 해석 밑에서 되묻는 창 (2026-11-09) */
+.floorplan-chat {
+  margin-top: var(--space-4);
+  padding: var(--space-4);
+  border: 1px solid var(--line-normal-neutral);
+  border-radius: var(--radius-lg, 12px);
+  background: var(--background-alternative, #f8f8fa);
+}
+
+.floorplan-chat-head {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: var(--space-3);
+}
+
+.floorplan-chat-head span {
+  font-size: var(--text-sm);
+  color: var(--label-alternative);
+}
+
+.floorplan-chat-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-height: 420px;
+  overflow-y: auto;
+  margin-bottom: var(--space-3);
+  padding-right: 2px;
+}
+
+.floorplan-chat-line {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 92%;
+}
+
+.floorplan-chat-line--user {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.floorplan-chat-line--assistant {
+  align-self: flex-start;
+}
+
+.floorplan-chat-bubble {
+  padding: var(--space-2) var(--space-3);
+  border-radius: 14px;
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.floorplan-chat-bubble p {
+  margin: 0;
+}
+
+.floorplan-chat-bubble p + p {
+  margin-top: var(--space-2);
+}
+
+.floorplan-chat-line--user .floorplan-chat-bubble {
+  background: var(--primary-normal, #2563eb);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+.floorplan-chat-line--assistant .floorplan-chat-bubble {
+  background: var(--background-normal, #fff);
+  border: 1px solid var(--line-normal-neutral);
+  border-bottom-left-radius: 4px;
+}
+
+.floorplan-chat-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.floorplan-chat-tools small {
+  font-size: var(--text-xs);
+  color: var(--label-alternative);
+}
+
+.floorplan-chat-card-btn {
+  padding: 2px 10px;
+  border: 1px solid var(--line-normal-neutral);
+  border-radius: var(--radius-pill);
+  background: var(--background-normal, #fff);
+  font-size: var(--text-xs);
+  color: var(--label-normal);
+  cursor: pointer;
+}
+
+.floorplan-chat-card-btn:hover {
+  border-color: var(--primary-normal, #2563eb);
+  color: var(--primary-normal, #2563eb);
+}
+
+.floorplan-chat-loading {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--label-alternative);
+}
+
+.floorplan-chat-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.floorplan-chat-chip {
+  padding: 6px 12px;
+  border: 1px solid var(--line-normal-neutral);
+  border-radius: var(--radius-pill);
+  background: var(--background-normal, #fff);
+  font-size: var(--text-sm);
+  color: var(--label-normal);
+  cursor: pointer;
+  word-break: keep-all;
+}
+
+.floorplan-chat-chip:hover:not(:disabled) {
+  border-color: var(--primary-normal, #2563eb);
+  color: var(--primary-normal, #2563eb);
+}
+
+.floorplan-chat-chip:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.floorplan-chat-form {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.floorplan-chat-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line-normal-neutral);
+  border-radius: 10px;
+  font-size: var(--text-sm);
+  background: var(--background-normal, #fff);
+}
+
+.floorplan-chat-form input:focus {
+  outline: 2px solid var(--primary-normal, #2563eb);
+  outline-offset: 1px;
+}
+
+.floorplan-chat-mic {
+  flex: none;
+  padding: 0 12px;
+  border: 1px solid var(--line-normal-neutral);
+  border-radius: 10px;
+  background: var(--background-normal, #fff);
+  font-size: var(--text-sm);
+  color: var(--label-normal);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.floorplan-chat-mic:hover:not(:disabled) {
+  border-color: var(--primary-normal, #2563eb);
+  color: var(--primary-normal, #2563eb);
+}
+
+.floorplan-chat-mic--on {
+  border-color: #dc2626;
+  color: #dc2626;
+  animation: floorplan-chat-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes floorplan-chat-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.35); }
+  50% { box-shadow: 0 0 0 6px rgba(220, 38, 38, 0); }
+}
+
+.floorplan-chat-note {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-xs);
+  color: var(--label-alternative);
+  word-break: keep-all;
+}
+
+@media (max-width: 480px) {
+  .floorplan-chat-form {
+    flex-wrap: wrap;
+  }
+
+  .floorplan-chat-form input {
+    flex-basis: 100%;
+  }
+
+  .floorplan-chat-mic {
+    min-height: 40px;
+  }
+
+  .floorplan-chat-line {
+    max-width: 100%;
+  }
+}
+
+/* LLM이 묻는 말 — 대화처럼 보이게 왼쪽에 파란 줄. */
+.fp-voice__plan--ask {
+  padding-left: var(--space-3);
+  border-left: 3px solid var(--blue-500, #3b82f6);
+}
+
+.fp-voice__plan--ask .fp-voice__plan-message {
+  font-weight: 600;
+  color: var(--label-strong);
+}
+
+.fp-voice__plan {
+  margin-bottom: var(--space-3);
+}
+
+.fp-voice__actions {
+  flex-wrap: wrap;
+  align-items: center;
+}

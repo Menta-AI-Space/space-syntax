@@ -1,0 +1,238 @@
+{
+  "id": "retail_specialty",
+  "name": "전문 소매",
+  "parentCategory": "retail",
+  "version": "1.0.0",
+  "effectiveFrom": "2026-07-15",
+  "supportedUserTypes": [
+    "entrepreneur",
+    "franchise"
+  ],
+  "matchRules": {
+    "sbizCodes": {
+      "lcls": ["G2"],
+      "mcls": ["G209", "G212", "G213", "G216", "G217", "G218", "G219", "G220"],
+      "scls": ["G21503"]
+    },
+    "businessTypePresets": [],
+    "fallbackArchetype": "daily_retail"
+  },
+  "analysis": {
+    "catchment": {
+      "primary": "walk",
+      "walkMinutes": [
+        5,
+        10
+      ]
+    },
+    "timeSlots": [
+      "post_lunch",
+      "weekday_evening",
+      "weekend_afternoon"
+    ],
+    "competitorGroups": {
+      "direct": [
+        "same_specialty_retail"
+      ],
+      "secondary": [
+        "adjacent_specialty_retail"
+      ],
+      "indirect": [
+        "variety_store",
+        "large_discount_store"
+      ],
+      "channel": [
+        "online_commerce"
+      ]
+    },
+    "siteFeatures": {
+      "integration": 0.18,
+      "choice": 0.20,
+      "mean_depth": 0.07,
+      "connectivity": 0.15,
+      "transit": 0.12,
+      "demand": 0.18,
+      "competition": 0.10
+    },
+    "competitorRules": {
+      "vertical": "retail_specialty",
+      "distance_bands_m": [
+        { "max": 100, "weight": 1.0 },
+        { "max": 200, "weight": 0.8 },
+        { "max": 300, "weight": 0.6 },
+        { "max": 500, "weight": 0.4 },
+        { "max": 1000, "weight": 0.2 }
+      ],
+      "intensity_thresholds": [18, 35, 55],
+      "buckets": [
+        {
+          "key": "direct_fashion",
+          "label": "의류·패션잡화",
+          "weight": 1.0,
+          "mcls_codes": ["G209"],
+          "keywords": ["의류", "옷가게", "패션", "보세", "편집샵", "신발", "가방", "액세서리"]
+        },
+        {
+          "key": "direct_cosmetics",
+          "label": "화장품 소매",
+          "weight": 1.0,
+          "scls_codes": ["G21503"],
+          "keywords": ["화장품", "코스메틱", "뷰티샵"]
+        },
+        {
+          "key": "direct_optical",
+          "label": "안경원",
+          "weight": 1.0,
+          "mcls_codes": ["G216"],
+          "scls_codes": ["G21602"],
+          "keywords": ["안경", "안경원", "렌즈", "콘택트렌즈"]
+        },
+        {
+          "key": "direct_flower",
+          "label": "꽃집",
+          "weight": 1.0,
+          "mcls_codes": ["G219"],
+          "scls_codes": ["G21901"],
+          "keywords": ["꽃집", "꽃배달", "플라워", "화원"]
+        },
+        {
+          "key": "direct_stationery",
+          "label": "문구·서적",
+          "weight": 1.0,
+          "mcls_codes": ["G213"],
+          "scls_codes": ["G21302"],
+          "keywords": ["문구", "문방구", "팬시", "서점", "화방"]
+        },
+        {
+          "key": "direct_pet",
+          "label": "반려동물용품",
+          "weight": 1.0,
+          "mcls_codes": ["G220"],
+          "scls_codes": ["G22001"],
+          "keywords": ["애견", "애완", "펫샵", "반려동물", "펫용품"]
+        },
+        {
+          "key": "cosmetics_drugstore",
+          "label": "대형 드럭스토어",
+          "weight": 1.3,
+          "keywords": ["올리브영", "롭스", "랄라블라", "시코르", "드럭스토어"]
+        },
+        {
+          "key": "substitute_variety",
+          "label": "균일가·생활용품점",
+          "weight": 0.6,
+          "mcls_codes": ["G212"],
+          "keywords": ["다이소", "생활용품", "잡화점", "천냥"]
+        },
+        {
+          "key": "substitute_discount",
+          "label": "대형마트·백화점",
+          "weight": 0.4,
+          "keywords": ["이마트", "롯데마트", "홈플러스", "백화점", "아울렛"]
+        },
+        {
+          "key": "channel_unmanned",
+          "label": "무인 소매점",
+          "weight": 0.5,
+          "keywords": ["무인문구", "무인샵", "무인판매", "셀프판매"]
+        }
+      ]
+    },
+    "publicSalesMappings": []
+  },
+  "ui": {
+    "summaryKpis": [
+      {
+        "key": "walk_traffic",
+        "label": "도보 유동"
+      },
+      {
+        "key": "target_fit",
+        "label": "핵심 고객 적합"
+      },
+      {
+        "key": "retail_competition",
+        "label": "동일업종 경쟁"
+      },
+      {
+        "key": "storefront_visibility",
+        "label": "매장 가시성"
+      }
+    ],
+    "primaryTabs": [
+      "walk_traffic",
+      "target_customers",
+      "competitors",
+      "visibility",
+      "compare"
+    ],
+    "secondaryTabs": [
+      "sales"
+    ],
+    "mapLayers": [
+      "walk_catchment",
+      "female_population",
+      "age_population",
+      "corner_nodes",
+      "specialty_competitors",
+      "anchor_retail"
+    ],
+    "alerts": [
+      "supply_saturation",
+      "weak_visibility"
+    ],
+    "recommendations": [
+      "target_assortment",
+      "storefront_signage"
+    ],
+    "reportSections": [
+      "summary",
+      "walk_traffic",
+      "target_customers",
+      "competition",
+      "risks"
+    ]
+  },
+  "userOverrides": {
+    "franchise": {
+      "summaryKpis": [
+        {
+          "key": "cannibalization_risk",
+          "label": "기존점 잠식 위험"
+        },
+        {
+          "key": "new_coverage",
+          "label": "신규 커버리지"
+        },
+        {
+          "key": "brand_whitespace",
+          "label": "브랜드 공백"
+        },
+        {
+          "key": "network_efficiency",
+          "label": "점포망 효율"
+        }
+      ],
+      "primaryTabs": [
+        "network",
+        "cannibalization",
+        "new_coverage",
+        "candidates"
+      ],
+      "mapLayers": [
+        "existing_stores",
+        "existing_store_overlap",
+        "walk_catchment",
+        "new_coverage",
+        "brand_whitespace"
+      ],
+      "reportSections": [
+        "approval_summary",
+        "network_impact",
+        "cannibalization",
+        "new_market",
+        "decision"
+      ]
+    }
+  }
+}

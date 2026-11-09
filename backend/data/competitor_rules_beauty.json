@@ -1,0 +1,51 @@
+{
+  "vertical": "beauty",
+  "distance_bands_m": [
+    { "max": 100, "weight": 1.0 },
+    { "max": 200, "weight": 0.8 },
+    { "max": 300, "weight": 0.6 },
+    { "max": 500, "weight": 0.4 },
+    { "max": 1000, "weight": 0.2 }
+  ],
+  "intensity_thresholds": [18, 35, 55],
+  "buckets": [
+    {
+      "key": "direct",
+      "label": "직접 경쟁 (미용실·헤어샵)",
+      "weight": 1.0,
+      "mcls_codes": ["S207"],
+      "keywords": ["미용실", "헤어샵", "헤어", "살롱", "hair"]
+    },
+    {
+      "key": "one_person_salon",
+      "label": "1인샵·프리랜서",
+      "weight": 0.7,
+      "keywords": ["1인샵", "프리랜서", "공유미용실", "개인샵"]
+    },
+    {
+      "key": "barbershop",
+      "label": "바버샵·이용실",
+      "weight": 0.8,
+      "keywords": ["바버샵", "이발소", "이용실", "barber"]
+    },
+    {
+      "key": "large_franchise",
+      "label": "대형 프랜차이즈",
+      "weight": 1.2,
+      "keywords": ["박준", "이철헤어커커", "준오헤어", "이가자헤어비스", "juno"]
+    },
+    {
+      "key": "substitute_beauty_service",
+      "label": "피부관리·마사지·네일",
+      "weight": 0.5,
+      "mcls_codes": ["S208"],
+      "keywords": ["피부관리", "마사지", "네일", "왁싱", "속눈썹", "에스테틱"]
+    },
+    {
+      "key": "substitute_booking_platform",
+      "label": "예약 플랫폼 경쟁",
+      "weight": 0.3,
+      "keywords": ["네이버예약", "카카오헤어", "헤어샵예약", "숨고"]
+    }
+  ]
+}

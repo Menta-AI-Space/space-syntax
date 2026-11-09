@@ -1,0 +1,127 @@
+{
+  "target_models": {
+    "math": { "label": "수학학원", "risk_sensitivity": 1.0 },
+    "english": { "label": "영어학원", "risk_sensitivity": 1.0 },
+    "korean": { "label": "국어·논술학원", "risk_sensitivity": 1.0 },
+    "science": { "label": "과학학원", "risk_sensitivity": 1.0 },
+    "exam_cram": { "label": "입시·보습학원", "risk_sensitivity": 1.0 },
+    "arts": { "label": "예체능학원", "risk_sensitivity": 1.4 },
+    "coding": { "label": "코딩학원", "risk_sensitivity": 1.0 },
+    "adult": { "label": "성인·자격증학원", "risk_sensitivity": 0.5 }
+  },
+  "cluster_groups": {
+    "direct_competitor": { "key": "direct", "label": "직접 경쟁" },
+    "partial_competitor": { "key": "partial", "label": "부분 경쟁" },
+    "synergy": { "key": "synergy", "label": "보완 시너지" },
+    "infrastructure": { "key": "infra", "label": "학습 인프라" },
+    "arts_synergy": { "key": "arts_synergy", "label": "예체능 시너지" },
+    "risk": { "key": "risk", "label": "유해·주의 시설" },
+    "severe_risk": { "key": "severe_risk", "label": "강한 리스크" }
+  },
+  "distance_bands_m": [
+    { "max": 0, "same_building": true, "weight": 2.0 },
+    { "max": 50, "weight": 1.0 },
+    { "max": 100, "weight": 0.85 },
+    { "max": 300, "weight": 0.6 },
+    { "max": 500, "weight": 0.4 },
+    { "max": 1000, "weight": 0.2 }
+  ],
+  "rules": {
+    "math": {
+      "math": { "relation": "direct_competitor", "weight": -1.0 },
+      "exam_cram": { "relation": "partial_competitor", "weight": -0.6 },
+      "generic_academy": { "relation": "partial_competitor", "weight": -0.4 },
+      "english": { "relation": "synergy", "weight": 0.5 },
+      "korean": { "relation": "synergy", "weight": 0.5 },
+      "science": { "relation": "synergy", "weight": 0.4 },
+      "arts": { "relation": "arts_synergy", "weight": 0.25 },
+      "study_infra": { "relation": "infrastructure", "weight": 0.3 },
+      "risk_pc": { "relation": "risk", "weight": -0.5 },
+      "risk_karaoke": { "relation": "risk", "weight": -0.6 },
+      "risk_bar": { "relation": "risk", "weight": -0.4 },
+      "risk_adult_ent": { "relation": "severe_risk", "weight": -1.0 },
+      "risk_motel": { "relation": "severe_risk", "weight": -0.9 }
+    },
+    "english": {
+      "english": { "relation": "direct_competitor", "weight": -1.0 },
+      "infant": { "relation": "partial_competitor", "weight": -0.5 },
+      "exam_cram": { "relation": "partial_competitor", "weight": -0.5 },
+      "math": { "relation": "synergy", "weight": 0.5 },
+      "korean": { "relation": "synergy", "weight": 0.4 },
+      "science": { "relation": "synergy", "weight": 0.4 },
+      "study_infra": { "relation": "infrastructure", "weight": 0.3 },
+      "arts": { "relation": "arts_synergy", "weight": 0.2 },
+      "risk_pc": { "relation": "risk", "weight": -0.5 },
+      "risk_karaoke": { "relation": "risk", "weight": -0.6 },
+      "risk_adult_ent": { "relation": "severe_risk", "weight": -1.0 },
+      "risk_motel": { "relation": "severe_risk", "weight": -0.9 }
+    },
+    "korean": {
+      "korean": { "relation": "direct_competitor", "weight": -1.0 },
+      "exam_cram": { "relation": "partial_competitor", "weight": -0.5 },
+      "math": { "relation": "synergy", "weight": 0.45 },
+      "english": { "relation": "synergy", "weight": 0.45 },
+      "science": { "relation": "synergy", "weight": 0.35 },
+      "study_infra": { "relation": "infrastructure", "weight": 0.3 },
+      "risk_pc": { "relation": "risk", "weight": -0.5 },
+      "risk_karaoke": { "relation": "risk", "weight": -0.6 },
+      "risk_adult_ent": { "relation": "severe_risk", "weight": -1.0 }
+    },
+    "science": {
+      "science": { "relation": "direct_competitor", "weight": -1.0 },
+      "math": { "relation": "partial_competitor", "weight": -0.4 },
+      "exam_cram": { "relation": "partial_competitor", "weight": -0.5 },
+      "english": { "relation": "synergy", "weight": 0.4 },
+      "korean": { "relation": "synergy", "weight": 0.4 },
+      "study_infra": { "relation": "infrastructure", "weight": 0.3 },
+      "risk_pc": { "relation": "risk", "weight": -0.5 },
+      "risk_karaoke": { "relation": "risk", "weight": -0.6 },
+      "risk_adult_ent": { "relation": "severe_risk", "weight": -1.0 }
+    },
+    "exam_cram": {
+      "exam_cram": { "relation": "direct_competitor", "weight": -1.0 },
+      "math": { "relation": "partial_competitor", "weight": -0.5 },
+      "english": { "relation": "partial_competitor", "weight": -0.5 },
+      "korean": { "relation": "partial_competitor", "weight": -0.5 },
+      "science": { "relation": "partial_competitor", "weight": -0.4 },
+      "generic_academy": { "relation": "partial_competitor", "weight": -0.4 },
+      "study_infra": { "relation": "infrastructure", "weight": 0.35 },
+      "arts": { "relation": "arts_synergy", "weight": 0.2 },
+      "risk_pc": { "relation": "risk", "weight": -0.45 },
+      "risk_karaoke": { "relation": "risk", "weight": -0.55 },
+      "risk_adult_ent": { "relation": "severe_risk", "weight": -1.0 }
+    },
+    "arts": {
+      "arts": { "relation": "direct_competitor", "weight": -1.0 },
+      "infant": { "relation": "partial_competitor", "weight": -0.4 },
+      "math": { "relation": "synergy", "weight": 0.35 },
+      "english": { "relation": "synergy", "weight": 0.35 },
+      "korean": { "relation": "synergy", "weight": 0.3 },
+      "study_infra": { "relation": "infrastructure", "weight": 0.2 },
+      "risk_pc": { "relation": "risk", "weight": -0.7 },
+      "risk_karaoke": { "relation": "risk", "weight": -0.75 },
+      "risk_bar": { "relation": "risk", "weight": -0.5 },
+      "risk_adult_ent": { "relation": "severe_risk", "weight": -1.0 },
+      "risk_motel": { "relation": "severe_risk", "weight": -1.0 }
+    },
+    "coding": {
+      "coding": { "relation": "direct_competitor", "weight": -1.0 },
+      "math": { "relation": "synergy", "weight": 0.4 },
+      "science": { "relation": "synergy", "weight": 0.4 },
+      "english": { "relation": "synergy", "weight": 0.35 },
+      "study_infra": { "relation": "infrastructure", "weight": 0.3 },
+      "risk_pc": { "relation": "risk", "weight": -0.4 },
+      "risk_karaoke": { "relation": "risk", "weight": -0.5 }
+    },
+    "adult": {
+      "adult_cert": { "relation": "direct_competitor", "weight": -1.0 },
+      "english": { "relation": "partial_competitor", "weight": -0.5 },
+      "study_infra": { "relation": "infrastructure", "weight": 0.4 },
+      "risk_pc": { "relation": "risk", "weight": -0.2 },
+      "risk_karaoke": { "relation": "risk", "weight": -0.25 },
+      "risk_adult_ent": { "relation": "risk", "weight": -0.4 },
+      "risk_motel": { "relation": "risk", "weight": -0.35 },
+      "risk_bar": { "relation": "risk", "weight": -0.15 }
+    }
+  }
+}

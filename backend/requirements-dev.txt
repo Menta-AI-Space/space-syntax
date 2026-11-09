@@ -1,0 +1,16 @@
+# 테스트·수집 도구 전용 의존성.
+#
+# requirements.txt는 **앱 런타임**만 담는다 — 이걸 섞으면 프로덕션 이미지에
+# 앱이 절대 import하지 않는 패키지가 딸려 간다.
+#
+# 이 파일이 생긴 이유: 자율 러너가 컨테이너에서 검증을 돌리다
+# `ModuleNotFoundError: No module named 'openpyxl'`로 넘어졌다. 로컬에는
+# 어쩌다 깔려 있어서 607개가 통과했지만, 선언이 없으니 깨끗한 환경에서는
+# 수집 단계부터 깨진다. "테스트 통과"가 그 패키지를 가진 컴퓨터에서만
+# 참이었던 셈이다.
+#
+#   pip install -r requirements.txt -r requirements-dev.txt
+
+pytest==9.1.1
+# tools/ingest_hira_specialty.py · ingest_reb_rent_stats.py가 xlsx를 읽는다.
+openpyxl==3.1.5

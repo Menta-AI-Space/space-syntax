@@ -1,0 +1,5 @@
+# 생성물 — gen_slides.js와 graft.py로 다시 만들 수 있다.
+build/
+new-slides.pptx
+node_modules/
+package-lock.json

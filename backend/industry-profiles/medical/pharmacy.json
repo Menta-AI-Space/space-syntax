@@ -1,0 +1,198 @@
+{
+  "id": "pharmacy",
+  "name": "약국",
+  "parentCategory": "medical",
+  "version": "1.0.0",
+  "effectiveFrom": "2026-07-15",
+  "supportedUserTypes": [
+    "entrepreneur",
+    "franchise"
+  ],
+  "matchRules": {
+    "sbizCodes": {
+      "lcls": ["G2"],
+      "mcls": ["G215"],
+      "scls": ["G21501"]
+    },
+    "businessTypePresets": [],
+    "fallbackArchetype": "medical"
+  },
+  "analysis": {
+    "catchment": {
+      "primary": "walk",
+      "walkMinutes": [
+        3,
+        5
+      ]
+    },
+    "timeSlots": [
+      "weekday_day",
+      "saturday_morning"
+    ],
+    "competitorGroups": {
+      "direct": [
+        "pharmacy"
+      ],
+      "secondary": [
+        "hospital_in_house_pharmacy"
+      ],
+      "indirect": [
+        "drugstore",
+        "convenience_otc"
+      ],
+      "channel": []
+    },
+    "siteFeatures": {
+      "integration": 0.12,
+      "choice": 0.05,
+      "mean_depth": 0.05,
+      "connectivity": 0.08,
+      "transit": 0.15,
+      "demand": 0.35,
+      "competition": 0.20
+    },
+    "competitorRules": {
+      "vertical": "pharmacy",
+      "distance_bands_m": [
+        { "max": 100, "weight": 1.0 },
+        { "max": 200, "weight": 0.8 },
+        { "max": 300, "weight": 0.6 },
+        { "max": 500, "weight": 0.4 },
+        { "max": 1000, "weight": 0.2 }
+      ],
+      "intensity_thresholds": [10, 20, 35],
+      "buckets": [
+        {
+          "key": "direct",
+          "label": "직접 경쟁 (약국)",
+          "weight": 1.0,
+          "mcls_codes": ["G215"],
+          "scls_codes": ["G21501"],
+          "keywords": ["약국", "온누리약국", "메디팜", "옵티마약국", "위드팜"]
+        },
+        {
+          "key": "clinic_front_pharmacy",
+          "label": "문전약국 (병의원 앞)",
+          "weight": 1.4,
+          "keywords": ["문전약국", "병원약국", "처방전문약국"]
+        },
+        {
+          "key": "substitute_drugstore",
+          "label": "드럭스토어·건강용품",
+          "weight": 0.4,
+          "keywords": ["올리브영", "드럭스토어", "건강식품", "영양제판매"]
+        },
+        {
+          "key": "substitute_convenience_otc",
+          "label": "편의점 안전상비약",
+          "weight": 0.2,
+          "mcls_codes": ["G204"],
+          "scls_codes": ["G20405"],
+          "keywords": ["편의점", "CU", "GS25", "세븐일레븐"]
+        },
+        {
+          "key": "substitute_herbal",
+          "label": "한약국·한약방",
+          "weight": 0.5,
+          "keywords": ["한약국", "한약방", "한약"]
+        }
+      ]
+    },
+    "publicSalesMappings": []
+  },
+  "ui": {
+    "summaryKpis": [
+      {
+        "key": "clinic_adjacency",
+        "label": "병의원 인접"
+      },
+      {
+        "key": "prescription_demand",
+        "label": "처방 수요 인구"
+      },
+      {
+        "key": "pharmacy_competition",
+        "label": "경쟁 약국"
+      },
+      {
+        "key": "walkin_access",
+        "label": "도보 접근성"
+      }
+    ],
+    "primaryTabs": [
+      "clinic_adjacency",
+      "prescription_demand",
+      "pharmacy_competition",
+      "access",
+      "compare"
+    ],
+    "secondaryTabs": [
+      "night_holiday"
+    ],
+    "mapLayers": [
+      "clinics",
+      "hospitals",
+      "age_population",
+      "walk_catchment",
+      "pharmacy_competitors",
+      "transit_catchment"
+    ],
+    "alerts": [
+      "pharmacy_saturation",
+      "weak_clinic_adjacency"
+    ],
+    "recommendations": [
+      "clinic_front_position",
+      "extended_hours"
+    ],
+    "reportSections": [
+      "summary",
+      "clinic_adjacency",
+      "prescription_demand",
+      "competition",
+      "access"
+    ]
+  },
+  "userOverrides": {
+    "franchise": {
+      "summaryKpis": [
+        {
+          "key": "cannibalization_risk",
+          "label": "기존점 잠식 위험"
+        },
+        {
+          "key": "new_coverage",
+          "label": "신규 처방권"
+        },
+        {
+          "key": "brand_whitespace",
+          "label": "브랜드 공백"
+        },
+        {
+          "key": "network_efficiency",
+          "label": "점포망 효율"
+        }
+      ],
+      "primaryTabs": [
+        "network",
+        "cannibalization",
+        "new_coverage",
+        "candidates"
+      ],
+      "mapLayers": [
+        "existing_stores",
+        "existing_store_overlap",
+        "clinics",
+        "new_coverage",
+        "brand_whitespace"
+      ],
+      "reportSections": [
+        "approval_summary",
+        "network_impact",
+        "cannibalization",
+        "new_market",
+        "decision"
+      ]
+    }
+  }
+}

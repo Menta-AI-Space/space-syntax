@@ -1,0 +1,235 @@
+{
+  "id": "restaurant",
+  "name": "음식점",
+  "parentCategory": "food",
+  "version": "1.0.0",
+  "effectiveFrom": "2026-07-12",
+  "supportedUserTypes": [
+    "entrepreneur",
+    "franchise"
+  ],
+  "matchRules": {
+    "sbizCodes": {
+      "lcls": ["I2"],
+      "mcls": ["I201", "I202", "I203", "I204", "I205", "I206", "I207", "I210", "I211"],
+      "scls": []
+    },
+    "businessTypePresets": ["restaurant"],
+    "fallbackArchetype": "food_drink"
+  },
+  "analysis": {
+    "catchment": {
+      "primary": "walk",
+      "walkMinutes": [
+        5,
+        8
+      ],
+      "deliveryMinutes": [
+        10,
+        15,
+        20
+      ]
+    },
+    "timeSlots": [
+      "weekday_lunch",
+      "weekday_dinner",
+      "weekend"
+    ],
+    "competitorGroups": {
+      "direct": [
+        "same_menu_restaurant"
+      ],
+      "secondary": [
+        "same_mission_restaurant"
+      ],
+      "indirect": [
+        "convenience_meal"
+      ],
+      "channel": [
+        "delivery_restaurant"
+      ]
+    },
+    "siteFeatures": {
+      "integration": 0.22,
+      "choice": 0.12,
+      "mean_depth": 0.10,
+      "connectivity": 0.10,
+      "transit": 0.15,
+      "demand": 0.21,
+      "competition": 0.10
+    },
+    "competitorRules": {
+      "vertical": "restaurant",
+      "intent_map": {
+        "I201": "korean",
+        "I202": "chinese",
+        "I203": "japanese",
+        "I204": "western",
+        "I210": "snack",
+        "I211": "bar"
+      },
+      "distance_bands_m": [
+        { "max": 100, "weight": 1.0 },
+        { "max": 200, "weight": 0.8 },
+        { "max": 300, "weight": 0.6 },
+        { "max": 500, "weight": 0.4 },
+        { "max": 1000, "weight": 0.2 }
+      ],
+      "intensity_thresholds": [20, 40, 60],
+      "buckets": [
+        {
+          "key": "direct",
+          "label": "직접 경쟁",
+          "weight": 1.0,
+          "mcls_codes": ["I201", "I202", "I203", "I204", "I205", "I206", "I207", "I210", "I211"],
+          "keywords": []
+        },
+        {
+          "key": "lunch_rotation",
+          "label": "점심 경쟁",
+          "weight": 0.8,
+          "mcls_codes": ["I201", "I202", "I203", "I204", "I210"],
+          "keywords": ["백반", "국밥", "분식", "덮밥", "돈카츠", "중식", "김밥", "라면", "죽", "샐러드", "샌드위치"]
+        },
+        {
+          "key": "dinner_gathering",
+          "label": "저녁 경쟁",
+          "weight": 0.8,
+          "mcls_codes": ["I211"],
+          "keywords": ["고깃", "삼겹", "갈비", "족발", "닭갈비", "술집", "호프", "이자카야", "포차", "와인", "회식"]
+        },
+        {
+          "key": "substitute_convenience",
+          "label": "간편식 대체",
+          "weight": 0.5,
+          "mcls_codes": ["G204"],
+          "scls_codes": ["G20405"],
+          "keywords": ["편의점", "CU", "GS25", "세븐", "이마트24", "미니스톱"]
+        },
+        {
+          "key": "substitute_delivery",
+          "label": "배달 경쟁",
+          "weight": 0.5,
+          "keywords": ["치킨", "피자", "마라탕", "떡볶이", "호프", "족발", "양꼬치", "훠궈", "배달"]
+        },
+        {
+          "key": "substitute_cafe_brunch",
+          "label": "카페/브런치 대체",
+          "weight": 0.3,
+          "mcls_codes": ["I212"],
+          "keywords": ["카페", "커피", "브런치", "베이커리", "디저트"]
+        },
+        {
+          "key": "low_price_franchise",
+          "label": "저가 프랜차이즈",
+          "weight": 0.7,
+          "keywords": ["김밥천국", "역전우동", "한솥", "맘스터치", "버거킹", "맥도날드", "롯데리아", "홍콩반점", "본죽", "빽다방"]
+        }
+      ]
+    },
+    "publicSalesMappings": [
+      {
+        "code": "I201",
+        "service_code": "CS100010",
+        "service_name": "한식 음식점업",
+        "keywords": ["한식", "음식점"]
+      }
+    ]
+  },
+  "ui": {
+    "summaryKpis": [
+      {
+        "key": "lunch_demand",
+        "label": "점심 수요"
+      },
+      {
+        "key": "dinner_demand",
+        "label": "저녁 수요"
+      },
+      {
+        "key": "delivery_fit",
+        "label": "배달 적합도"
+      },
+      {
+        "key": "competition_pressure",
+        "label": "직접 경쟁 강도"
+      }
+    ],
+    "primaryTabs": [
+      "demand",
+      "competition",
+      "delivery",
+      "sales",
+      "compare"
+    ],
+    "secondaryTabs": [
+      "existing_store_impact"
+    ],
+    "mapLayers": [
+      "lunch_demand",
+      "dinner_demand",
+      "worker_density",
+      "residential_demand",
+      "direct_competitors",
+      "delivery_coverage"
+    ],
+    "alerts": [
+      "market_saturation",
+      "rent_burden"
+    ],
+    "recommendations": [
+      "lunch_turnover",
+      "takeout",
+      "delivery"
+    ],
+    "reportSections": [
+      "summary",
+      "demand",
+      "competition",
+      "delivery",
+      "risks"
+    ]
+  },
+  "userOverrides": {
+    "franchise": {
+      "summaryKpis": [
+        {
+          "key": "cannibalization_risk",
+          "label": "기존점 잠식 위험"
+        },
+        {
+          "key": "new_coverage",
+          "label": "신규 커버리지"
+        },
+        {
+          "key": "market_overlap",
+          "label": "중복 시장"
+        },
+        {
+          "key": "network_efficiency",
+          "label": "점포망 효율"
+        }
+      ],
+      "primaryTabs": [
+        "network",
+        "cannibalization",
+        "new_coverage",
+        "candidates"
+      ],
+      "mapLayers": [
+        "existing_stores",
+        "existing_store_overlap",
+        "new_coverage",
+        "delivery_coverage",
+        "brand_whitespace"
+      ],
+      "reportSections": [
+        "approval_summary",
+        "network_impact",
+        "cannibalization",
+        "new_market",
+        "decision"
+      ]
+    }
+  }
+}

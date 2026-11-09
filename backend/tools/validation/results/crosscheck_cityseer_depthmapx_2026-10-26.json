@@ -1,0 +1,15 @@
+{
+ "pairs": 4485,
+ "i1000 vs cc_harmonic_1000_ang": {
+  "rho": 0.564,
+  "top10_overlap": 0.277
+ },
+ "i2000 vs cc_harmonic_2000_ang": {
+  "rho": 0.772,
+  "top10_overlap": 0.511
+ },
+ "c2000 vs cc_betweenness_2000_ang": {
+  "rho": 0.62,
+  "top10_overlap": 0.545
+ }
+}

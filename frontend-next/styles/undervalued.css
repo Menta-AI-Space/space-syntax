@@ -1,0 +1,357 @@
+@import "./tokens.css";
+
+/* 저평가 부지 찾기 — 1단계(행정동 탐색) 목록. */
+
+.uv-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 760px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4) var(--space-8);
+}
+
+.uv-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.uv-eyebrow {
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--blue-45);
+}
+
+.uv-title {
+  margin: 0;
+  font-size: var(--text-2xl, 1.5rem);
+  font-weight: 800;
+  color: var(--label-strong);
+}
+
+.uv-sub {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--label-neutral);
+  line-height: 1.55;
+}
+
+.uv-status {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--label-alternative);
+}
+
+/* --- 빈 상태 · 오류 --- */
+.uv-empty {
+  padding: var(--space-6) var(--space-5);
+  border: 1px dashed var(--line-normal-normal);
+  border-radius: var(--radius-md);
+  background: var(--background-elevated-normal);
+  text-align: center;
+}
+
+.uv-empty-title {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--label-normal);
+}
+
+.uv-empty-body {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--label-alternative);
+}
+
+.uv-empty-body code {
+  padding: 1px 5px;
+  border-radius: 5px;
+  background: var(--fill-normal);
+  font-size: 0.92em;
+}
+
+/* --- 목록 --- */
+.uv-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--line-normal-neutral);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--background-elevated-normal);
+}
+
+.uv-row {
+  display: grid;
+  grid-template-columns: 28px 1fr auto auto 56px 16px;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--line-normal-alternative);
+}
+
+/* 행 전체가 버튼이다 — 누를 곳을 찾게 만들지 않는다. */
+.uv-row--button {
+  width: 100%;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.uv-row--button:hover {
+  background: var(--fill-normal);
+}
+
+.uv-row--button:focus-visible {
+  outline: 2px solid var(--blue-50);
+  outline-offset: -2px;
+}
+
+.uv-caret {
+  font-size: var(--text-xs);
+  color: var(--label-assistive);
+}
+
+/* 행이 <li class="uv-item"> 안으로 들어갔으므로 순서 선택자는 li에 건다.
+   .uv-row에 그대로 두면 모든 행이 자기 li의 첫째라 상위 3위 강조가 전부에 걸린다. */
+.uv-item:first-child .uv-row {
+  border-top: 0;
+}
+
+.uv-item:nth-child(-n + 3) .uv-row {
+  background: var(--accent-background-red-orange);
+}
+
+.uv-rank {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--label-assistive);
+}
+
+.uv-name {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--label-normal);
+}
+
+.uv-metric {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  font-size: var(--text-sm);
+  color: var(--label-neutral);
+  font-variant-numeric: tabular-nums;
+}
+
+.uv-metric em {
+  font-style: normal;
+  font-size: var(--text-xs);
+  color: var(--label-assistive);
+}
+
+.uv-metric--structure {
+  color: var(--red-50);
+  font-weight: 700;
+}
+
+.uv-gap {
+  font-size: var(--text-lg);
+  font-weight: 800;
+  color: var(--label-strong);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- 꼬리말 --- */
+.uv-note,
+.uv-next {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--label-alternative);
+  line-height: 1.5;
+}
+
+.uv-next {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--accent-background-light-blue);
+  color: var(--blue-45);
+}
+
+/* --- 2단계: 동 안의 필지 --- */
+
+.uv-parcels {
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  background: var(--fill-normal);
+  border-top: 1px solid var(--line-normal-alternative);
+  display: grid;
+  gap: var(--space-3);
+}
+
+.uv-parcels-head {
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--label-neutral);
+}
+
+.uv-parcel-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.uv-parcel {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--background-elevated-normal);
+  border: 1px solid var(--line-normal-alternative);
+}
+
+.uv-parcel-main {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.uv-parcel-addr {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--label-normal);
+}
+
+.uv-parcel-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.uv-tag {
+  font-size: var(--text-xs);
+  padding: 1px 6px;
+  border-radius: var(--radius-xs, 4px);
+  background: var(--accent-background-light-blue);
+  color: var(--blue-45);
+}
+
+.uv-tag--quiet {
+  background: var(--fill-normal);
+  color: var(--label-assistive);
+}
+
+.uv-parcel-metrics {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
+/* 비교군 크기 — 표본이 몇 개인지가 곧 이 순위의 신뢰도다. */
+.uv-parcel-peer {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--label-assistive);
+}
+
+.uv-status--nested,
+.uv-empty--nested {
+  margin: 0;
+  padding: var(--space-4);
+  background: var(--fill-normal);
+  border-top: 1px solid var(--line-normal-alternative);
+}
+
+.uv-note--nested {
+  margin: 0;
+}
+
+@media (max-width: 560px) {
+  .uv-row {
+    grid-template-columns: 24px 1fr 48px 16px;
+    row-gap: var(--space-1);
+  }
+  /* 좁은 화면에서는 목·가격 백분위를 접고 갭만 남긴다. */
+  .uv-row .uv-metric {
+    display: none;
+  }
+  /* 필지는 목·공시지가 백분위가 판정의 본문이라 좁은 화면에서도 접지 않는다.
+     대신 주소 아래로 내려 두 줄로 만든다. */
+  .uv-parcel {
+    grid-template-columns: 1fr;
+  }
+  .uv-parcel-metrics {
+    justify-content: flex-start;
+  }
+}
+
+/* "목"의 뜻 — 제목 바로 아래. 관용어라 대부분 알지만, 우리가 무엇을 재는지를
+   한 줄로 못박아 둔다(같은 말을 다르게 알고 있는 사람이 있다). */
+.uv-def {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--fill-normal);
+  font-size: var(--text-sm);
+  color: var(--label-neutral);
+  line-height: 1.55;
+}
+
+.uv-def strong {
+  color: var(--label-strong);
+}
+
+/* 목록 항목을 눌러 상세 설명을 연다. 지도 클릭과 같은 패널을 연다 —
+ * 지도를 못 쓰는 환경(키보드·스크린리더)에서도 같은 설명에 닿아야 한다. */
+.uv-parcel-open {
+  display: block;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+
+.uv-parcel-open:hover {
+  background: var(--fill-normal);
+}
+
+.uv-parcel-open:focus-visible {
+  outline: 2px solid var(--blue-50);
+  outline-offset: 2px;
+}
+
+.uv-parcel-open[aria-pressed="true"] {
+  background: var(--accent-background-light-blue);
+}
+
+/* 한계 고지 — 접어 두지 않는다. 이 화면이 "오른다"로 읽히는 것을 막는 문장이다
+   (DECISIONS_LAND_MODEL §10·§16·§26). */
+.uv-warn {
+  margin: var(--space-3) 0 0;
+  padding: var(--space-3);
+  border-left: 3px solid var(--amber-500, #f59e0b);
+  background: var(--amber-50, #fffbeb);
+  border-radius: var(--radius-sm, 6px);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--label-strong, #1f2937);
+}

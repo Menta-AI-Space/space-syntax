@@ -1,0 +1,272 @@
+{
+  "id": "beauty",
+  "name": "미용",
+  "parentCategory": "beauty",
+  "version": "1.0.0",
+  "effectiveFrom": "2026-07-12",
+  "supportedUserTypes": [
+    "entrepreneur",
+    "franchise"
+  ],
+  "matchRules": {
+    "sbizCodes": {
+      "lcls": [
+        "S2"
+      ],
+      "mcls": [
+        "S207",
+        "S208"
+      ],
+      "scls": []
+    },
+    "businessTypePresets": [
+      "beauty"
+    ],
+    "fallbackArchetype": "beauty_service"
+  },
+  "analysis": {
+    "catchment": {
+      "primary": "residential",
+      "walkMinutes": [
+        10,
+        20
+      ],
+      "driveMinutes": [
+        10,
+        20
+      ]
+    },
+    "timeSlots": [
+      "weekday_evening",
+      "weekend"
+    ],
+    "competitorGroups": {
+      "direct": [
+        "same_price_hair_salon"
+      ],
+      "secondary": [
+        "one_person_salon",
+        "barbershop"
+      ],
+      "indirect": [
+        "beauty_service"
+      ],
+      "channel": [
+        "booking_platform"
+      ]
+    },
+    "siteFeatures": {
+      "integration": 0.2,
+      "choice": 0.1,
+      "mean_depth": 0.08,
+      "connectivity": 0.08,
+      "transit": 0.14,
+      "demand": 0.3,
+      "competition": 0.1
+    },
+    "competitorRules": {
+      "vertical": "beauty",
+      "distance_bands_m": [
+        {
+          "max": 100,
+          "weight": 1.0
+        },
+        {
+          "max": 200,
+          "weight": 0.8
+        },
+        {
+          "max": 300,
+          "weight": 0.6
+        },
+        {
+          "max": 500,
+          "weight": 0.4
+        },
+        {
+          "max": 1000,
+          "weight": 0.2
+        }
+      ],
+      "intensity_thresholds": [
+        18,
+        35,
+        55
+      ],
+      "buckets": [
+        {
+          "key": "direct",
+          "label": "직접 경쟁 (미용실·헤어샵)",
+          "weight": 1.0,
+          "mcls_codes": [
+            "S207"
+          ],
+          "keywords": [
+            "미용실",
+            "헤어샵",
+            "헤어",
+            "살롱",
+            "hair"
+          ]
+        },
+        {
+          "key": "one_person_salon",
+          "label": "1인샵·프리랜서",
+          "weight": 0.7,
+          "keywords": [
+            "1인샵",
+            "프리랜서",
+            "공유미용실",
+            "개인샵"
+          ]
+        },
+        {
+          "key": "barbershop",
+          "label": "바버샵·이용실",
+          "weight": 0.8,
+          "keywords": [
+            "바버샵",
+            "이발소",
+            "이용실",
+            "barber"
+          ]
+        },
+        {
+          "key": "large_franchise",
+          "label": "대형 프랜차이즈",
+          "weight": 1.2,
+          "keywords": [
+            "박준",
+            "이철헤어커커",
+            "준오헤어",
+            "이가자헤어비스",
+            "juno"
+          ]
+        },
+        {
+          "key": "substitute_beauty_service",
+          "label": "피부관리·마사지·네일",
+          "weight": 0.5,
+          "mcls_codes": [
+            "S208"
+          ],
+          "keywords": [
+            "피부관리",
+            "마사지",
+            "네일",
+            "왁싱",
+            "속눈썹",
+            "에스테틱"
+          ]
+        },
+        {
+          "key": "substitute_booking_platform",
+          "label": "예약 플랫폼 경쟁",
+          "weight": 0.3,
+          "keywords": [
+            "네이버예약",
+            "카카오헤어",
+            "헤어샵예약",
+            "숨고"
+          ]
+        }
+      ]
+    },
+    "publicSalesMappings": []
+  },
+  "ui": {
+    "summaryKpis": [
+      {
+        "key": "female_population",
+        "label": "핵심 여성 인구"
+      },
+      {
+        "key": "repeat_demand",
+        "label": "주거 반복수요"
+      },
+      {
+        "key": "price_gap",
+        "label": "객단가 수준"
+      },
+      {
+        "key": "weekend_demand",
+        "label": "주말 수요"
+      }
+    ],
+    "primaryTabs": [
+      "customer_area",
+      "competition_type",
+      "price_band",
+      "repeat_demand",
+      "compare"
+    ],
+    "secondaryTabs": [
+      "booking"
+    ],
+    "mapLayers": [
+      "female_population",
+      "apartments",
+      "residential_area",
+      "hair_salons",
+      "barbershops",
+      "beauty_services"
+    ],
+    "alerts": [
+      "price_saturation",
+      "weak_repeat_demand"
+    ],
+    "recommendations": [
+      "target_age_price",
+      "booking_capacity"
+    ],
+    "reportSections": [
+      "summary",
+      "customers",
+      "competition",
+      "price",
+      "risks"
+    ]
+  },
+  "userOverrides": {
+    "franchise": {
+      "summaryKpis": [
+        {
+          "key": "cannibalization_risk",
+          "label": "기존점 잠식 위험"
+        },
+        {
+          "key": "new_coverage",
+          "label": "신규 생활권"
+        },
+        {
+          "key": "brand_whitespace",
+          "label": "브랜드 공백"
+        },
+        {
+          "key": "designer_supply",
+          "label": "디자이너 공급"
+        }
+      ],
+      "primaryTabs": [
+        "network",
+        "cannibalization",
+        "new_coverage",
+        "candidates"
+      ],
+      "mapLayers": [
+        "existing_stores",
+        "existing_store_overlap",
+        "new_coverage",
+        "brand_whitespace",
+        "female_population"
+      ],
+      "reportSections": [
+        "approval_summary",
+        "network_impact",
+        "cannibalization",
+        "new_market",
+        "decision"
+      ]
+    }
+  }
+}

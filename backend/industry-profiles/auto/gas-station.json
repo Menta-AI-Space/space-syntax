@@ -1,0 +1,189 @@
+{
+  "id": "gas_station",
+  "name": "주유소·차량서비스",
+  "parentCategory": "auto",
+  "version": "1.0.0",
+  "effectiveFrom": "2026-07-15",
+  "supportedUserTypes": [
+    "entrepreneur",
+    "franchise"
+  ],
+  "matchRules": {
+    "sbizCodes": {
+      "lcls": ["G2", "S2"],
+      "mcls": ["G214", "G202", "S203"],
+      "scls": ["G21401", "G21402", "G20201", "S20301", "S20302"]
+    },
+    "businessTypePresets": ["gas_station"],
+    "fallbackArchetype": "auto_service"
+  },
+  "analysis": {
+    "catchment": {
+      "primary": "drive",
+      "driveMinutes": [
+        5,
+        10
+      ]
+    },
+    "timeSlots": [
+      "commute_morning",
+      "commute_evening",
+      "weekend_afternoon"
+    ],
+    "competitorGroups": {
+      "direct": [
+        "gas_station"
+      ],
+      "secondary": [
+        "lpg_charging_station",
+        "self_car_wash"
+      ],
+      "indirect": [
+        "car_repair_shop",
+        "tire_shop"
+      ],
+      "channel": [
+        "ev_charging_station"
+      ]
+    },
+    "siteFeatures": {
+      "integration": 0.08,
+      "choice": 0.35,
+      "mean_depth": 0.05,
+      "connectivity": 0.07,
+      "transit": 0.02,
+      "demand": 0.23,
+      "competition": 0.20
+    },
+    "competitorRules": {
+      "vertical": "gas_station",
+      "distance_bands_m": [
+        { "max": 300, "weight": 1.0 },
+        { "max": 600, "weight": 0.8 },
+        { "max": 1000, "weight": 0.6 },
+        { "max": 2000, "weight": 0.4 },
+        { "max": 3000, "weight": 0.2 }
+      ],
+      "intensity_thresholds": [3, 6, 10],
+      "buckets": [
+        {
+          "key": "direct",
+          "label": "직접 경쟁 (주유소)",
+          "weight": 1.0,
+          "mcls_codes": ["G214"],
+          "scls_codes": ["G21401"],
+          "keywords": ["주유소", "SK에너지", "GS칼텍스", "현대오일뱅크", "S-OIL", "에쓰오일", "알뜰주유소", "셀프주유"]
+        },
+        {
+          "key": "lpg_charging",
+          "label": "가스 충전소",
+          "weight": 0.7,
+          "scls_codes": ["G21402"],
+          "keywords": ["충전소", "LPG", "가스충전"]
+        },
+        {
+          "key": "car_wash",
+          "label": "세차장",
+          "weight": 0.6,
+          "scls_codes": ["S20302"],
+          "keywords": ["세차", "셀프세차", "손세차", "광택"]
+        },
+        {
+          "key": "repair_tire",
+          "label": "정비·타이어",
+          "weight": 0.5,
+          "mcls_codes": ["S203", "G202"],
+          "scls_codes": ["S20301", "G20201"],
+          "keywords": ["카센타", "정비", "타이어", "오토큐", "블루핸즈", "스피드메이트", "타이어뱅크"]
+        },
+        {
+          "key": "substitute_ev",
+          "label": "전기차 충전 (대체 수요)",
+          "weight": 0.3,
+          "keywords": ["전기차충전", "급속충전", "EV충전"]
+        }
+      ]
+    }
+  },
+  "ui": {
+    "summaryKpis": [
+      {
+        "key": "through_traffic",
+        "label": "차량 통과 통행"
+      },
+      {
+        "key": "competition_distance",
+        "label": "경쟁 주유소 거리"
+      },
+      {
+        "key": "vehicle_demand",
+        "label": "배후 차량 수요"
+      },
+      {
+        "key": "fuel_price_position",
+        "label": "유가 가격 포지션"
+      }
+    ],
+    "primaryTabs": [
+      "traffic_axis",
+      "vehicle_demand",
+      "competitors",
+      "road_access",
+      "compare"
+    ],
+    "secondaryTabs": [
+      "service_mix"
+    ],
+    "mapLayers": [
+      "drive_catchment",
+      "traffic_axis",
+      "household_demand",
+      "business_demand",
+      "gas_station_competitors",
+      "car_service_stores"
+    ],
+    "alerts": [
+      "nearby_competitor",
+      "weak_traffic_axis"
+    ],
+    "recommendations": [
+      "service_mix",
+      "self_service_conversion"
+    ],
+    "reportSections": [
+      "summary",
+      "traffic_axis",
+      "vehicle_demand",
+      "competition",
+      "access"
+    ]
+  },
+  "userOverrides": {
+    "franchise": {
+      "summaryKpis": [
+        {
+          "key": "cannibalization_risk",
+          "label": "기존점 잠식 위험"
+        },
+        {
+          "key": "new_coverage",
+          "label": "신규 커버리지"
+        },
+        {
+          "key": "brand_whitespace",
+          "label": "브랜드 공백"
+        },
+        {
+          "key": "network_efficiency",
+          "label": "점포망 효율"
+        }
+      ],
+      "primaryTabs": [
+        "network",
+        "cannibalization",
+        "new_coverage",
+        "candidates"
+      ]
+    }
+  }
+}

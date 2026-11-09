@@ -1,0 +1,70 @@
+{
+  "vertical": "clinic",
+  "distance_bands_m": [
+    { "max": 100, "weight": 1.0 },
+    { "max": 200, "weight": 0.8 },
+    { "max": 300, "weight": 0.6 },
+    { "max": 500, "weight": 0.4 },
+    { "max": 1000, "weight": 0.2 }
+  ],
+  "intensity_thresholds": [15, 30, 50],
+  "buckets": [
+    {
+      "key": "direct",
+      "label": "직접 경쟁 (의원·병원)",
+      "weight": 1.0,
+      "mcls_codes": ["Q101", "Q102", "Q104"],
+      "keywords": ["의원", "병원", "클리닉", "의료"]
+    },
+    {
+      "key": "substitute_pharmacy",
+      "label": "약국",
+      "weight": 0.35,
+      "mcls_codes": ["G215"],
+      "keywords": ["약국", "약사"]
+    },
+    {
+      "key": "substitute_hani",
+      "label": "한의원",
+      "weight": 0.55,
+      "mcls_codes": ["Q102"],
+      "keywords": ["한의원", "한방", "추나", "침"]
+    },
+    {
+      "key": "substitute_aesthetic",
+      "label": "피부관리·에스테틱",
+      "weight": 0.65,
+      "keywords": ["피부관리", "에스테틱", "피부미용", "레이저", "다이어트"]
+    },
+    {
+      "key": "substitute_rehab",
+      "label": "재활·도수·필라테스",
+      "weight": 0.45,
+      "keywords": ["재활", "도수", "필라테스", "통증", "물리치료"]
+    },
+    {
+      "key": "substitute_dental_chain",
+      "label": "대형·네트워크 치과",
+      "weight": 0.7,
+      "keywords": ["교정", "임플란트", "치과의원", "치과병원"]
+    },
+    {
+      "key": "specialty_derma",
+      "label": "피부·성형·미용의원",
+      "weight": 1.0,
+      "keywords": ["피부", "성형", "미용의원", "비뇨기"]
+    },
+    {
+      "key": "specialty_dental",
+      "label": "치과",
+      "weight": 1.0,
+      "keywords": ["치과"]
+    },
+    {
+      "key": "specialty_ortho",
+      "label": "정형·통증·재활과",
+      "weight": 1.0,
+      "keywords": ["정형", "통증", "재활", "외과 의원"]
+    }
+  ]
+}

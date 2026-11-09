@@ -1,0 +1,485 @@
+/* 필지 판정 카드 (components/parcels/LandAnalysisCard.tsx)
+ *
+ * 색·간격·라운드는 전부 tokens.css 변수를 쓴다. 판정별 색 띠만 이 파일에서
+ * 정하는데, 그것도 기존 status 토큰을 재사용한다 — 새 색을 만들지 않는다.
+ *
+ * ⚠️ `la--above`(같은 조건 대비 높음)에 **빨강을 쓰지 않는다.** 빨강은 "나쁘다"로
+ * 읽히고, 그건 낙인 표기 금지 규칙을 색으로 어기는 것이다. 주의색(주황)을 쓴다.
+ */
+
+.la {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  border-left: 3px solid var(--line-normal-normal);
+}
+
+.la--under { border-left-color: var(--status-positive); }
+.la--cheap { border-left-color: var(--blue-50); }
+.la--aligned { border-left-color: var(--label-alternative); }
+.la--above { border-left-color: var(--status-cautionary); }
+.la--held { border-left-color: var(--line-normal-normal); }
+
+/* ── 머리 ─────────────────────────────────────────────────────────── */
+
+.la-head { display: flex; flex-direction: column; gap: var(--space-1); }
+
+.la-eyebrow {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--label-alternative);
+}
+
+.la-title {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--label-strong);
+  line-height: 1.35;
+}
+
+/* 신뢰도가 낮을 때. 제목을 약하게 만들어 단정으로 읽히지 않게 한다. */
+.la-title--soft {
+  font-weight: 600;
+  color: var(--label-neutral);
+}
+
+.la-peers {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--label-neutral);
+}
+
+.la-h5 {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--label-alternative);
+  letter-spacing: 0.02em;
+}
+
+/* ── 서술 ─────────────────────────────────────────────────────────── */
+
+.la-narrative { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.la-narrative p {
+  margin: 0;
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--label-normal);
+}
+
+/* ── 금액 ─────────────────────────────────────────────────────────── */
+
+.la-price {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background: var(--surface-3);
+  border-radius: var(--radius-md);
+}
+
+.la-price__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.la-price__row--muted { color: var(--label-alternative); }
+
+.la-price__label {
+  font-size: var(--text-sm);
+  color: var(--label-neutral);
+}
+
+.la-price__value {
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--label-strong);
+  text-align: right;
+}
+
+/* 범위는 굵게 하지 않는다 — 확정값처럼 보이는 것이 이 화면의 가장 큰 위험이다. */
+.la-price__value--range {
+  font-weight: 600;
+  color: var(--label-normal);
+}
+
+.la-price__year {
+  font-weight: 400;
+  font-size: var(--text-xs);
+  color: var(--label-alternative);
+}
+
+.la-disclaimer {
+  margin: 0;
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--label-alternative);
+}
+
+/* ── 할인분 분해 ──────────────────────────────────────────────────── */
+
+.la-split__bar {
+  display: flex;
+  height: 10px;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  background: var(--fill-normal);
+}
+
+.la-split__explained { background: var(--label-assistive); }
+.la-split__unexplained { background: var(--status-positive); }
+
+.la-split__legend {
+  display: flex;
+  gap: var(--space-5);
+  margin: var(--space-3) 0 0;
+}
+
+.la-split__legend dt {
+  font-size: var(--text-xs);
+  color: var(--label-alternative);
+}
+
+.la-split__legend dd {
+  margin: 2px 0 0;
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--label-strong);
+}
+
+.la-split__note {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-sm);
+  color: var(--label-neutral);
+}
+
+/* ── 백분위 막대 ──────────────────────────────────────────────────── */
+
+.la-bar {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr 4rem;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.la-bar__label {
+  font-size: var(--text-sm);
+  color: var(--label-neutral);
+}
+
+.la-bar__track {
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--fill-normal);
+  overflow: hidden;
+}
+
+.la-bar__track i {
+  display: block;
+  height: 100%;
+  background: var(--blue-50);
+}
+
+.la-bar__track--price i { background: var(--label-assistive); }
+
+.la-bar__val {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--label-normal);
+  text-align: right;
+}
+
+/* ── 요인 ─────────────────────────────────────────────────────────── */
+
+.la-factors ul { margin: 0; padding: 0; list-style: none; }
+
+.la-factor {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--line-normal-alternative);
+}
+
+.la-factor:last-child { border-bottom: none; }
+
+.la-factor__mark {
+  flex: 0 0 1.25rem;
+  height: 1.25rem;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+
+.la-factor--positive .la-factor__mark {
+  background: var(--accent-background-lime);
+  color: var(--accent-foreground-green);
+}
+
+.la-factor--negative .la-factor__mark {
+  background: var(--accent-background-red-orange);
+  color: var(--status-cautionary);
+}
+
+.la-factor__body { display: flex; flex-direction: column; gap: 2px; }
+
+.la-factor__label {
+  font-size: var(--text-base);
+  color: var(--label-normal);
+}
+
+.la-factor__mag {
+  font-size: var(--text-xs);
+  color: var(--label-alternative);
+}
+
+.la-factor__detail {
+  font-size: var(--text-sm);
+  color: var(--label-neutral);
+  line-height: 1.5;
+}
+
+/* ── 흐름·전망 ────────────────────────────────────────────────────── */
+
+.la-growth__grid { display: flex; gap: var(--space-6); margin: 0; }
+
+.la-growth__grid dt {
+  font-size: var(--text-xs);
+  color: var(--label-alternative);
+}
+
+.la-growth__grid dd {
+  margin: 2px 0 0;
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--label-normal);
+}
+
+.la-growth__excess dd { color: var(--status-positive); }
+
+.la-forecast__list { margin: 0; padding: 0; list-style: none; }
+
+.la-forecast__list li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--line-normal-alternative);
+}
+
+.la-forecast__list li:last-child { border-bottom: none; }
+
+.la-forecast__when {
+  font-size: var(--text-sm);
+  color: var(--label-neutral);
+}
+
+.la-forecast__range {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--label-normal);
+}
+
+.la-forecast__note,
+.la-facts__note {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-xs);
+  color: var(--label-alternative);
+}
+
+/* ── 토지 정보 ────────────────────────────────────────────────────── */
+
+.la-facts dl { margin: 0; }
+
+.la-facts__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--line-normal-alternative);
+}
+
+.la-facts__row:last-child { border-bottom: none; }
+
+.la-facts__row dt {
+  font-size: var(--text-sm);
+  color: var(--label-neutral);
+}
+
+.la-facts__row dd {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--label-normal);
+  text-align: right;
+}
+
+.la-facts__note { display: block; }
+
+/* ── 발 ───────────────────────────────────────────────────────────── */
+
+.la-foot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line-normal-neutral);
+}
+
+.la-confidence {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--label-neutral);
+}
+
+.la-confidence__reasons,
+.la-caveats {
+  margin: 0;
+  padding-left: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.la-confidence__reasons li,
+.la-caveats li {
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--label-alternative);
+}
+
+/* ── 모바일 ───────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .la { padding: var(--space-4); gap: var(--space-4); }
+
+  /* 막대 라벨·수치를 위아래로 — 390px에서 3열은 track이 20px로 찌그러진다. */
+  .la-bar {
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "label val" "track track";
+    gap: var(--space-2);
+  }
+  .la-bar__label { grid-area: label; }
+  .la-bar__val { grid-area: val; }
+  .la-bar__track { grid-area: track; }
+
+  .la-split__legend { flex-direction: column; gap: var(--space-2); }
+  .la-growth__grid { flex-wrap: wrap; gap: var(--space-4); }
+}
+
+/* ── 땅값 화면 셸 (app/land/page.tsx) ─────────────────────────────────
+ *
+ * 이 화면 전용으로 남기는 것은 **두 칸 배치뿐**이다. 탭은 `.app-tabs`/`.app-tab`,
+ * 알림은 `.status-banner`, 카드는 `.card`를 그대로 쓴다(frontend-next/CLAUDE.md —
+ * 기존 컴포넌트·토큰 우선 재사용). 같은 모양을 두 번 만들면 한쪽만 고쳐진다.
+ *
+ * ⚠️ `AgentChat`은 DOM에 하나뿐이다. 탭에 따라 여기서 배치만 바꾼다 — 두 벌 두면
+ * 스레드가 갈려서 지도에서 누른 필지가 대화 탭에 없다.
+ */
+
+.land-page {
+  min-height: 100vh;
+  padding: 0 var(--space-5) var(--space-6);
+  background: var(--surface-3);
+}
+
+.land-page .status-banner { margin-bottom: var(--space-3); }
+
+.land-page__body {
+  display: grid;
+  gap: var(--space-5);
+  align-items: start;
+}
+
+/* 「분석 결과」 탭 — 왼쪽 6탭 결과, 오른쪽 지도. 지도는 훑는 화면이라 넓어야
+   하지만, 결과가 주인공이므로 예전 대화 패널보다 넓게 잡는다. */
+.land-page--result .land-page__body {
+  grid-template-columns: minmax(360px, 1.1fr) minmax(0, 1.3fr);
+}
+
+/* 「대화」 탭 — 한 칸. 읽는 화면이므로 본문 읽기 폭으로 묶는다. */
+.land-page--chat .land-page__body { grid-template-columns: minmax(0, 1fr); }
+.land-page--chat .land-page__chat { width: 100%; max-width: 860px; margin: 0 auto; }
+
+.land-page__map {
+  height: calc(100vh - 10rem);
+  min-width: 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-normal);
+}
+
+.land-page__chat { min-width: 0; }
+
+/* 결과 패널은 자기 안에서 스크롤한다 — 머리(Summary)와 탭 줄이 늘 보여야
+   지도에서 다음 필지를 누르며 견줄 수 있다. */
+.land-page__result {
+  min-width: 0;
+  height: calc(100vh - 10rem);
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--surface-1);
+  box-shadow: var(--shadow-normal);
+}
+
+.land-page__hint {
+  margin: 0;
+  padding: var(--space-6);
+  font-size: var(--text-sm);
+  line-height: 1.75;
+  color: var(--label-alternative);
+}
+
+.land-page__hint b { color: var(--label-neutral); }
+
+@media (max-width: 900px) {
+  /* 좁은 화면에서 나란히 두면 둘 다 못 쓴다. 세로로 쌓고 지도를 위로 올린다 —
+     "어디를 보고 있는지"가 먼저다. */
+  .land-page { padding: 0 var(--space-3) var(--space-4); }
+  .land-page--result .land-page__body { grid-template-columns: minmax(0, 1fr); }
+  .land-page__map { height: 45vh; order: -1; }
+  .land-page__result { height: auto; max-height: none; overflow: visible; }
+}
+
+/* ── fixture 검수 화면 (app/land/fixtures/page.tsx) ─────────────────── */
+
+.land-fixtures {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-5);
+}
+
+.land-fixtures__title {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-xl);
+  color: var(--label-strong);
+}
+
+.land-fixtures__note {
+  margin: 0 0 var(--space-6);
+  font-size: var(--text-sm);
+  color: var(--label-alternative);
+}
+
+.land-fixtures__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.land-fixtures__case-title {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--label-neutral);
+}

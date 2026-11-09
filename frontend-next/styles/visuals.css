@@ -1,0 +1,274 @@
+/* 분석 결과 시각화(AnalysisVisuals · CandidateMiniMap) 전용 스타일.
+ *
+ * 이전에는 이 값들이 컴포넌트 안 인라인 style에 흩어져 있었다. 인라인이면
+ * 미디어 쿼리를 못 써서 모바일(390px)에서 라벨 칸이 고정 폭으로 남아 막대가
+ * 짜부라졌고, 토큰을 바꿔도 여기만 옛 값으로 남았다. 색·간격은 전부
+ * tokens.css의 변수만 쓴다(새 색을 만들지 않는다).
+ */
+
+/* ── 미니 지도 ─────────────────────────────────────────────── */
+
+.viz-map-wrap {
+  position: relative;
+  width: 100%;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--line-normal-neutral);
+  background: var(--cool-neutral-98);
+}
+
+.viz-map {
+  width: 100%;
+  height: 240px;
+}
+
+.viz-map--tall {
+  height: 280px;
+}
+
+@media (max-width: 480px) {
+  .viz-map,
+  .viz-map--tall {
+    height: 200px;
+  }
+}
+
+/* 지도가 뜨기 전 빈 회색 상자만 보이면 "고장난 건가" 싶다 — 무엇을 기다리는지
+   적어 준다. 지도 위에 겹쳐 두어 컨테이너 크기가 0이 되지 않게 한다. */
+.viz-map-skeleton {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  gap: var(--space-2);
+  background: var(--cool-neutral-98);
+  color: var(--label-alternative);
+  font-size: var(--text-xs);
+}
+
+.viz-map-skeleton::before {
+  content: "";
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--line-normal-normal);
+  border-top-color: var(--blue-50);
+  animation: viz-spin 0.9s linear infinite;
+}
+
+@keyframes viz-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .viz-map-skeleton::before {
+    animation: none;
+  }
+}
+
+/* 지도를 못 띄웠다고 화면이 비면 안 된다 — 좌표·반경 같은 사실은 그대로 남긴다.
+   지도는 보조 수단이라 오류를 빨갛게 경고하지 않고 담담하게 알린다. */
+.viz-map-fallback {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  background: var(--surface-2);
+  border: 1px solid var(--line-normal-neutral);
+  border-radius: var(--radius-md);
+  color: var(--label-neutral);
+  font-size: var(--text-sm);
+}
+
+.viz-map-fallback strong {
+  color: var(--label-normal);
+}
+
+.viz-map-fallback-reason {
+  color: var(--label-alternative);
+  font-size: var(--text-xs);
+  margin: 0;
+}
+
+.viz-fallback-list {
+  margin: var(--space-2) 0 0;
+  padding-left: 1.1em;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+/* 지도 아래 한 줄 범례 — 파란 원이 무엇인지 말해 주지 않으면 못 읽는다. */
+.viz-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-3);
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-xs);
+  color: var(--label-neutral);
+}
+
+.viz-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* 지도 위 반경 원과 같은 모양(테두리 있는 빈 원)이라 바로 이어 읽힌다. */
+.viz-legend-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--viz-swatch-color, var(--blue-50));
+  background: transparent;
+  flex: none;
+}
+
+.viz-legend-swatch--solid {
+  background: var(--viz-swatch-color, var(--blue-50));
+  border-color: transparent;
+}
+
+/* ── 막대 블록(서울 상위% · 연령대) ────────────────────────── */
+
+.viz-block {
+  margin-top: var(--space-4);
+}
+
+.viz-block-title {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--label-strong);
+}
+
+.viz-block-hint {
+  margin: 2px 0 var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--label-alternative);
+}
+
+.viz-rows {
+  display: grid;
+  /* 라벨 칸이 내용에 맞춰 줄고, 남는 폭은 전부 막대가 가져간다 — 좁은 화면에서
+     막대가 먼저 사라지지 않게. 라벨은 잘라내지 않고 길이에 맞춘다. */
+  grid-template-columns: minmax(0, max-content) minmax(48px, 1fr) max-content;
+  align-items: center;
+  gap: 6px var(--space-2);
+}
+
+.viz-row-label {
+  font-size: var(--text-sm);
+  color: var(--label-neutral);
+  white-space: nowrap;
+}
+
+.viz-row--peak .viz-row-label,
+.viz-row--peak .viz-row-value {
+  color: var(--label-strong);
+  font-weight: 600;
+}
+
+.viz-track {
+  height: 8px;
+  min-width: 0;
+  background: var(--fill-normal);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.viz-fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--viz-fill-color, var(--blue-50));
+  /* 값이 0에 가까워도 "막대가 있다"가 보이게 최소 폭을 준다. */
+  min-width: 2px;
+}
+
+.viz-row-value {
+  font-size: var(--text-xs);
+  color: var(--label-neutral);
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 행 전체를 grid 자식으로 펼친다 — 라벨/막대/값 칸이 행마다 맞춰 정렬된다. */
+.viz-row {
+  display: contents;
+}
+
+/* ── 남녀 비율 막대 ────────────────────────────────────────── */
+
+.viz-split {
+  display: flex;
+  height: 10px;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  background: var(--fill-normal);
+}
+
+.viz-split-seg {
+  height: 100%;
+}
+
+.viz-split-legend {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--label-neutral);
+}
+
+.viz-split-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.viz-note {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-xs);
+  color: var(--label-alternative);
+}
+
+/* ── 후보 순위 마커 ────────────────────────────────────────── */
+
+/* Kakao CustomOverlay 안에 들어가는 DOM. 인라인 style 문자열로 색을 박으면
+   토큰이 바뀌어도 안 따라오므로, 색만 --marker-color로 받고 나머지는 여기서. */
+.viz-rank-marker {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 9px;
+  border-radius: var(--radius-pill);
+  background: var(--marker-color, var(--blue-50));
+  color: var(--static-white);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: var(--shadow-strong);
+  border: 1.5px solid var(--static-white);
+  cursor: default;
+  /* 마커가 겹칠 때 위로 계단식으로 올린다 — 앵커 좌표는 그대로 두고 배지만
+     비켜서므로 지도가 위치를 거짓말하지 않는다. */
+  transform: translateY(calc(-6px - var(--marker-stack, 0) * 22px));
+}
+
+.viz-rank-marker::after {
+  /* 배지를 올렸을 때 실제 지점이 어디인지 잇는 짧은 선. */
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 1.5px;
+  height: calc(6px + var(--marker-stack, 0) * 22px);
+  background: var(--marker-color, var(--blue-50));
+  transform: translateX(-50%);
+}

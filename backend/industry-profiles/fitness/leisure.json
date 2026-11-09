@@ -1,0 +1,209 @@
+{
+  "id": "leisure",
+  "name": "오락·여가시설",
+  "parentCategory": "fitness",
+  "version": "1.0.0",
+  "effectiveFrom": "2026-07-15",
+  "supportedUserTypes": [
+    "entrepreneur",
+    "franchise"
+  ],
+  "matchRules": {
+    "sbizCodes": {
+      "lcls": ["R1"],
+      "mcls": ["R104"],
+      "scls": ["R10404", "R10405", "R10406", "R10407", "R10309", "R10310", "R10314"]
+    },
+    "businessTypePresets": ["leisure"],
+    "fallbackArchetype": "fitness_leisure"
+  },
+  "analysis": {
+    "catchment": {
+      "primary": "walk",
+      "walkMinutes": [
+        5,
+        10
+      ]
+    },
+    "timeSlots": [
+      "weekday_evening",
+      "late_night",
+      "weekend"
+    ],
+    "competitorGroups": {
+      "direct": [
+        "same_type_leisure_venue"
+      ],
+      "secondary": [
+        "game_arcade",
+        "indoor_sports_venue"
+      ],
+      "indirect": [
+        "board_game_cafe",
+        "kids_cafe"
+      ],
+      "channel": [
+        "home_gaming_ott"
+      ]
+    },
+    "siteFeatures": {
+      "integration": 0.20,
+      "choice": 0.15,
+      "mean_depth": 0.06,
+      "connectivity": 0.09,
+      "transit": 0.18,
+      "demand": 0.22,
+      "competition": 0.10
+    },
+    "competitorRules": {
+      "vertical": "leisure",
+      "distance_bands_m": [
+        { "max": 100, "weight": 1.0 },
+        { "max": 200, "weight": 0.8 },
+        { "max": 300, "weight": 0.6 },
+        { "max": 500, "weight": 0.4 },
+        { "max": 1000, "weight": 0.2 }
+      ],
+      "intensity_thresholds": [12, 25, 40],
+      "buckets": [
+        {
+          "key": "direct_pc",
+          "label": "직접 경쟁 (PC방)",
+          "weight": 1.0,
+          "scls_codes": ["R10406"],
+          "keywords": ["PC방", "피시방", "PC카페", "게임룸"]
+        },
+        {
+          "key": "karaoke",
+          "label": "노래방·코인노래방",
+          "weight": 1.0,
+          "scls_codes": ["R10407"],
+          "keywords": ["노래방", "코인노래방", "노래연습장", "뮤직룸"]
+        },
+        {
+          "key": "game_arcade",
+          "label": "오락실·게임장",
+          "weight": 0.8,
+          "scls_codes": ["R10404", "R10405"],
+          "keywords": ["오락실", "게임장", "인형뽑기", "전자오락"]
+        },
+        {
+          "key": "kids_cafe",
+          "label": "키즈카페·놀이시설",
+          "weight": 0.8,
+          "keywords": ["키즈카페", "놀이카페", "키즈랜드", "실내놀이터"]
+        },
+        {
+          "key": "themed_cafe",
+          "label": "보드게임·방탈출·멀티방",
+          "weight": 0.7,
+          "keywords": ["보드게임카페", "방탈출", "만화카페", "멀티방", "룸카페"]
+        },
+        {
+          "key": "indoor_sports",
+          "label": "실내 스포츠 오락 (볼링·당구·스크린야구)",
+          "weight": 0.6,
+          "scls_codes": ["R10309", "R10310", "R10314"],
+          "keywords": ["볼링장", "당구장", "스크린야구", "양궁카페", "다트"]
+        }
+      ]
+    },
+    "publicSalesMappings": []
+  },
+  "ui": {
+    "summaryKpis": [
+      {
+        "key": "youth_population",
+        "label": "10–30대 핵심 고객"
+      },
+      {
+        "key": "late_night_stay",
+        "label": "심야 체류 수요"
+      },
+      {
+        "key": "weekend_family",
+        "label": "주말 체류 수요"
+      },
+      {
+        "key": "leisure_competition",
+        "label": "경쟁 밀도"
+      }
+    ],
+    "primaryTabs": [
+      "customer_mix",
+      "leisure_competition",
+      "time_slots",
+      "walk_access",
+      "compare"
+    ],
+    "secondaryTabs": [
+      "sales"
+    ],
+    "mapLayers": [
+      "youth_population",
+      "late_night_stay",
+      "weekend_stay",
+      "pc_rooms",
+      "karaoke_rooms",
+      "kids_cafes",
+      "indoor_sports_venues"
+    ],
+    "alerts": [
+      "supply_saturation",
+      "weak_late_night_demand"
+    ],
+    "recommendations": [
+      "target_time_slot_mix",
+      "room_capacity_pricing"
+    ],
+    "reportSections": [
+      "summary",
+      "customers",
+      "competition",
+      "time_slots",
+      "risks"
+    ]
+  },
+  "userOverrides": {
+    "franchise": {
+      "summaryKpis": [
+        {
+          "key": "cannibalization_risk",
+          "label": "기존점 잠식 위험"
+        },
+        {
+          "key": "new_coverage",
+          "label": "신규 커버리지"
+        },
+        {
+          "key": "brand_whitespace",
+          "label": "브랜드 공백"
+        },
+        {
+          "key": "network_efficiency",
+          "label": "점포망 효율"
+        }
+      ],
+      "primaryTabs": [
+        "network",
+        "cannibalization",
+        "new_coverage",
+        "candidates"
+      ],
+      "mapLayers": [
+        "existing_stores",
+        "existing_store_overlap",
+        "new_coverage",
+        "brand_whitespace",
+        "youth_population"
+      ],
+      "reportSections": [
+        "approval_summary",
+        "network_impact",
+        "cannibalization",
+        "new_market",
+        "decision"
+      ]
+    }
+  }
+}

@@ -1,0 +1,234 @@
+/* 필지 지도 + 상세 패널.
+ *
+ * 색은 tokens.css의 변수를 쓰되, 폴리곤 채우기 색만 lib/parcelMap.ts에 리터럴로
+ * 둔다 — Kakao Polygon은 CSS를 받지 않고 색 문자열만 받기 때문이다. 범례가 그
+ * 같은 값을 인라인 style로 받아 지도와 범례가 어긋나지 않는다. */
+
+.pm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.pm-canvas {
+  width: 100%;
+  height: 340px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line-normal-normal);
+  overflow: hidden;
+  background: var(--fill-normal);
+}
+
+.pm-fallback {
+  padding: var(--space-4);
+  border: 1px dashed var(--line-normal-normal);
+  border-radius: var(--radius-md);
+  color: var(--label-neutral);
+  font-size: 0.85rem;
+}
+
+.pm-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  font-size: 0.72rem;
+  color: var(--label-neutral);
+}
+
+.pm-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pm-legend-item i {
+  width: 11px;
+  height: 11px;
+  border-radius: 2px;
+  border: 1px solid rgb(0 0 0 / 0.12);
+}
+
+.pm-status {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--label-neutral);
+}
+
+.pm-status--warn {
+  color: var(--orange-39);
+}
+
+/* ── 상세 패널 ───────────────────────────────────────────────────────── */
+
+.pd {
+  border: 1px solid var(--line-normal-normal);
+  border-radius: var(--radius-md);
+  background: var(--background-elevated-normal);
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.pd-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.pd-eyebrow {
+  margin: 0 0 2px;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--label-alternative);
+}
+
+.pd-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--label-normal);
+}
+
+.pd-close {
+  border: 0;
+  background: transparent;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--label-neutral);
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+
+.pd-close:hover {
+  background: var(--fill-normal);
+}
+
+.pd-verdict {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  border-left: 4px solid var(--line-normal-normal);
+  padding: var(--space-2) var(--space-3);
+  background: var(--cool-neutral-98);
+  border-radius: var(--radius-sm);
+}
+
+.pd-verdict > div {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.pd-verdict strong {
+  font-size: 0.95rem;
+  color: var(--label-normal);
+}
+
+.pd-verdict-num {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.85rem;
+  color: var(--label-neutral);
+}
+
+.pd-verdict-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+.pd-bars {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.pd-bar {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr 4.5rem;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.78rem;
+}
+
+.pd-bar-label {
+  color: var(--label-neutral);
+}
+
+.pd-bar-track {
+  position: relative;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--fill-strong);
+  overflow: hidden;
+}
+
+.pd-bar-track i {
+  display: block;
+  height: 100%;
+  background: var(--blue-50);
+}
+
+.pd-bar-track--price i {
+  background: var(--label-alternative);
+}
+
+.pd-bar-val {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--label-normal);
+}
+
+.pd-explain {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: var(--label-neutral);
+}
+
+.pd-facts {
+  margin: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.pd-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: 5px 0;
+  border-bottom: 1px solid var(--fill-normal);
+  font-size: 0.78rem;
+}
+
+.pd-row dt {
+  color: var(--label-alternative);
+}
+
+.pd-row dd {
+  margin: 0;
+  color: var(--label-normal);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.pd-note {
+  margin: 0;
+  font-size: 0.72rem;
+  line-height: 1.6;
+  color: var(--label-alternative);
+}
+
+@media (max-width: 640px) {
+  .pm-canvas {
+    height: 260px;
+  }
+
+  .pd-bar {
+    grid-template-columns: 4.5rem 1fr 4rem;
+  }
+}

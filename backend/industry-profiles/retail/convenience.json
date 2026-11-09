@@ -1,0 +1,205 @@
+{
+  "id": "convenience",
+  "name": "편의점·생활소매",
+  "parentCategory": "retail",
+  "version": "1.0.0",
+  "effectiveFrom": "2026-07-12",
+  "supportedUserTypes": [
+    "entrepreneur",
+    "franchise"
+  ],
+  "matchRules": {
+    "sbizCodes": {
+      "lcls": ["G2"],
+      "mcls": ["G204"],
+      "scls": ["G20405"]
+    },
+    "businessTypePresets": ["convenience"],
+    "fallbackArchetype": "daily_retail"
+  },
+  "analysis": {
+    "catchment": {
+      "primary": "walk",
+      "walkMinutes": [
+        3,
+        5
+      ]
+    },
+    "timeSlots": [
+      "all_day",
+      "late_night"
+    ],
+    "competitorGroups": {
+      "direct": [
+        "convenience_store"
+      ],
+      "secondary": [
+        "small_grocery"
+      ],
+      "indirect": [
+        "supermarket"
+      ],
+      "channel": [
+        "quick_commerce"
+      ]
+    },
+    "siteFeatures": {
+      "integration": 0.15,
+      "choice": 0.25,
+      "mean_depth": 0.05,
+      "connectivity": 0.15,
+      "transit": 0.10,
+      "demand": 0.20,
+      "competition": 0.10
+    },
+    "competitorRules": {
+      "vertical": "convenience",
+      "distance_bands_m": [
+        { "max": 100, "weight": 1.0 },
+        { "max": 200, "weight": 0.8 },
+        { "max": 300, "weight": 0.6 },
+        { "max": 500, "weight": 0.4 },
+        { "max": 1000, "weight": 0.2 }
+      ],
+      "intensity_thresholds": [20, 40, 60],
+      "buckets": [
+        {
+          "key": "direct",
+          "label": "직접 경쟁 (편의점)",
+          "weight": 1.0,
+          "mcls_codes": ["G204"],
+          "scls_codes": ["G20405"],
+          "keywords": ["편의점", "CU", "GS25", "세븐일레븐", "이마트24", "미니스톱"]
+        },
+        {
+          "key": "small_grocery",
+          "label": "동네 슈퍼·마트",
+          "weight": 0.6,
+          "keywords": ["슈퍼", "마트", "정육점", "청과", "식료품점"]
+        },
+        {
+          "key": "substitute_supermarket",
+          "label": "대형 슈퍼마켓",
+          "weight": 0.4,
+          "mcls_codes": ["G204"],
+          "keywords": ["이마트", "롯데마트", "홈플러스", "슈퍼마켓"]
+        },
+        {
+          "key": "substitute_quick_commerce",
+          "label": "퀵커머스·배달마트",
+          "weight": 0.5,
+          "keywords": ["요기요마트", "B마트", "쿠팡이츠마트", "배달의민족스토어"]
+        }
+      ]
+    },
+    "publicSalesMappings": [
+      {
+        "code": "G20405",
+        "service_code": "CS100066",
+        "service_name": "슈퍼마켓",
+        "keywords": ["편의점", "슈퍼"]
+      },
+      {
+        "code": "G204",
+        "service_code": "CS100066",
+        "service_name": "슈퍼마켓",
+        "keywords": ["소매"]
+      }
+    ]
+  },
+  "ui": {
+    "summaryKpis": [
+      {
+        "key": "walk_population",
+        "label": "도보 생활권 인구"
+      },
+      {
+        "key": "late_night_demand",
+        "label": "심야 수요"
+      },
+      {
+        "key": "corner_visibility",
+        "label": "코너 가시성"
+      },
+      {
+        "key": "competition_distance",
+        "label": "경쟁점 거리"
+      }
+    ],
+    "primaryTabs": [
+      "local_demand",
+      "time_slots",
+      "competitors",
+      "road_access",
+      "compare"
+    ],
+    "secondaryTabs": [
+      "mixed_use"
+    ],
+    "mapLayers": [
+      "walk_catchment",
+      "worker_demand",
+      "late_night_demand",
+      "corner_nodes",
+      "convenience_competitors",
+      "mixed_use"
+    ],
+    "alerts": [
+      "nearby_competitor",
+      "weak_night_demand"
+    ],
+    "recommendations": [
+      "night_operation",
+      "assortment_mix"
+    ],
+    "reportSections": [
+      "summary",
+      "local_demand",
+      "time_slots",
+      "competition",
+      "access"
+    ]
+  },
+  "userOverrides": {
+    "franchise": {
+      "summaryKpis": [
+        {
+          "key": "cannibalization_risk",
+          "label": "기존점 잠식 위험"
+        },
+        {
+          "key": "new_coverage",
+          "label": "신규 수요권"
+        },
+        {
+          "key": "brand_whitespace",
+          "label": "브랜드 공백"
+        },
+        {
+          "key": "network_efficiency",
+          "label": "점포망 효율"
+        }
+      ],
+      "primaryTabs": [
+        "network",
+        "cannibalization",
+        "new_coverage",
+        "candidates"
+      ],
+      "mapLayers": [
+        "existing_stores",
+        "existing_store_overlap",
+        "walk_catchment",
+        "new_coverage",
+        "brand_whitespace"
+      ],
+      "reportSections": [
+        "approval_summary",
+        "network_impact",
+        "cannibalization",
+        "new_market",
+        "decision"
+      ]
+    }
+  }
+}

@@ -1,0 +1,171 @@
+{
+  "id": "ev_charging",
+  "name": "전기차 충전소",
+  "parentCategory": "auto",
+  "version": "1.0.0",
+  "effectiveFrom": "2026-07-15",
+  "supportedUserTypes": [
+    "entrepreneur",
+    "franchise"
+  ],
+  "matchRules": {
+    "sbizCodes": {
+      "lcls": [],
+      "mcls": [],
+      "scls": []
+    },
+    "businessTypePresets": ["ev_charging"],
+    "fallbackArchetype": "auto_service"
+  },
+  "analysis": {
+    "catchment": {
+      "primary": "drive",
+      "driveMinutes": [
+        5,
+        10
+      ]
+    },
+    "timeSlots": [
+      "commute_evening",
+      "overnight",
+      "weekend_afternoon"
+    ],
+    "competitorGroups": {
+      "direct": [
+        "public_ev_charging_station"
+      ],
+      "secondary": [
+        "apartment_private_charger"
+      ],
+      "indirect": [
+        "gas_station"
+      ],
+      "channel": [
+        "home_charging"
+      ]
+    },
+    "siteFeatures": {
+      "integration": 0.08,
+      "choice": 0.30,
+      "mean_depth": 0.04,
+      "connectivity": 0.08,
+      "transit": 0.05,
+      "demand": 0.33,
+      "competition": 0.12
+    },
+    "competitorRules": {
+      "vertical": "ev_charging",
+      "distance_bands_m": [
+        { "max": 300, "weight": 1.0 },
+        { "max": 600, "weight": 0.8 },
+        { "max": 1000, "weight": 0.6 },
+        { "max": 2000, "weight": 0.4 },
+        { "max": 3000, "weight": 0.2 }
+      ],
+      "intensity_thresholds": [3, 6, 10],
+      "buckets": [
+        {
+          "key": "direct",
+          "label": "직접 경쟁 (공용 충전소)",
+          "weight": 1.0,
+          "keywords": ["전기차충전", "급속충전", "EV충전", "환경부급속", "차지비", "에버온", "파워큐브", "대영채비", "SK일렉링크", "이피트"]
+        },
+        {
+          "key": "substitute_gas",
+          "label": "주유소 병설 충전",
+          "weight": 0.5,
+          "scls_codes": ["G21401"],
+          "keywords": ["주유소", "SK에너지", "GS칼텍스", "현대오일뱅크", "S-OIL"]
+        },
+        {
+          "key": "substitute_lpg",
+          "label": "가스 충전소",
+          "weight": 0.3,
+          "scls_codes": ["G21402"],
+          "keywords": ["충전소", "LPG"]
+        }
+      ]
+    }
+  },
+  "ui": {
+    "summaryKpis": [
+      {
+        "key": "vehicle_traffic",
+        "label": "차량 통행"
+      },
+      {
+        "key": "home_charging_gap",
+        "label": "집밥 공백"
+      },
+      {
+        "key": "charger_whitespace",
+        "label": "기존 충전소 공백"
+      },
+      {
+        "key": "dwell_amenity",
+        "label": "충전 대기 체류 여건"
+      }
+    ],
+    "primaryTabs": [
+      "traffic_axis",
+      "residential_demand",
+      "charger_supply",
+      "dwell_amenity",
+      "compare"
+    ],
+    "secondaryTabs": [
+      "dwell_mix"
+    ],
+    "mapLayers": [
+      "drive_catchment",
+      "traffic_axis",
+      "household_demand",
+      "apartment_density",
+      "existing_chargers",
+      "dwell_amenities"
+    ],
+    "alerts": [
+      "nearby_charger",
+      "weak_dwell_amenity"
+    ],
+    "recommendations": [
+      "fast_charger_mix",
+      "dwell_partnership"
+    ],
+    "reportSections": [
+      "summary",
+      "traffic_axis",
+      "residential_demand",
+      "charger_supply",
+      "dwell_amenity"
+    ]
+  },
+  "userOverrides": {
+    "franchise": {
+      "summaryKpis": [
+        {
+          "key": "cannibalization_risk",
+          "label": "기존 충전망 잠식 위험"
+        },
+        {
+          "key": "new_coverage",
+          "label": "신규 커버리지"
+        },
+        {
+          "key": "brand_whitespace",
+          "label": "브랜드 공백"
+        },
+        {
+          "key": "network_efficiency",
+          "label": "충전망 효율"
+        }
+      ],
+      "primaryTabs": [
+        "network",
+        "cannibalization",
+        "new_coverage",
+        "candidates"
+      ]
+    }
+  }
+}

@@ -1,0 +1,41 @@
+# 실험 전용 의존성 — `backend/tools/experiment_*.py` 만 쓴다.
+#
+# ⚠️ **`requirements.txt` 에 합치지 말 것.** Railway 는 그 파일로 이미지를 만들고,
+# 서비스 코드(app/)는 이 패키지들을 하나도 import 하지 않는다. 합치면 운영 이미지가
+# 수백 MB 커지고 배포가 느려지는데 런타임에는 아무 이득이 없다. 여기 있는 것들은
+# 오프라인 분석 스크립트를 돌릴 사람의 랩탑에만 필요하다.
+#
+# ⚠️ **numpy 가 올라간다.** 이걸 설치하면 pip 가 numpy 를 2.2.1 → 2.4.6 으로
+# 끌어올린다(2026-08-24 실측). requirements.txt 는 numpy==2.2.1 로 고정돼 있으므로
+# 같은 venv 에 둘을 다 설치하면 requirements.txt 의 핀이 깨진 상태가 된다.
+# 운영은 requirements.txt 만 설치하므로 영향이 없지만, **로컬에서 백엔드 테스트를
+# 돌릴 때는 numpy 버전이 운영과 다르다는 것을 알고 있어야 한다.** 어긋난 게
+# 문제가 되면 실험용 venv 를 따로 두는 것이 정답이고, 그때까지는 이 주석이 경고다.
+#
+# 2026-08-09 에 mcp 2.0 이 starlette 를 끌어와 백엔드 전체가 안 뜬 사고가 있었다.
+# 그 재발을 막으려고 전이 의존성까지 전부 핀으로 박는다.
+#
+# Install:
+#   cd backend && ./.venv/Scripts/python.exe -m pip install -r requirements-ml.txt
+
+# 모형 — 이슈 #30 의 ② LightGBM · ③ CatBoost.
+# ① Hedonic 은 numpy 만으로 돌아가므로 여기 없다(그게 baseline 의 장점이다).
+lightgbm==4.7.0
+catboost==1.2.10
+
+# lightgbm.sklearn 이 없으면 LGBMRegressor 가 import 단계에서 죽는다.
+scikit-learn==1.9.0
+
+# CatBoost 입력용. 한 덩어리 object 행렬로 넘기면 "bad allocation" 으로 죽어서
+# (10만행 × 40열을 파이썬 객체 포인터로 만드는 순간 터진다) 컬럼마다 dtype 을
+# 유지하는 DataFrame 경로가 필요하다.
+pandas==3.0.5
+
+# 위 넷이 끌어오는 전이 의존성.
+joblib==1.5.3
+threadpoolctl==3.6.0
+python-dateutil==2.9.0.post0
+six==1.17.0
+tzdata==2026.3
+graphviz==0.21
+plotly==6.9.0

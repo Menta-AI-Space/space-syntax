@@ -1,0 +1,210 @@
+{
+  "연남동": [
+    {
+      "osm_id": 246164669,
+      "lat": 37.568095,
+      "lng": 126.917424,
+      "recommend_score": 66.4,
+      "verdict": "hold",
+      "expected_monthly_sales_man": 1037.3,
+      "max_acceptable_rent_man": 155.6,
+      "search_radius_m": 800
+    },
+    {
+      "osm_id": 607592315,
+      "lat": 37.566322,
+      "lng": 126.923716,
+      "recommend_score": 65.2,
+      "verdict": "hold",
+      "expected_monthly_sales_man": 1035.8,
+      "max_acceptable_rent_man": 155.4,
+      "search_radius_m": 800
+    },
+    {
+      "osm_id": 463775938,
+      "lat": 37.56207,
+      "lng": 126.922996,
+      "recommend_score": 54.0,
+      "verdict": "hold",
+      "expected_monthly_sales_man": 620.3,
+      "max_acceptable_rent_man": 0.0,
+      "search_radius_m": 800
+    },
+    {
+      "osm_id": 37401782,
+      "lat": 37.563457,
+      "lng": 126.921641,
+      "recommend_score": 53.8,
+      "verdict": "hold",
+      "expected_monthly_sales_man": 620.3,
+      "max_acceptable_rent_man": 0.0,
+      "search_radius_m": 800
+    },
+    {
+      "osm_id": 228817858,
+      "lat": 37.564344,
+      "lng": 126.917859,
+      "recommend_score": 53.4,
+      "verdict": "hold",
+      "expected_monthly_sales_man": 466.8,
+      "max_acceptable_rent_man": 0.0,
+      "search_radius_m": 800
+    }
+  ],
+  "성수동": [
+    {
+      "osm_id": 59079086,
+      "lat": 37.543468,
+      "lng": 127.037926,
+      "recommend_score": 68.8,
+      "verdict": "conditional",
+      "expected_monthly_sales_man": 650.7,
+      "max_acceptable_rent_man": 0.0,
+      "search_radius_m": 800
+    },
+    {
+      "osm_id": 59079070,
+      "lat": 37.542918,
+      "lng": 127.039879,
+      "recommend_score": 66.9,
+      "verdict": "conditional",
+      "expected_monthly_sales_man": 652.7,
+      "max_acceptable_rent_man": 0.0,
+      "search_radius_m": 800
+    },
+    {
+      "osm_id": 519099427,
+      "lat": 37.540512,
+      "lng": 127.048526,
+      "recommend_score": 65.9,
+      "verdict": "hold",
+      "expected_monthly_sales_man": 750.3,
+      "max_acceptable_rent_man": 28.2,
+      "search_radius_m": 800
+    },
+    {
+      "osm_id": 59079412,
+      "lat": 37.54227,
+      "lng": 127.042466,
+      "recommend_score": 61.7,
+      "verdict": "conditional",
+      "expected_monthly_sales_man": 477.5,
+      "max_acceptable_rent_man": 0.0,
+      "search_radius_m": 800
+    },
+    {
+      "osm_id": 921283507,
+      "lat": 37.541468,
+      "lng": 127.045437,
+      "recommend_score": 52.6,
+      "verdict": "hold",
+      "expected_monthly_sales_man": 477.9,
+      "max_acceptable_rent_man": 0.0,
+      "search_radius_m": 800
+    }
+  ],
+  "구로디지털단지역": [
+    {
+      "osm_id": 616212684,
+      "lat": 37.483394,
+      "lng": 126.902042,
+      "recommend_score": 77.1,
+      "verdict": "recommend",
+      "expected_monthly_sales_man": 2044.3,
+      "max_acceptable_rent_man": 306.6,
+      "search_radius_m": 800
+    },
+    {
+      "osm_id": 520705377,
+      "lat": 37.48443,
+      "lng": 126.906034,
+      "recommend_score": 71.4,
+      "verdict": "conditional",
+      "expected_monthly_sales_man": 538.1,
+      "max_acceptable_rent_man": 0.0,
+      "search_radius_m": 800
+    },
+    {
+      "osm_id": 626900877,
+      "lat": 37.487906,
+      "lng": 126.905714,
+      "recommend_score": 50.2,
+      "verdict": "hold",
+      "expected_monthly_sales_man": 334.6,
+      "max_acceptable_rent_man": 0.0,
+      "search_radius_m": 800
+    },
+    {
+      "osm_id": 626900880,
+      "lat": 37.491754,
+      "lng": 126.908873,
+      "recommend_score": 48.7,
+      "verdict": "hold",
+      "expected_monthly_sales_man": 660.2,
+      "max_acceptable_rent_man": 0.0,
+      "search_radius_m": 800
+    },
+    {
+      "osm_id": 626900882,
+      "lat": 37.49012,
+      "lng": 126.907545,
+      "recommend_score": 48.2,
+      "verdict": "hold",
+      "expected_monthly_sales_man": 666.2,
+      "max_acceptable_rent_man": 0.0,
+      "search_radius_m": 800
+    }
+  ],
+  "중계동": [
+    {
+      "osm_id": 218748690,
+      "lat": 37.647704,
+      "lng": 127.067925,
+      "recommend_score": 86.6,
+      "verdict": "recommend",
+      "expected_monthly_sales_man": 2360.6,
+      "max_acceptable_rent_man": 354.1,
+      "search_radius_m": 800
+    },
+    {
+      "osm_id": 408681587,
+      "lat": 37.649725,
+      "lng": 127.06907,
+      "recommend_score": 83.9,
+      "verdict": "recommend",
+      "expected_monthly_sales_man": 2385.5,
+      "max_acceptable_rent_man": 357.8,
+      "search_radius_m": 800
+    },
+    {
+      "osm_id": 1067910573,
+      "lat": 37.650101,
+      "lng": 127.070953,
+      "recommend_score": 66.9,
+      "verdict": "conditional",
+      "expected_monthly_sales_man": 559.3,
+      "max_acceptable_rent_man": 0.0,
+      "search_radius_m": 800
+    },
+    {
+      "osm_id": 481579492,
+      "lat": 37.654555,
+      "lng": 127.074191,
+      "recommend_score": 64.1,
+      "verdict": "conditional",
+      "expected_monthly_sales_man": 537.0,
+      "max_acceptable_rent_man": 0.0,
+      "search_radius_m": 800
+    },
+    {
+      "osm_id": 368995670,
+      "lat": 37.651248,
+      "lng": 127.072615,
+      "recommend_score": 62.5,
+      "verdict": "conditional",
+      "expected_monthly_sales_man": 514.3,
+      "max_acceptable_rent_man": 0.0,
+      "search_radius_m": 800
+    }
+  ]
+}

@@ -1,0 +1,2274 @@
+{
+  "folders": {
+    "(root)": [
+      {
+        "name": "5. (참고2) SGIS 소지역 통계 분석사례집.hwpx",
+        "ext": ".hwpx",
+        "bytes": 32980296,
+        "mb": 31.45
+      }
+    ],
+    "1. 통계\\1. 2024년 격자 통계(인구)": [
+      {
+        "name": "2024년_인구_가다_1K.csv",
+        "ext": ".csv",
+        "bytes": 6341,
+        "mb": 0.01
+      },
+      {
+        "name": "2024년_인구_가라_1K.csv",
+        "ext": ".csv",
+        "bytes": 8070,
+        "mb": 0.01
+      },
+      {
+        "name": "2024년_인구_가사_1K.csv",
+        "ext": ".csv",
+        "bytes": 54617,
+        "mb": 0.05
+      },
+      {
+        "name": "2024년_인구_가아_1K.csv",
+        "ext": ".csv",
+        "bytes": 18815,
+        "mb": 0.02
+      },
+      {
+        "name": "2024년_인구_나나_1K.csv",
+        "ext": ".csv",
+        "bytes": 812626,
+        "mb": 0.77
+      },
+      {
+        "name": "2024년_인구_나다_1K.csv",
+        "ext": ".csv",
+        "bytes": 148869,
+        "mb": 0.14
+      },
+      {
+        "name": "2024년_인구_나라_1K.csv",
+        "ext": ".csv",
+        "bytes": 1988522,
+        "mb": 1.9
+      },
+      {
+        "name": "2024년_인구_나마_1K.csv",
+        "ext": ".csv",
+        "bytes": 56265,
+        "mb": 0.05
+      },
+      {
+        "name": "2024년_인구_나바_1K.csv",
+        "ext": ".csv",
+        "bytes": 904390,
+        "mb": 0.86
+      },
+      {
+        "name": "2024년_인구_나사_1K.csv",
+        "ext": ".csv",
+        "bytes": 230739,
+        "mb": 0.22
+      },
+      {
+        "name": "2024년_인구_다나_1K.csv",
+        "ext": ".csv",
+        "bytes": 964247,
+        "mb": 0.92
+      },
+      {
+        "name": "2024년_인구_다다_1K.csv",
+        "ext": ".csv",
+        "bytes": 1128432,
+        "mb": 1.08
+      },
+      {
+        "name": "2024년_인구_다라_1K.csv",
+        "ext": ".csv",
+        "bytes": 9337651,
+        "mb": 8.91
+      },
+      {
+        "name": "2024년_인구_다마_1K.csv",
+        "ext": ".csv",
+        "bytes": 10302768,
+        "mb": 9.83
+      },
+      {
+        "name": "2024년_인구_다바_1K.csv",
+        "ext": ".csv",
+        "bytes": 13416723,
+        "mb": 12.8
+      },
+      {
+        "name": "2024년_인구_다사_1K.csv",
+        "ext": ".csv",
+        "bytes": 13835003,
+        "mb": 13.19
+      },
+      {
+        "name": "2024년_인구_다아_1K.csv",
+        "ext": ".csv",
+        "bytes": 1028827,
+        "mb": 0.98
+      },
+      {
+        "name": "2024년_인구_라다_1K.csv",
+        "ext": ".csv",
+        "bytes": 616,
+        "mb": 0.0
+      },
+      {
+        "name": "2024년_인구_라라_1K.csv",
+        "ext": ".csv",
+        "bytes": 6200348,
+        "mb": 5.91
+      },
+      {
+        "name": "2024년_인구_라마_1K.csv",
+        "ext": ".csv",
+        "bytes": 9037625,
+        "mb": 8.62
+      },
+      {
+        "name": "2024년_인구_라바_1K.csv",
+        "ext": ".csv",
+        "bytes": 9082777,
+        "mb": 8.66
+      },
+      {
+        "name": "2024년_인구_라사_1K.csv",
+        "ext": ".csv",
+        "bytes": 7834770,
+        "mb": 7.47
+      },
+      {
+        "name": "2024년_인구_라아_1K.csv",
+        "ext": ".csv",
+        "bytes": 1648023,
+        "mb": 1.57
+      },
+      {
+        "name": "2024년_인구_마라_1K.csv",
+        "ext": ".csv",
+        "bytes": 2403274,
+        "mb": 2.29
+      },
+      {
+        "name": "2024년_인구_마마_1K.csv",
+        "ext": ".csv",
+        "bytes": 7971373,
+        "mb": 7.6
+      },
+      {
+        "name": "2024년_인구_마바_1K.csv",
+        "ext": ".csv",
+        "bytes": 4358635,
+        "mb": 4.16
+      },
+      {
+        "name": "2024년_인구_마사_1K.csv",
+        "ext": ".csv",
+        "bytes": 2363280,
+        "mb": 2.25
+      },
+      {
+        "name": "2024년_인구_마아_1K.csv",
+        "ext": ".csv",
+        "bytes": 75589,
+        "mb": 0.07
+      },
+      {
+        "name": "2024년_인구_바사_1K.csv",
+        "ext": ".csv",
+        "bytes": 59354,
+        "mb": 0.06
+      },
+      {
+        "name": "2024년_인구_사사_1K.csv",
+        "ext": ".csv",
+        "bytes": 21931,
+        "mb": 0.02
+      }
+    ],
+    "1. 통계\\2. 2024년 격자 통계(가구)": [
+      {
+        "name": "2024년_가구_가다_1K.csv",
+        "ext": ".csv",
+        "bytes": 889,
+        "mb": 0.0
+      },
+      {
+        "name": "2024년_가구_가라_1K.csv",
+        "ext": ".csv",
+        "bytes": 918,
+        "mb": 0.0
+      },
+      {
+        "name": "2024년_가구_가사_1K.csv",
+        "ext": ".csv",
+        "bytes": 5646,
+        "mb": 0.01
+      },
+      {
+        "name": "2024년_가구_가아_1K.csv",
+        "ext": ".csv",
+        "bytes": 1895,
+        "mb": 0.0
+      },
+      {
+        "name": "2024년_가구_나나_1K.csv",
+        "ext": ".csv",
+        "bytes": 74183,
+        "mb": 0.07
+      },
+      {
+        "name": "2024년_가구_나다_1K.csv",
+        "ext": ".csv",
+        "bytes": 16177,
+        "mb": 0.02
+      },
+      {
+        "name": "2024년_가구_나라_1K.csv",
+        "ext": ".csv",
+        "bytes": 216691,
+        "mb": 0.21
+      },
+      {
+        "name": "2024년_가구_나마_1K.csv",
+        "ext": ".csv",
+        "bytes": 6575,
+        "mb": 0.01
+      },
+      {
+        "name": "2024년_가구_나바_1K.csv",
+        "ext": ".csv",
+        "bytes": 97592,
+        "mb": 0.09
+      },
+      {
+        "name": "2024년_가구_나사_1K.csv",
+        "ext": ".csv",
+        "bytes": 26778,
+        "mb": 0.03
+      },
+      {
+        "name": "2024년_가구_다나_1K.csv",
+        "ext": ".csv",
+        "bytes": 89529,
+        "mb": 0.09
+      },
+      {
+        "name": "2024년_가구_다다_1K.csv",
+        "ext": ".csv",
+        "bytes": 108483,
+        "mb": 0.1
+      },
+      {
+        "name": "2024년_가구_다라_1K.csv",
+        "ext": ".csv",
+        "bytes": 977651,
+        "mb": 0.93
+      },
+      {
+        "name": "2024년_가구_다마_1K.csv",
+        "ext": ".csv",
+        "bytes": 1047984,
+        "mb": 1.0
+      },
+      {
+        "name": "2024년_가구_다바_1K.csv",
+        "ext": ".csv",
+        "bytes": 1299282,
+        "mb": 1.24
+      },
+      {
+        "name": "2024년_가구_다사_1K.csv",
+        "ext": ".csv",
+        "bytes": 1224844,
+        "mb": 1.17
+      },
+      {
+        "name": "2024년_가구_다아_1K.csv",
+        "ext": ".csv",
+        "bytes": 112078,
+        "mb": 0.11
+      },
+      {
+        "name": "2024년_가구_라다_1K.csv",
+        "ext": ".csv",
+        "bytes": 105,
+        "mb": 0.0
+      },
+      {
+        "name": "2024년_가구_라라_1K.csv",
+        "ext": ".csv",
+        "bytes": 640296,
+        "mb": 0.61
+      },
+      {
+        "name": "2024년_가구_라마_1K.csv",
+        "ext": ".csv",
+        "bytes": 987203,
+        "mb": 0.94
+      },
+      {
+        "name": "2024년_가구_라바_1K.csv",
+        "ext": ".csv",
+        "bytes": 1014809,
+        "mb": 0.97
+      },
+      {
+        "name": "2024년_가구_라사_1K.csv",
+        "ext": ".csv",
+        "bytes": 882970,
+        "mb": 0.84
+      },
+      {
+        "name": "2024년_가구_라아_1K.csv",
+        "ext": ".csv",
+        "bytes": 186902,
+        "mb": 0.18
+      },
+      {
+        "name": "2024년_가구_마라_1K.csv",
+        "ext": ".csv",
+        "bytes": 214909,
+        "mb": 0.2
+      },
+      {
+        "name": "2024년_가구_마마_1K.csv",
+        "ext": ".csv",
+        "bytes": 811252,
+        "mb": 0.77
+      },
+      {
+        "name": "2024년_가구_마바_1K.csv",
+        "ext": ".csv",
+        "bytes": 535608,
+        "mb": 0.51
+      },
+      {
+        "name": "2024년_가구_마사_1K.csv",
+        "ext": ".csv",
+        "bytes": 276021,
+        "mb": 0.26
+      },
+      {
+        "name": "2024년_가구_마아_1K.csv",
+        "ext": ".csv",
+        "bytes": 8013,
+        "mb": 0.01
+      },
+      {
+        "name": "2024년_가구_바사_1K.csv",
+        "ext": ".csv",
+        "bytes": 6898,
+        "mb": 0.01
+      },
+      {
+        "name": "2024년_가구_사사_1K.csv",
+        "ext": ".csv",
+        "bytes": 2384,
+        "mb": 0.0
+      }
+    ],
+    "1. 통계\\3. 2024년 격자 통계(주택)": [
+      {
+        "name": "2024년_주택_가다_1K.csv",
+        "ext": ".csv",
+        "bytes": 1884,
+        "mb": 0.0
+      },
+      {
+        "name": "2024년_주택_가라_1K.csv",
+        "ext": ".csv",
+        "bytes": 2105,
+        "mb": 0.0
+      },
+      {
+        "name": "2024년_주택_가사_1K.csv",
+        "ext": ".csv",
+        "bytes": 17071,
+        "mb": 0.02
+      },
+      {
+        "name": "2024년_주택_가아_1K.csv",
+        "ext": ".csv",
+        "bytes": 5793,
+        "mb": 0.01
+      },
+      {
+        "name": "2024년_주택_나나_1K.csv",
+        "ext": ".csv",
+        "bytes": 275796,
+        "mb": 0.26
+      },
+      {
+        "name": "2024년_주택_나다_1K.csv",
+        "ext": ".csv",
+        "bytes": 43440,
+        "mb": 0.04
+      },
+      {
+        "name": "2024년_주택_나라_1K.csv",
+        "ext": ".csv",
+        "bytes": 623905,
+        "mb": 0.6
+      },
+      {
+        "name": "2024년_주택_나마_1K.csv",
+        "ext": ".csv",
+        "bytes": 18304,
+        "mb": 0.02
+      },
+      {
+        "name": "2024년_주택_나바_1K.csv",
+        "ext": ".csv",
+        "bytes": 347407,
+        "mb": 0.33
+      },
+      {
+        "name": "2024년_주택_나사_1K.csv",
+        "ext": ".csv",
+        "bytes": 86284,
+        "mb": 0.08
+      },
+      {
+        "name": "2024년_주택_다나_1K.csv",
+        "ext": ".csv",
+        "bytes": 329446,
+        "mb": 0.31
+      },
+      {
+        "name": "2024년_주택_다다_1K.csv",
+        "ext": ".csv",
+        "bytes": 382583,
+        "mb": 0.36
+      },
+      {
+        "name": "2024년_주택_다라_1K.csv",
+        "ext": ".csv",
+        "bytes": 3126768,
+        "mb": 2.98
+      },
+      {
+        "name": "2024년_주택_다마_1K.csv",
+        "ext": ".csv",
+        "bytes": 3426847,
+        "mb": 3.27
+      },
+      {
+        "name": "2024년_주택_다바_1K.csv",
+        "ext": ".csv",
+        "bytes": 4556777,
+        "mb": 4.35
+      },
+      {
+        "name": "2024년_주택_다사_1K.csv",
+        "ext": ".csv",
+        "bytes": 4704139,
+        "mb": 4.49
+      },
+      {
+        "name": "2024년_주택_다아_1K.csv",
+        "ext": ".csv",
+        "bytes": 344044,
+        "mb": 0.33
+      },
+      {
+        "name": "2024년_주택_라다_1K.csv",
+        "ext": ".csv",
+        "bytes": 198,
+        "mb": 0.0
+      },
+      {
+        "name": "2024년_주택_라라_1K.csv",
+        "ext": ".csv",
+        "bytes": 2196553,
+        "mb": 2.09
+      },
+      {
+        "name": "2024년_주택_라마_1K.csv",
+        "ext": ".csv",
+        "bytes": 3213382,
+        "mb": 3.06
+      },
+      {
+        "name": "2024년_주택_라바_1K.csv",
+        "ext": ".csv",
+        "bytes": 3255168,
+        "mb": 3.1
+      },
+      {
+        "name": "2024년_주택_라사_1K.csv",
+        "ext": ".csv",
+        "bytes": 3012719,
+        "mb": 2.87
+      },
+      {
+        "name": "2024년_주택_라아_1K.csv",
+        "ext": ".csv",
+        "bytes": 580659,
+        "mb": 0.55
+      },
+      {
+        "name": "2024년_주택_마라_1K.csv",
+        "ext": ".csv",
+        "bytes": 802203,
+        "mb": 0.77
+      },
+      {
+        "name": "2024년_주택_마마_1K.csv",
+        "ext": ".csv",
+        "bytes": 2892244,
+        "mb": 2.76
+      },
+      {
+        "name": "2024년_주택_마바_1K.csv",
+        "ext": ".csv",
+        "bytes": 1579213,
+        "mb": 1.51
+      },
+      {
+        "name": "2024년_주택_마사_1K.csv",
+        "ext": ".csv",
+        "bytes": 861154,
+        "mb": 0.82
+      },
+      {
+        "name": "2024년_주택_마아_1K.csv",
+        "ext": ".csv",
+        "bytes": 26647,
+        "mb": 0.03
+      },
+      {
+        "name": "2024년_주택_바사_1K.csv",
+        "ext": ".csv",
+        "bytes": 19368,
+        "mb": 0.02
+      },
+      {
+        "name": "2024년_주택_사사_1K.csv",
+        "ext": ".csv",
+        "bytes": 7675,
+        "mb": 0.01
+      }
+    ],
+    "1. 통계\\4. 2023년 격자통계(사업체, 종사자)\\사업체(대분류)": [
+      {
+        "name": "2023년_사업체_가다_1K.csv",
+        "ext": ".csv",
+        "bytes": 872,
+        "mb": 0.0
+      },
+      {
+        "name": "2023년_사업체_가라_1K.csv",
+        "ext": ".csv",
+        "bytes": 1032,
+        "mb": 0.0
+      },
+      {
+        "name": "2023년_사업체_가사_1K.csv",
+        "ext": ".csv",
+        "bytes": 4987,
+        "mb": 0.0
+      },
+      {
+        "name": "2023년_사업체_가아_1K.csv",
+        "ext": ".csv",
+        "bytes": 2312,
+        "mb": 0.0
+      },
+      {
+        "name": "2023년_사업체_나나_1K.csv",
+        "ext": ".csv",
+        "bytes": 115049,
+        "mb": 0.11
+      },
+      {
+        "name": "2023년_사업체_나다_1K.csv",
+        "ext": ".csv",
+        "bytes": 12712,
+        "mb": 0.01
+      },
+      {
+        "name": "2023년_사업체_나라_1K.csv",
+        "ext": ".csv",
+        "bytes": 181413,
+        "mb": 0.17
+      },
+      {
+        "name": "2023년_사업체_나마_1K.csv",
+        "ext": ".csv",
+        "bytes": 6034,
+        "mb": 0.01
+      },
+      {
+        "name": "2023년_사업체_나바_1K.csv",
+        "ext": ".csv",
+        "bytes": 85721,
+        "mb": 0.08
+      },
+      {
+        "name": "2023년_사업체_나사_1K.csv",
+        "ext": ".csv",
+        "bytes": 22323,
+        "mb": 0.02
+      },
+      {
+        "name": "2023년_사업체_다나_1K.csv",
+        "ext": ".csv",
+        "bytes": 147234,
+        "mb": 0.14
+      },
+      {
+        "name": "2023년_사업체_다다_1K.csv",
+        "ext": ".csv",
+        "bytes": 131980,
+        "mb": 0.13
+      },
+      {
+        "name": "2023년_사업체_다라_1K.csv",
+        "ext": ".csv",
+        "bytes": 996745,
+        "mb": 0.95
+      },
+      {
+        "name": "2023년_사업체_다마_1K.csv",
+        "ext": ".csv",
+        "bytes": 1137180,
+        "mb": 1.08
+      },
+      {
+        "name": "2023년_사업체_다바_1K.csv",
+        "ext": ".csv",
+        "bytes": 1728114,
+        "mb": 1.65
+      },
+      {
+        "name": "2023년_사업체_다사_1K.csv",
+        "ext": ".csv",
+        "bytes": 2376612,
+        "mb": 2.27
+      },
+      {
+        "name": "2023년_사업체_다아_1K.csv",
+        "ext": ".csv",
+        "bytes": 117008,
+        "mb": 0.11
+      },
+      {
+        "name": "2023년_사업체_라라_1K.csv",
+        "ext": ".csv",
+        "bytes": 746950,
+        "mb": 0.71
+      },
+      {
+        "name": "2023년_사업체_라마_1K.csv",
+        "ext": ".csv",
+        "bytes": 995888,
+        "mb": 0.95
+      },
+      {
+        "name": "2023년_사업체_라바_1K.csv",
+        "ext": ".csv",
+        "bytes": 936439,
+        "mb": 0.89
+      },
+      {
+        "name": "2023년_사업체_라사_1K.csv",
+        "ext": ".csv",
+        "bytes": 842324,
+        "mb": 0.8
+      },
+      {
+        "name": "2023년_사업체_라아_1K.csv",
+        "ext": ".csv",
+        "bytes": 181755,
+        "mb": 0.17
+      },
+      {
+        "name": "2023년_사업체_마라_1K.csv",
+        "ext": ".csv",
+        "bytes": 437686,
+        "mb": 0.42
+      },
+      {
+        "name": "2023년_사업체_마마_1K.csv",
+        "ext": ".csv",
+        "bytes": 1058047,
+        "mb": 1.01
+      },
+      {
+        "name": "2023년_사업체_마바_1K.csv",
+        "ext": ".csv",
+        "bytes": 370778,
+        "mb": 0.35
+      },
+      {
+        "name": "2023년_사업체_마사_1K.csv",
+        "ext": ".csv",
+        "bytes": 282840,
+        "mb": 0.27
+      },
+      {
+        "name": "2023년_사업체_마아_1K.csv",
+        "ext": ".csv",
+        "bytes": 9270,
+        "mb": 0.01
+      },
+      {
+        "name": "2023년_사업체_바사_1K.csv",
+        "ext": ".csv",
+        "bytes": 8251,
+        "mb": 0.01
+      },
+      {
+        "name": "2023년_사업체_사사_1K.csv",
+        "ext": ".csv",
+        "bytes": 3861,
+        "mb": 0.0
+      }
+    ],
+    "1. 통계\\4. 2023년 격자통계(사업체, 종사자)\\사업체(중분류)": [
+      {
+        "name": "2023년_사업체중분류_가다_1K.csv",
+        "ext": ".csv",
+        "bytes": 780,
+        "mb": 0.0
+      },
+      {
+        "name": "2023년_사업체중분류_가라_1K.csv",
+        "ext": ".csv",
+        "bytes": 942,
+        "mb": 0.0
+      },
+      {
+        "name": "2023년_사업체중분류_가사_1K.csv",
+        "ext": ".csv",
+        "bytes": 5007,
+        "mb": 0.0
+      },
+      {
+        "name": "2023년_사업체중분류_가아_1K.csv",
+        "ext": ".csv",
+        "bytes": 2448,
+        "mb": 0.0
+      },
+      {
+        "name": "2023년_사업체중분류_나나_1K.csv",
+        "ext": ".csv",
+        "bytes": 139217,
+        "mb": 0.13
+      },
+      {
+        "name": "2023년_사업체중분류_나다_1K.csv",
+        "ext": ".csv",
+        "bytes": 11894,
+        "mb": 0.01
+      },
+      {
+        "name": "2023년_사업체중분류_나라_1K.csv",
+        "ext": ".csv",
+        "bytes": 181074,
+        "mb": 0.17
+      },
+      {
+        "name": "2023년_사업체중분류_나마_1K.csv",
+        "ext": ".csv",
+        "bytes": 5581,
+        "mb": 0.01
+      },
+      {
+        "name": "2023년_사업체중분류_나바_1K.csv",
+        "ext": ".csv",
+        "bytes": 86000,
+        "mb": 0.08
+      },
+      {
+        "name": "2023년_사업체중분류_나사_1K.csv",
+        "ext": ".csv",
+        "bytes": 21087,
+        "mb": 0.02
+      },
+      {
+        "name": "2023년_사업체중분류_다나_1K.csv",
+        "ext": ".csv",
+        "bytes": 190963,
+        "mb": 0.18
+      },
+      {
+        "name": "2023년_사업체중분류_다다_1K.csv",
+        "ext": ".csv",
+        "bytes": 173276,
+        "mb": 0.17
+      },
+      {
+        "name": "2023년_사업체중분류_다라_1K.csv",
+        "ext": ".csv",
+        "bytes": 1198476,
+        "mb": 1.14
+      },
+      {
+        "name": "2023년_사업체중분류_다마_1K.csv",
+        "ext": ".csv",
+        "bytes": 1351674,
+        "mb": 1.29
+      },
+      {
+        "name": "2023년_사업체중분류_다바_1K.csv",
+        "ext": ".csv",
+        "bytes": 2543128,
+        "mb": 2.43
+      },
+      {
+        "name": "2023년_사업체중분류_다사_1K.csv",
+        "ext": ".csv",
+        "bytes": 4862485,
+        "mb": 4.64
+      },
+      {
+        "name": "2023년_사업체중분류_다아_1K.csv",
+        "ext": ".csv",
+        "bytes": 124700,
+        "mb": 0.12
+      },
+      {
+        "name": "2023년_사업체중분류_라라_1K.csv",
+        "ext": ".csv",
+        "bytes": 947818,
+        "mb": 0.9
+      },
+      {
+        "name": "2023년_사업체중분류_라마_1K.csv",
+        "ext": ".csv",
+        "bytes": 1323438,
+        "mb": 1.26
+      },
+      {
+        "name": "2023년_사업체중분류_라바_1K.csv",
+        "ext": ".csv",
+        "bytes": 1032612,
+        "mb": 0.98
+      },
+      {
+        "name": "2023년_사업체중분류_라사_1K.csv",
+        "ext": ".csv",
+        "bytes": 968813,
+        "mb": 0.92
+      },
+      {
+        "name": "2023년_사업체중분류_라아_1K.csv",
+        "ext": ".csv",
+        "bytes": 197465,
+        "mb": 0.19
+      },
+      {
+        "name": "2023년_사업체중분류_마라_1K.csv",
+        "ext": ".csv",
+        "bytes": 900833,
+        "mb": 0.86
+      },
+      {
+        "name": "2023년_사업체중분류_마마_1K.csv",
+        "ext": ".csv",
+        "bytes": 1598911,
+        "mb": 1.52
+      },
+      {
+        "name": "2023년_사업체중분류_마바_1K.csv",
+        "ext": ".csv",
+        "bytes": 364923,
+        "mb": 0.35
+      },
+      {
+        "name": "2023년_사업체중분류_마사_1K.csv",
+        "ext": ".csv",
+        "bytes": 335613,
+        "mb": 0.32
+      },
+      {
+        "name": "2023년_사업체중분류_마아_1K.csv",
+        "ext": ".csv",
+        "bytes": 9399,
+        "mb": 0.01
+      },
+      {
+        "name": "2023년_사업체중분류_바사_1K.csv",
+        "ext": ".csv",
+        "bytes": 9040,
+        "mb": 0.01
+      },
+      {
+        "name": "2023년_사업체중분류_사사_1K.csv",
+        "ext": ".csv",
+        "bytes": 5056,
+        "mb": 0.0
+      }
+    ],
+    "1. 통계\\4. 2023년 격자통계(사업체, 종사자)\\종사자(대분류)": [
+      {
+        "name": "2023년_종사자_가다_1K.csv",
+        "ext": ".csv",
+        "bytes": 874,
+        "mb": 0.0
+      },
+      {
+        "name": "2023년_종사자_가라_1K.csv",
+        "ext": ".csv",
+        "bytes": 1038,
+        "mb": 0.0
+      },
+      {
+        "name": "2023년_종사자_가사_1K.csv",
+        "ext": ".csv",
+        "bytes": 5023,
+        "mb": 0.0
+      },
+      {
+        "name": "2023년_종사자_가아_1K.csv",
+        "ext": ".csv",
+        "bytes": 2323,
+        "mb": 0.0
+      },
+      {
+        "name": "2023년_종사자_나나_1K.csv",
+        "ext": ".csv",
+        "bytes": 115850,
+        "mb": 0.11
+      },
+      {
+        "name": "2023년_종사자_나다_1K.csv",
+        "ext": ".csv",
+        "bytes": 12772,
+        "mb": 0.01
+      },
+      {
+        "name": "2023년_종사자_나라_1K.csv",
+        "ext": ".csv",
+        "bytes": 182494,
+        "mb": 0.17
+      },
+      {
+        "name": "2023년_종사자_나마_1K.csv",
+        "ext": ".csv",
+        "bytes": 6055,
+        "mb": 0.01
+      },
+      {
+        "name": "2023년_종사자_나바_1K.csv",
+        "ext": ".csv",
+        "bytes": 86195,
+        "mb": 0.08
+      },
+      {
+        "name": "2023년_종사자_나사_1K.csv",
+        "ext": ".csv",
+        "bytes": 22420,
+        "mb": 0.02
+      },
+      {
+        "name": "2023년_종사자_다나_1K.csv",
+        "ext": ".csv",
+        "bytes": 148628,
+        "mb": 0.14
+      },
+      {
+        "name": "2023년_종사자_다다_1K.csv",
+        "ext": ".csv",
+        "bytes": 133060,
+        "mb": 0.13
+      },
+      {
+        "name": "2023년_종사자_다라_1K.csv",
+        "ext": ".csv",
+        "bytes": 1004170,
+        "mb": 0.96
+      },
+      {
+        "name": "2023년_종사자_다마_1K.csv",
+        "ext": ".csv",
+        "bytes": 1145351,
+        "mb": 1.09
+      },
+      {
+        "name": "2023년_종사자_다바_1K.csv",
+        "ext": ".csv",
+        "bytes": 1746005,
+        "mb": 1.67
+      },
+      {
+        "name": "2023년_종사자_다사_1K.csv",
+        "ext": ".csv",
+        "bytes": 2407016,
+        "mb": 2.3
+      },
+      {
+        "name": "2023년_종사자_다아_1K.csv",
+        "ext": ".csv",
+        "bytes": 117745,
+        "mb": 0.11
+      },
+      {
+        "name": "2023년_종사자_라라_1K.csv",
+        "ext": ".csv",
+        "bytes": 753748,
+        "mb": 0.72
+      },
+      {
+        "name": "2023년_종사자_라마_1K.csv",
+        "ext": ".csv",
+        "bytes": 1003786,
+        "mb": 0.96
+      },
+      {
+        "name": "2023년_종사자_라바_1K.csv",
+        "ext": ".csv",
+        "bytes": 942967,
+        "mb": 0.9
+      },
+      {
+        "name": "2023년_종사자_라사_1K.csv",
+        "ext": ".csv",
+        "bytes": 848867,
+        "mb": 0.81
+      },
+      {
+        "name": "2023년_종사자_라아_1K.csv",
+        "ext": ".csv",
+        "bytes": 183000,
+        "mb": 0.17
+      },
+      {
+        "name": "2023년_종사자_마라_1K.csv",
+        "ext": ".csv",
+        "bytes": 443785,
+        "mb": 0.42
+      },
+      {
+        "name": "2023년_종사자_마마_1K.csv",
+        "ext": ".csv",
+        "bytes": 1068880,
+        "mb": 1.02
+      },
+      {
+        "name": "2023년_종사자_마바_1K.csv",
+        "ext": ".csv",
+        "bytes": 372911,
+        "mb": 0.36
+      },
+      {
+        "name": "2023년_종사자_마사_1K.csv",
+        "ext": ".csv",
+        "bytes": 285278,
+        "mb": 0.27
+      },
+      {
+        "name": "2023년_종사자_마아_1K.csv",
+        "ext": ".csv",
+        "bytes": 9336,
+        "mb": 0.01
+      },
+      {
+        "name": "2023년_종사자_바사_1K.csv",
+        "ext": ".csv",
+        "bytes": 8312,
+        "mb": 0.01
+      },
+      {
+        "name": "2023년_종사자_사사_1K.csv",
+        "ext": ".csv",
+        "bytes": 3915,
+        "mb": 0.0
+      }
+    ],
+    "1. 통계\\4. 2023년 격자통계(사업체, 종사자)\\종사자(중분류)": [
+      {
+        "name": "2023년_종사자중분류_가다_1K.csv",
+        "ext": ".csv",
+        "bytes": 782,
+        "mb": 0.0
+      },
+      {
+        "name": "2023년_종사자중분류_가라_1K.csv",
+        "ext": ".csv",
+        "bytes": 943,
+        "mb": 0.0
+      },
+      {
+        "name": "2023년_종사자중분류_가사_1K.csv",
+        "ext": ".csv",
+        "bytes": 5029,
+        "mb": 0.0
+      },
+      {
+        "name": "2023년_종사자중분류_가아_1K.csv",
+        "ext": ".csv",
+        "bytes": 2458,
+        "mb": 0.0
+      },
+      {
+        "name": "2023년_종사자중분류_나나_1K.csv",
+        "ext": ".csv",
+        "bytes": 139908,
+        "mb": 0.13
+      },
+      {
+        "name": "2023년_종사자중분류_나다_1K.csv",
+        "ext": ".csv",
+        "bytes": 11937,
+        "mb": 0.01
+      },
+      {
+        "name": "2023년_종사자중분류_나라_1K.csv",
+        "ext": ".csv",
+        "bytes": 181991,
+        "mb": 0.17
+      },
+      {
+        "name": "2023년_종사자중분류_나마_1K.csv",
+        "ext": ".csv",
+        "bytes": 5591,
+        "mb": 0.01
+      },
+      {
+        "name": "2023년_종사자중분류_나바_1K.csv",
+        "ext": ".csv",
+        "bytes": 86400,
+        "mb": 0.08
+      },
+      {
+        "name": "2023년_종사자중분류_나사_1K.csv",
+        "ext": ".csv",
+        "bytes": 21156,
+        "mb": 0.02
+      },
+      {
+        "name": "2023년_종사자중분류_다나_1K.csv",
+        "ext": ".csv",
+        "bytes": 192327,
+        "mb": 0.18
+      },
+      {
+        "name": "2023년_종사자중분류_다다_1K.csv",
+        "ext": ".csv",
+        "bytes": 174464,
+        "mb": 0.17
+      },
+      {
+        "name": "2023년_종사자중분류_다라_1K.csv",
+        "ext": ".csv",
+        "bytes": 1206789,
+        "mb": 1.15
+      },
+      {
+        "name": "2023년_종사자중분류_다마_1K.csv",
+        "ext": ".csv",
+        "bytes": 1360556,
+        "mb": 1.3
+      },
+      {
+        "name": "2023년_종사자중분류_다바_1K.csv",
+        "ext": ".csv",
+        "bytes": 2566748,
+        "mb": 2.45
+      },
+      {
+        "name": "2023년_종사자중분류_다사_1K.csv",
+        "ext": ".csv",
+        "bytes": 4916037,
+        "mb": 4.69
+      },
+      {
+        "name": "2023년_종사자중분류_다아_1K.csv",
+        "ext": ".csv",
+        "bytes": 125360,
+        "mb": 0.12
+      },
+      {
+        "name": "2023년_종사자중분류_라라_1K.csv",
+        "ext": ".csv",
+        "bytes": 955156,
+        "mb": 0.91
+      },
+      {
+        "name": "2023년_종사자중분류_라마_1K.csv",
+        "ext": ".csv",
+        "bytes": 1333731,
+        "mb": 1.27
+      },
+      {
+        "name": "2023년_종사자중분류_라바_1K.csv",
+        "ext": ".csv",
+        "bytes": 1039049,
+        "mb": 0.99
+      },
+      {
+        "name": "2023년_종사자중분류_라사_1K.csv",
+        "ext": ".csv",
+        "bytes": 975065,
+        "mb": 0.93
+      },
+      {
+        "name": "2023년_종사자중분류_라아_1K.csv",
+        "ext": ".csv",
+        "bytes": 198616,
+        "mb": 0.19
+      },
+      {
+        "name": "2023년_종사자중분류_마라_1K.csv",
+        "ext": ".csv",
+        "bytes": 911244,
+        "mb": 0.87
+      },
+      {
+        "name": "2023년_종사자중분류_마마_1K.csv",
+        "ext": ".csv",
+        "bytes": 1613643,
+        "mb": 1.54
+      },
+      {
+        "name": "2023년_종사자중분류_마바_1K.csv",
+        "ext": ".csv",
+        "bytes": 366768,
+        "mb": 0.35
+      },
+      {
+        "name": "2023년_종사자중분류_마사_1K.csv",
+        "ext": ".csv",
+        "bytes": 338029,
+        "mb": 0.32
+      },
+      {
+        "name": "2023년_종사자중분류_마아_1K.csv",
+        "ext": ".csv",
+        "bytes": 9448,
+        "mb": 0.01
+      },
+      {
+        "name": "2023년_종사자중분류_바사_1K.csv",
+        "ext": ".csv",
+        "bytes": 9091,
+        "mb": 0.01
+      },
+      {
+        "name": "2023년_종사자중분류_사사_1K.csv",
+        "ext": ".csv",
+        "bytes": 5113,
+        "mb": 0.0
+      }
+    ],
+    "2. 경계\\grid_가다": [
+      {
+        "name": "grid_가다_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_가다_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 428,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_가다_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_가다_1K.shp",
+        "ext": ".shp",
+        "bytes": 4588,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_가다_1K.shx",
+        "ext": ".shx",
+        "bytes": 364,
+        "mb": 0.0
+      }
+    ],
+    "2. 경계\\grid_가라": [
+      {
+        "name": "grid_가라_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_가라_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 571,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_가라_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_가라_1K.shp",
+        "ext": ".shp",
+        "bytes": 6356,
+        "mb": 0.01
+      },
+      {
+        "name": "grid_가라_1K.shx",
+        "ext": ".shx",
+        "bytes": 468,
+        "mb": 0.0
+      }
+    ],
+    "2. 경계\\grid_가사": [
+      {
+        "name": "grid_가사_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_가사_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 1132,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_가사_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_가사_1K.shp",
+        "ext": ".shp",
+        "bytes": 13292,
+        "mb": 0.01
+      },
+      {
+        "name": "grid_가사_1K.shx",
+        "ext": ".shx",
+        "bytes": 876,
+        "mb": 0.0
+      }
+    ],
+    "2. 경계\\grid_가아": [
+      {
+        "name": "grid_가아_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_가아_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 296,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_가아_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_가아_1K.shp",
+        "ext": ".shp",
+        "bytes": 2956,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_가아_1K.shx",
+        "ext": ".shx",
+        "bytes": 268,
+        "mb": 0.0
+      }
+    ],
+    "2. 경계\\grid_나나": [
+      {
+        "name": "grid_나나_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_나나_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 6830,
+        "mb": 0.01
+      },
+      {
+        "name": "grid_나나_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_나나_1K.shp",
+        "ext": ".shp",
+        "bytes": 83740,
+        "mb": 0.08
+      },
+      {
+        "name": "grid_나나_1K.shx",
+        "ext": ".shx",
+        "bytes": 5020,
+        "mb": 0.0
+      }
+    ],
+    "2. 경계\\grid_나다": [
+      {
+        "name": "grid_나다_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_나다_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 4443,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_나다_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_나다_1K.shp",
+        "ext": ".shp",
+        "bytes": 54228,
+        "mb": 0.05
+      },
+      {
+        "name": "grid_나다_1K.shx",
+        "ext": ".shx",
+        "bytes": 3284,
+        "mb": 0.0
+      }
+    ],
+    "2. 경계\\grid_나라": [
+      {
+        "name": "grid_나라_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_나라_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 30524,
+        "mb": 0.03
+      },
+      {
+        "name": "grid_나라_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_나라_1K.shp",
+        "ext": ".shp",
+        "bytes": 376684,
+        "mb": 0.36
+      },
+      {
+        "name": "grid_나라_1K.shx",
+        "ext": ".shx",
+        "bytes": 22252,
+        "mb": 0.02
+      }
+    ],
+    "2. 경계\\grid_나마": [
+      {
+        "name": "grid_나마_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_나마_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 2100,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_나마_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_나마_1K.shp",
+        "ext": ".shp",
+        "bytes": 25260,
+        "mb": 0.02
+      },
+      {
+        "name": "grid_나마_1K.shx",
+        "ext": ".shx",
+        "bytes": 1580,
+        "mb": 0.0
+      }
+    ],
+    "2. 경계\\grid_나바": [
+      {
+        "name": "grid_나바_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_나바_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 11736,
+        "mb": 0.01
+      },
+      {
+        "name": "grid_나바_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_나바_1K.shp",
+        "ext": ".shp",
+        "bytes": 144396,
+        "mb": 0.14
+      },
+      {
+        "name": "grid_나바_1K.shx",
+        "ext": ".shx",
+        "bytes": 8588,
+        "mb": 0.01
+      }
+    ],
+    "2. 경계\\grid_나사": [
+      {
+        "name": "grid_나사_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_나사_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 4949,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_나사_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_나사_1K.shp",
+        "ext": ".shp",
+        "bytes": 60484,
+        "mb": 0.06
+      },
+      {
+        "name": "grid_나사_1K.shx",
+        "ext": ".shx",
+        "bytes": 3652,
+        "mb": 0.0
+      }
+    ],
+    "2. 경계\\grid_다나": [
+      {
+        "name": "grid_다나_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_다나_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 12594,
+        "mb": 0.01
+      },
+      {
+        "name": "grid_다나_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_다나_1K.shp",
+        "ext": ".shp",
+        "bytes": 155004,
+        "mb": 0.15
+      },
+      {
+        "name": "grid_다나_1K.shx",
+        "ext": ".shx",
+        "bytes": 9212,
+        "mb": 0.01
+      }
+    ],
+    "2. 경계\\grid_다다": [
+      {
+        "name": "grid_다다_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_다다_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 14398,
+        "mb": 0.01
+      },
+      {
+        "name": "grid_다다_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_다다_1K.shp",
+        "ext": ".shp",
+        "bytes": 177308,
+        "mb": 0.17
+      },
+      {
+        "name": "grid_다다_1K.shx",
+        "ext": ".shx",
+        "bytes": 10524,
+        "mb": 0.01
+      }
+    ],
+    "2. 경계\\grid_다라": [
+      {
+        "name": "grid_다라_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_다라_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 101309,
+        "mb": 0.1
+      },
+      {
+        "name": "grid_다라_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_다라_1K.shp",
+        "ext": ".shp",
+        "bytes": 1251844,
+        "mb": 1.19
+      },
+      {
+        "name": "grid_다라_1K.shx",
+        "ext": ".shx",
+        "bytes": 73732,
+        "mb": 0.07
+      }
+    ],
+    "2. 경계\\grid_다마": [
+      {
+        "name": "grid_다마_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_다마_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 98493,
+        "mb": 0.09
+      },
+      {
+        "name": "grid_다마_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_다마_1K.shp",
+        "ext": ".shp",
+        "bytes": 1217028,
+        "mb": 1.16
+      },
+      {
+        "name": "grid_다마_1K.shx",
+        "ext": ".shx",
+        "bytes": 71684,
+        "mb": 0.07
+      }
+    ],
+    "2. 경계\\grid_다바": [
+      {
+        "name": "grid_다바_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_다바_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 103729,
+        "mb": 0.1
+      },
+      {
+        "name": "grid_다바_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_다바_1K.shp",
+        "ext": ".shp",
+        "bytes": 1281764,
+        "mb": 1.22
+      },
+      {
+        "name": "grid_다바_1K.shx",
+        "ext": ".shx",
+        "bytes": 75492,
+        "mb": 0.07
+      }
+    ],
+    "2. 경계\\grid_다사": [
+      {
+        "name": "grid_다사_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_다사_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 94764,
+        "mb": 0.09
+      },
+      {
+        "name": "grid_다사_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_다사_1K.shp",
+        "ext": ".shp",
+        "bytes": 1170924,
+        "mb": 1.12
+      },
+      {
+        "name": "grid_다사_1K.shx",
+        "ext": ".shx",
+        "bytes": 68972,
+        "mb": 0.07
+      }
+    ],
+    "2. 경계\\grid_다아": [
+      {
+        "name": "grid_다아_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_다아_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 19634,
+        "mb": 0.02
+      },
+      {
+        "name": "grid_다아_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_다아_1K.shp",
+        "ext": ".shp",
+        "bytes": 242044,
+        "mb": 0.23
+      },
+      {
+        "name": "grid_다아_1K.shx",
+        "ext": ".shx",
+        "bytes": 14332,
+        "mb": 0.01
+      }
+    ],
+    "2. 경계\\grid_라다": [
+      {
+        "name": "grid_라다_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_라다_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 329,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_라다_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_라다_1K.shp",
+        "ext": ".shp",
+        "bytes": 3364,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_라다_1K.shx",
+        "ext": ".shx",
+        "bytes": 292,
+        "mb": 0.0
+      }
+    ],
+    "2. 경계\\grid_라라": [
+      {
+        "name": "grid_라라_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_라라_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 67660,
+        "mb": 0.06
+      },
+      {
+        "name": "grid_라라_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_라라_1K.shp",
+        "ext": ".shp",
+        "bytes": 835820,
+        "mb": 0.8
+      },
+      {
+        "name": "grid_라라_1K.shx",
+        "ext": ".shx",
+        "bytes": 49260,
+        "mb": 0.05
+      }
+    ],
+    "2. 경계\\grid_라마": [
+      {
+        "name": "grid_라마_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_라마_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 110065,
+        "mb": 0.1
+      },
+      {
+        "name": "grid_라마_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_라마_1K.shp",
+        "ext": ".shp",
+        "bytes": 1360100,
+        "mb": 1.3
+      },
+      {
+        "name": "grid_라마_1K.shx",
+        "ext": ".shx",
+        "bytes": 80100,
+        "mb": 0.08
+      }
+    ],
+    "2. 경계\\grid_라바": [
+      {
+        "name": "grid_라바_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_라바_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 110065,
+        "mb": 0.1
+      },
+      {
+        "name": "grid_라바_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_라바_1K.shp",
+        "ext": ".shp",
+        "bytes": 1360100,
+        "mb": 1.3
+      },
+      {
+        "name": "grid_라바_1K.shx",
+        "ext": ".shx",
+        "bytes": 80100,
+        "mb": 0.08
+      }
+    ],
+    "2. 경계\\grid_라사": [
+      {
+        "name": "grid_라사_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_라사_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 110065,
+        "mb": 0.1
+      },
+      {
+        "name": "grid_라사_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_라사_1K.shp",
+        "ext": ".shp",
+        "bytes": 1360100,
+        "mb": 1.3
+      },
+      {
+        "name": "grid_라사_1K.shx",
+        "ext": ".shx",
+        "bytes": 80100,
+        "mb": 0.08
+      }
+    ],
+    "2. 경계\\grid_라아": [
+      {
+        "name": "grid_라아_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_라아_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 45055,
+        "mb": 0.04
+      },
+      {
+        "name": "grid_라아_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_라아_1K.shp",
+        "ext": ".shp",
+        "bytes": 556340,
+        "mb": 0.53
+      },
+      {
+        "name": "grid_라아_1K.shx",
+        "ext": ".shx",
+        "bytes": 32820,
+        "mb": 0.03
+      }
+    ],
+    "2. 경계\\grid_마라": [
+      {
+        "name": "grid_마라_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_마라_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 20195,
+        "mb": 0.02
+      },
+      {
+        "name": "grid_마라_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_마라_1K.shp",
+        "ext": ".shp",
+        "bytes": 248980,
+        "mb": 0.24
+      },
+      {
+        "name": "grid_마라_1K.shx",
+        "ext": ".shx",
+        "bytes": 14740,
+        "mb": 0.01
+      }
+    ],
+    "2. 경계\\grid_마마": [
+      {
+        "name": "grid_마마_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_마마_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 84996,
+        "mb": 0.08
+      },
+      {
+        "name": "grid_마마_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_마마_1K.shp",
+        "ext": ".shp",
+        "bytes": 1050156,
+        "mb": 1.0
+      },
+      {
+        "name": "grid_마마_1K.shx",
+        "ext": ".shx",
+        "bytes": 61868,
+        "mb": 0.06
+      }
+    ],
+    "2. 경계\\grid_마바": [
+      {
+        "name": "grid_마바_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_마바_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 79980,
+        "mb": 0.08
+      },
+      {
+        "name": "grid_마바_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_마바_1K.shp",
+        "ext": ".shp",
+        "bytes": 988140,
+        "mb": 0.94
+      },
+      {
+        "name": "grid_마바_1K.shx",
+        "ext": ".shx",
+        "bytes": 58220,
+        "mb": 0.06
+      }
+    ],
+    "2. 경계\\grid_마사": [
+      {
+        "name": "grid_마사_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_마사_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 47849,
+        "mb": 0.05
+      },
+      {
+        "name": "grid_마사_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_마사_1K.shp",
+        "ext": ".shp",
+        "bytes": 590884,
+        "mb": 0.56
+      },
+      {
+        "name": "grid_마사_1K.shx",
+        "ext": ".shx",
+        "bytes": 34852,
+        "mb": 0.03
+      }
+    ],
+    "2. 경계\\grid_마아": [
+      {
+        "name": "grid_마아_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_마아_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 890,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_마아_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_마아_1K.shp",
+        "ext": ".shp",
+        "bytes": 10300,
+        "mb": 0.01
+      },
+      {
+        "name": "grid_마아_1K.shx",
+        "ext": ".shx",
+        "bytes": 700,
+        "mb": 0.0
+      }
+    ],
+    "2. 경계\\grid_바사": [
+      {
+        "name": "grid_바사_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_바사_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 956,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_바사_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_바사_1K.shp",
+        "ext": ".shp",
+        "bytes": 11116,
+        "mb": 0.01
+      },
+      {
+        "name": "grid_바사_1K.shx",
+        "ext": ".shx",
+        "bytes": 748,
+        "mb": 0.0
+      }
+    ],
+    "2. 경계\\grid_사사": [
+      {
+        "name": "grid_사사_1K.cpg",
+        "ext": ".cpg",
+        "bytes": 5,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_사사_1K.dbf",
+        "ext": ".dbf",
+        "bytes": 395,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_사사_1K.prj",
+        "ext": ".prj",
+        "bytes": 611,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_사사_1K.shp",
+        "ext": ".shp",
+        "bytes": 4180,
+        "mb": 0.0
+      },
+      {
+        "name": "grid_사사_1K.shx",
+        "ext": ".shx",
+        "bytes": 340,
+        "mb": 0.0
+      }
+    ],
+    "3. 코드집": [
+      {
+        "name": "1. 시도·시군구별 격자코드 매핑(adm_grid_mapping).xlsx",
+        "ext": ".xlsx",
+        "bytes": 21576,
+        "mb": 0.02
+      },
+      {
+        "name": "2. 제공용 코드(statistics_code).xlsx",
+        "ext": ".xlsx",
+        "bytes": 69089,
+        "mb": 0.07
+      },
+      {
+        "name": "3. 통계자료 이용안내(statistics_guide).hwpx",
+        "ext": ".hwpx",
+        "bytes": 37332,
+        "mb": 0.04
+      },
+      {
+        "name": "4. 공간정보 설계서(db_schema).hwpx",
+        "ext": ".hwpx",
+        "bytes": 49097,
+        "mb": 0.05
+      }
+    ],
+    "4. (참고1) SGIS 소지역 통계 이용매뉴얼": [
+      {
+        "name": "SGIS 소지역 통계 이용매뉴얼(영문).hwpx",
+        "ext": ".hwpx",
+        "bytes": 30651950,
+        "mb": 29.23
+      },
+      {
+        "name": "SGIS 소지역 통계 이용매뉴얼(한글).hwpx",
+        "ext": ".hwpx",
+        "bytes": 12392011,
+        "mb": 11.82
+      }
+    ]
+  },
+  "by_ext": {
+    ".hwpx": 5,
+    ".csv": 206,
+    ".cpg": 30,
+    ".dbf": 30,
+    ".prj": 30,
+    ".shp": 30,
+    ".shx": 30,
+    ".xlsx": 2
+  },
+  "total_bytes": 309182325,
+  "total_files": 363
+}

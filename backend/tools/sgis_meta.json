@@ -1,0 +1,78 @@
+{
+  "ext_summary": {
+    ".hwpx": {
+      "count": 5,
+      "bytes": 76110686
+    },
+    ".xlsx": {
+      "count": 2,
+      "bytes": 90665
+    },
+    ".csv": {
+      "count": 206,
+      "bytes": 216264144
+    },
+    ".cpg": {
+      "count": 30,
+      "bytes": 150
+    },
+    ".dbf": {
+      "count": 30,
+      "bytes": 1186430
+    },
+    ".prj": {
+      "count": 30,
+      "bytes": 18330
+    },
+    ".shp": {
+      "count": 30,
+      "bytes": 14647480
+    },
+    ".shx": {
+      "count": 30,
+      "bytes": 864440
+    }
+  },
+  "seoul_pop_header": [
+    "기준연도",
+    "격자코드",
+    "통계항목",
+    "통계값"
+  ],
+  "seoul_pop_rows": [
+    [
+      "2024",
+      "다다0000",
+      "in_age_002",
+      "570"
+    ],
+    [
+      "2024",
+      "다다0000",
+      "in_age_003",
+      "677"
+    ],
+    [
+      "2024",
+      "다다0000",
+      "in_age_004",
+      "557"
+    ]
+  ],
+  "prj": "PROJCS[\"Korea 2000 / Unified CS\",GEOGCS[\"Korea 2000\",DATUM[\"Geocentric_datum_of_Korea\",SPHEROID[\"GRS 1980\",6378137,298.257222101,AUTHORITY[\"EPSG\",\"7019\"]],TOWGS84[0,0,0,0,0,0,0],AUTHORITY[\"EPSG\",\"6737\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4737\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",38],PARAMETER[\"central_meridian\",127.5],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",1000000],PARAMETER[\"false_northing\",2000000],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AUTHORITY[\"EPSG\",\"5179\"]]",
+  "shape_info": {
+    "error": "No module named 'geopandas'",
+    "shp_exists": true,
+    "shp_bytes": 177308
+  },
+  "code_files": [
+    "3. 코드집\\1. 시도·시군구별 격자코드 매핑(adm_grid_mapping).xlsx",
+    "3. 코드집\\2. 제공용 코드(statistics_code).xlsx",
+    "3. 코드집\\3. 통계자료 이용안내(statistics_guide).hwpx",
+    "3. 코드집\\4. 공간정보 설계서(db_schema).hwpx"
+  ],
+  "manual_files": [
+    "4. (참고1) SGIS 소지역 통계 이용매뉴얼\\SGIS 소지역 통계 이용매뉴얼(영문).hwpx",
+    "4. (참고1) SGIS 소지역 통계 이용매뉴얼\\SGIS 소지역 통계 이용매뉴얼(한글).hwpx"
+  ]
+}

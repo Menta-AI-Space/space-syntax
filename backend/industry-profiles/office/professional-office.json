@@ -1,0 +1,213 @@
+{
+  "id": "professional_office",
+  "name": "부동산·전문서비스",
+  "parentCategory": "office",
+  "version": "1.0.0",
+  "effectiveFrom": "2026-07-15",
+  "supportedUserTypes": [
+    "entrepreneur",
+    "franchise"
+  ],
+  "matchRules": {
+    "sbizCodes": {
+      "lcls": ["L1", "M1"],
+      "mcls": ["L102", "M103", "M104"],
+      "scls": [
+        "L10203",
+        "M10301",
+        "M10302",
+        "M10303",
+        "M10306",
+        "M10307",
+        "M10399",
+        "M10401",
+        "M10402",
+        "M10499"
+      ]
+    },
+    "businessTypePresets": ["professional_office"],
+    "fallbackArchetype": "professional_service"
+  },
+  "analysis": {
+    "catchment": {
+      "primary": "transit",
+      "transitMinutes": [
+        20,
+        40
+      ],
+      "walkMinutes": [
+        5,
+        10
+      ]
+    },
+    "timeSlots": [
+      "weekday_day",
+      "post_lunch"
+    ],
+    "competitorGroups": {
+      "direct": [
+        "same_service_office"
+      ],
+      "secondary": [
+        "adjacent_professional"
+      ],
+      "indirect": [
+        "shared_office"
+      ],
+      "channel": [
+        "online_platform"
+      ]
+    },
+    "siteFeatures": {
+      "integration": 0.20,
+      "choice": 0.05,
+      "mean_depth": 0.05,
+      "connectivity": 0.05,
+      "transit": 0.25,
+      "demand": 0.30,
+      "competition": 0.10
+    },
+    "competitorRules": {
+      "vertical": "professional_office",
+      "distance_bands_m": [
+        { "max": 100, "weight": 1.0 },
+        { "max": 200, "weight": 0.8 },
+        { "max": 300, "weight": 0.6 },
+        { "max": 500, "weight": 0.4 },
+        { "max": 1000, "weight": 0.2 }
+      ],
+      "intensity_thresholds": [15, 30, 50],
+      "buckets": [
+        {
+          "key": "direct_realty",
+          "label": "부동산 중개",
+          "weight": 1.0,
+          "mcls_codes": ["L102"],
+          "scls_codes": ["L10203"],
+          "keywords": ["부동산", "공인중개사", "부동산중개", "중개법인"]
+        },
+        {
+          "key": "direct_legal",
+          "label": "법무·행정 사무소",
+          "weight": 1.0,
+          "mcls_codes": ["M103"],
+          "keywords": ["변호사", "법무사", "변리사", "행정사", "노무사", "법률사무소"]
+        },
+        {
+          "key": "direct_tax",
+          "label": "세무·회계 사무소",
+          "weight": 1.0,
+          "mcls_codes": ["M104"],
+          "keywords": ["세무사", "회계사", "세무회계", "회계법인", "기장"]
+        },
+        {
+          "key": "substitute_insurance",
+          "label": "보험 영업점",
+          "weight": 0.5,
+          "keywords": ["보험", "보험대리점", "손해보험", "생명보험", "GA"]
+        },
+        {
+          "key": "substitute_shared_office",
+          "label": "공유오피스·비즈니스센터",
+          "weight": 0.4,
+          "keywords": ["공유오피스", "코워킹", "비즈니스센터", "섹션오피스", "소호사무실"]
+        }
+      ]
+    },
+    "publicSalesMappings": []
+  },
+  "ui": {
+    "summaryKpis": [
+      {
+        "key": "business_density",
+        "label": "사업체·직장인 밀도"
+      },
+      {
+        "key": "client_access",
+        "label": "고객 접근성"
+      },
+      {
+        "key": "professional_competition",
+        "label": "동종 사무소 경쟁"
+      },
+      {
+        "key": "daytime_traffic",
+        "label": "주간 활동 인구"
+      }
+    ],
+    "primaryTabs": [
+      "business_demand",
+      "office_competition",
+      "daytime_traffic",
+      "transit_access",
+      "compare"
+    ],
+    "secondaryTabs": [
+      "parking"
+    ],
+    "mapLayers": [
+      "workers",
+      "same_service_offices",
+      "transit_catchment",
+      "daytime_population",
+      "office_buildings"
+    ],
+    "alerts": [
+      "office_saturation",
+      "weak_transit_access"
+    ],
+    "recommendations": [
+      "station_front_office",
+      "professional_cluster"
+    ],
+    "reportSections": [
+      "summary",
+      "business_density",
+      "competition",
+      "access",
+      "risks"
+    ]
+  },
+  "userOverrides": {
+    "franchise": {
+      "summaryKpis": [
+        {
+          "key": "cannibalization_risk",
+          "label": "기존 지점 상권 중첩"
+        },
+        {
+          "key": "new_coverage",
+          "label": "신규 커버리지"
+        },
+        {
+          "key": "brand_whitespace",
+          "label": "브랜드 공백"
+        },
+        {
+          "key": "network_efficiency",
+          "label": "지점망 효율"
+        }
+      ],
+      "primaryTabs": [
+        "network",
+        "cannibalization",
+        "new_coverage",
+        "candidates"
+      ],
+      "mapLayers": [
+        "existing_stores",
+        "existing_store_overlap",
+        "transit_catchment",
+        "new_coverage",
+        "brand_whitespace"
+      ],
+      "reportSections": [
+        "approval_summary",
+        "network_impact",
+        "cannibalization",
+        "new_market",
+        "decision"
+      ]
+    }
+  }
+}

@@ -1,0 +1,525 @@
+@import "./tokens.css";
+
+/* 신설도로 시뮬레이션 tab */
+
+.sim-next-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sim-next-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.sim-next-head h3 {
+  margin: 6px 0 0;
+}
+
+/* Guided step sections — 위치 설정 → 도로 그리기·폐쇄 → 실행·전후 비교. */
+.sim-step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line-normal-neutral);
+}
+
+.sim-step:first-of-type {
+  padding-top: var(--space-1);
+  border-top: 0;
+}
+
+.sim-step-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--label-strong);
+}
+
+.sim-step-num {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--fill-normal);
+  color: var(--label-alternative);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.sim-step-num--done {
+  background: var(--purple-90);
+  color: var(--purple-40);
+}
+
+.sim-run-button {
+  width: 100%;
+}
+
+.sim-run-status {
+  margin: 0;
+}
+
+.sim-next-option {
+  align-items: flex-start;
+  line-height: 1.45;
+}
+
+.sim-next-result {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sim-next-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.sim-next-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px;
+  border-radius: 12px;
+  background: var(--background-normal-alternative);
+  border: 1px solid var(--line-normal-neutral);
+}
+
+.sim-next-metric span {
+  font-size: 12px;
+  color: var(--label-alternative);
+}
+
+.sim-next-metric strong {
+  font-size: 18px;
+  color: var(--label-strong);
+}
+
+.sim-next-metric em {
+  font-style: normal;
+  font-weight: 800;
+}
+
+.sim-next-metric em.positive {
+  color: var(--accent-foreground-green);
+}
+
+.sim-next-metric em.negative {
+  color: var(--accent-foreground-red);
+}
+
+/* 지도에서 회색(변화 없음)으로 칠한 만큼의 변화는 숫자도 색을 빼서 맞춘다.
+   기준은 lib/simDelta.ts 한 곳에 있다. */
+.sim-next-metric em.neutral,
+.sim-next-impact li strong.neutral {
+  color: var(--label-alternative);
+}
+
+.sim-next-impact h4 {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.sim-next-impact ul {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sim-next-impact li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line-normal-neutral);
+  font-size: 13px;
+}
+
+.sim-next-impact li span {
+  color: var(--label-neutral);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sim-next-impact li strong {
+  flex-shrink: 0;
+  color: var(--label-strong);
+}
+
+.sim-next-impact li strong.positive {
+  color: var(--accent-foreground-green);
+}
+
+.sim-next-impact li strong.negative {
+  color: var(--accent-foreground-red);
+}
+
+/* 카카오 길찾기식 경로 입력 — 출발·경유·도착 슬롯 행. */
+.sim-route {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.sim-route-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sim-route-row .address-autocomplete-wrap {
+  flex: 1;
+}
+
+.sim-route-badge {
+  flex-shrink: 0;
+  width: 2.4rem;
+  text-align: center;
+  padding: 0.22rem 0;
+  border-radius: var(--radius-pill);
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: var(--fill-normal);
+  color: var(--label-alternative);
+}
+
+.sim-route-badge--start {
+  background: var(--blue-90);
+  color: var(--blue-45);
+}
+
+.sim-route-badge--end {
+  background: var(--red-90);
+  color: var(--red-50);
+}
+
+/* 폐쇄 도로 후보 칩 목록. */
+.sim-closed-list {
+  list-style: none;
+  margin: 0.4rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.sim-closed-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--line-normal-neutral);
+  border-radius: var(--radius-pill);
+  background: var(--background-normal-alternative);
+  font-size: 0.78rem;
+  color: var(--label-neutral);
+}
+
+.sim-closed-chip button {
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 0.78rem;
+  color: var(--accent-foreground-red);
+}
+
+.sim-location-hint {
+  margin: 0.35rem 0 0;
+  font-size: 0.8rem;
+  color: var(--label-alternative);
+}
+
+.sim-optional {
+  font-weight: normal;
+  font-size: 0.85em;
+  color: var(--label-alternative);
+}
+
+.sim-view-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.sim-btn {
+  border: 1px solid var(--line-normal-normal);
+  background: var(--background-elevated-normal);
+  color: var(--label-normal);
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.sim-btn:hover:not(:disabled) {
+  background: var(--fill-normal);
+  border-color: var(--line-normal-normal);
+}
+
+.sim-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.sim-btn--active {
+  background: var(--label-strong);
+  border-color: var(--label-strong);
+  color: var(--static-white);
+}
+
+.sim-btn--active:hover:not(:disabled) {
+  background: var(--label-strong);
+}
+
+.sim-legend-panel {
+  margin-top: 0.75rem;
+  padding: 0.75rem 0.9rem;
+  background: var(--cool-neutral-98);
+  border: 1px solid var(--cool-neutral-90);
+  border-radius: 6px;
+  font-size: 0.82rem;
+}
+
+/* 지도 위에 떠 있을 때는 지도를 가리지 않도록 폭을 제한하고 카드처럼 띄운다. */
+.map-overlay-bottom .sim-legend-panel {
+  margin-top: 0;
+  max-width: 320px;
+  background: var(--background-elevated-normal);
+  border-color: var(--line-normal-neutral);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-normal);
+  font-size: var(--text-xs);
+}
+
+.map-overlay-bottom .sim-legend-desc {
+  display: none;
+}
+
+.sim-legend-heading {
+  font-weight: 600;
+  color: var(--label-strong);
+  margin-bottom: 0.25rem;
+}
+
+.sim-legend-desc {
+  color: var(--label-alternative);
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.sim-legend-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.sim-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cool-neutral-25);
+}
+
+.sim-swatch {
+  flex-shrink: 0;
+  width: 28px;
+  height: 6px;
+  border-radius: 2px;
+}
+
+.sim-swatch--dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+}
+
+.sim-swatch--dash {
+  background-image: repeating-linear-gradient(
+    90deg,
+    currentColor 0,
+    currentColor 4px,
+    transparent 4px,
+    transparent 7px
+  );
+  background-color: transparent !important;
+  color: #6d28d9;
+}
+
+.sim-legend-scale {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.35rem 0 0.5rem;
+}
+
+.sim-legend-scale-bar {
+  flex: 1;
+  height: 12px;
+  border-radius: 2px;
+  min-width: 120px;
+}
+
+.sim-legend-scale-label {
+  flex-shrink: 0;
+  font-size: 0.78rem;
+  color: var(--label-neutral);
+  line-height: 1.25;
+  max-width: 5.5rem;
+}
+
+.sim-legend-scale-label small {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--label-assistive);
+  font-weight: 400;
+}
+
+.sim-legend-note {
+  margin: 0.35rem 0 0;
+  font-size: 0.76rem;
+  color: var(--label-assistive);
+}
+
+/* #sim-map — dedicated Kakao map instance for this tab (components/map/SimMap.tsx),
+   ported from `#sim-map` sizing in frontend/css/style.css. */
+.sim-map {
+  height: min(72vh, 680px);
+  min-height: 400px;
+}
+
+/* 신설도로 시뮬레이션 — 입지 분석과 동일한 풀블리드 지도 + floating 패널.
+   기존 640px 좁은 컬럼을 전체 폭으로 펼치고, 컨트롤/결과는 지도 위에 띄운다.
+   floating 스타일(.app-sidebar--floating / .site-panel--floating)과 지도 채움
+   (.map-stage / .map-overlay-bottom)은 layout.css의 규칙을 그대로 재사용한다. */
+.tab-page--simulation {
+  max-width: none;
+  padding: 0;
+}
+
+.sim-fullbleed {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+}
+
+@media (min-width: 961px) {
+  /* tab-page를 flex 컬럼으로 만들어 sim-fullbleed가 flex:1로 전체 높이를 채우게
+     한다 (입지 분석의 .app-body가 flex:1로 채우는 것과 동일한 방식). */
+  .tab-page--simulation {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sim-fullbleed {
+    flex: 1;
+    min-height: 0;
+  }
+}
+
+.sim-draw-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.sim-road-type-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--label-neutral);
+}
+
+.sim-road-type-select {
+  width: auto;
+  min-height: 36px;
+  padding: 0.3rem 0.5rem;
+}
+
+/* Waypoint list + vertex dots — ported from frontend/css/style.css. */
+.sim-waypoint-list {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.sim-waypoint-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--line-normal-neutral);
+}
+
+.sim-waypoint-num {
+  flex-shrink: 0;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: var(--purple-90, #ede9fe);
+  color: #6d28d9;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.sim-waypoint-address {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sim-waypoint-remove {
+  flex-shrink: 0;
+  border: none;
+  background: none;
+  color: var(--accent-foreground-red);
+  font-size: 0.78rem;
+  cursor: pointer;
+  padding: 0.15rem 0.3rem;
+}
+
+.sim-vertex {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--dot-color, #7c3aed);
+  border: 2px solid #fff;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}

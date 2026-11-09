@@ -1,0 +1,408 @@
+@import "./tokens.css";
+
+/* Lease feasibility + real-competition/academy-cluster/model-fit sections,
+   rendered inside the 입지 분석 results flow (DashboardPanel). */
+
+.lease-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem 0.65rem;
+  margin-bottom: 0.65rem;
+}
+
+.lease-form-grid label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.68rem;
+  color: #475569;
+  gap: 0.2rem;
+}
+
+.lease-form-grid input {
+  font-size: 0.75rem;
+  padding: 0.35rem 0.45rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+}
+
+.lease-submit-btn {
+  width: 100%;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.78rem;
+  background: var(--blue-50);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.lease-submit-btn:hover {
+  background: var(--blue-45);
+}
+
+.lease-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.lease-verdict {
+  font-weight: 600;
+  font-size: 0.82rem;
+  margin: 0.5rem 0;
+}
+
+.lease-verdict--danger {
+  color: var(--red-50);
+}
+.lease-verdict--warn {
+  color: var(--orange-39);
+}
+.lease-verdict--good {
+  color: var(--lime-37);
+}
+
+.lease-kpi-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.35rem 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem 0.5rem;
+  font-size: 0.68rem;
+}
+
+.lease-kpi-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.35rem;
+  padding: 0.25rem 0;
+  border-bottom: 1px dashed var(--cool-neutral-90);
+}
+
+.lease-explanation {
+  font-size: 0.68rem;
+  color: var(--cool-neutral-25);
+  line-height: 1.45;
+  margin-top: 0.5rem;
+}
+
+/* --- Real competition / academy cluster / model fit --- */
+
+.real-comp-reach-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0.5rem 0 0.75rem;
+}
+
+.real-comp-row-btn {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.35rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+
+.real-comp-brand-panel {
+  padding: 0.35rem 0.5rem 0.5rem 1rem;
+  border-left: 2px solid var(--cool-neutral-90);
+  margin: 0.15rem 0 0.35rem 0.35rem;
+}
+
+.real-comp-brand-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.real-comp-brand-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  padding: 0.25rem 0;
+}
+
+.real-comp-brand-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.real-comp-brand-subjects {
+  font-size: 0.65rem;
+  color: #64748b;
+}
+
+.real-comp-brand-pager {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+  font-size: 0.72rem;
+}
+
+.academy-subject-select {
+  width: 100%;
+  margin: 0.35rem 0 0.5rem;
+  padding: 0.45rem 0.5rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  background: #fff;
+}
+
+.upjong-subject-hint {
+  color: #b45309;
+  font-size: 0.75rem;
+  margin: 0.15rem 0 0.5rem;
+}
+
+.required-mark {
+  color: var(--red-50);
+}
+
+.academy-score-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin: 0.65rem 0;
+}
+
+.academy-score-row {
+  font-size: 0.78rem;
+}
+
+.academy-score-head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.2rem;
+}
+
+.academy-score-track {
+  height: 6px;
+  background: var(--cool-neutral-90);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.academy-score-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: #64748b;
+}
+
+.academy-score--good .academy-score-fill {
+  background: var(--lime-37);
+}
+.academy-score--mid .academy-score-fill {
+  background: var(--orange-39);
+}
+.academy-score--low .academy-score-fill,
+.academy-score--high .academy-score-fill {
+  background: var(--red-50);
+}
+
+.academy-same-building-badge {
+  display: inline-block;
+  font-size: 0.62rem;
+  padding: 0.05rem 0.35rem;
+  border-radius: 4px;
+  background: var(--red-95);
+  color: var(--accent-foreground-red);
+  border: 1px solid #fecaca;
+  margin-left: 0.25rem;
+}
+
+.academy-safety-note strong {
+  color: #0f766e;
+}
+
+.clinic-extras {
+  margin: 0.5rem 0 0.75rem;
+}
+
+.clinic-extras summary {
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--cool-neutral-25);
+}
+
+.clinic-extras-grid {
+  margin-top: 0.5rem;
+}
+
+.clinic-subject-picker {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+}
+
+.clinic-subject-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.4rem 0 0.35rem;
+}
+
+.clinic-subject-chip {
+  border: 1px solid #cbd5e1;
+  background: var(--background-elevated-normal);
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.72rem;
+  cursor: pointer;
+  color: var(--cool-neutral-25);
+}
+
+.clinic-subject-chip:hover {
+  background: var(--cool-neutral-98);
+}
+
+.clinic-subject-chip--active {
+  background: #0f172a;
+  border-color: #0f172a;
+  color: var(--background-elevated-normal);
+}
+
+.clinic-subject-more-btn {
+  border: 1px dashed #cbd5e1;
+  background: transparent;
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.72rem;
+  cursor: pointer;
+  color: #64748b;
+}
+
+.clinic-subject-more-btn:hover {
+  background: var(--cool-neutral-98);
+}
+
+.real-comp-list,
+.model-fit-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.35rem 0 0;
+}
+
+.real-comp-row {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.72rem;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.dash-intensity--high {
+  color: var(--red-50);
+  font-weight: 600;
+}
+.dash-intensity--mid {
+  color: var(--orange-39);
+}
+.dash-intensity--low {
+  color: var(--lime-37);
+}
+
+.model-fit-row {
+  padding: 0.45rem 0;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.7rem;
+}
+
+.model-fit-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.model-fit-detail {
+  margin: 0.2rem 0 0;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.model-fit--good .model-fit-head strong {
+  color: var(--lime-37);
+}
+.model-fit--low .model-fit-head strong {
+  color: var(--red-50);
+}
+
+.commercial-summary.food-analysis-kpi {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.metric-card {
+  background: var(--cool-neutral-98);
+  border: 1px solid var(--cool-neutral-90);
+  border-radius: 8px;
+  padding: 0.5rem 0.6rem;
+}
+
+.metric-card--accent {
+  background: var(--accent-background-light-blue);
+  border-color: var(--blue-90);
+}
+
+.metric-title {
+  font-size: 0.62rem;
+  color: #64748b;
+}
+
+.metric-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0.15rem 0;
+}
+
+.metric-detail {
+  font-size: 0.62rem;
+  color: #64748b;
+}
+
+.food-analysis-density {
+  margin: 0.5rem 0;
+}
+
+.density-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.density-bar-row {
+  display: grid;
+  grid-template-columns: 5rem 1fr 2rem;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.68rem;
+}
+
+.density-bar-track {
+  height: 6px;
+  background: var(--cool-neutral-90);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.density-bar-fill {
+  height: 100%;
+  background: var(--blue-50);
+  border-radius: 999px;
+}
+
+.density-count {
+  text-align: right;
+  color: #64748b;
+}

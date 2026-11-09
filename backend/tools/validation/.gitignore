@@ -1,0 +1,3 @@
+# 받은 원본(카카오·OSM, 약 100MB)과 osmnx 캐시 — 다시 만들 수 있다. 채점 결과만 results/에 남긴다.
+data/
+cache/

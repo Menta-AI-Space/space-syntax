@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "git fetch --quiet origin main 2>/dev/null; n=$(git rev-list --count HEAD..origin/main 2>/dev/null || echo 0); if [ \"$n\" -gt 0 ]; then printf '{\"systemMessage\":\"origin/main에 새 변경 %s개가 있습니다. 작업 전에 git pull 하세요.\",\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":\"이 저장소는 origin/main보다 %s커밋 뒤처져 있다 — 코드를 수정하기 전에 git pull 할 것.\"}}' \"$n\" \"$n\"; fi",
+            "timeout": 20
+          }
+        ]
+      }
+    ]
+  }
+}

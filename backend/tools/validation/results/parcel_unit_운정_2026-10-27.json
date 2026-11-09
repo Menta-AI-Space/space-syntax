@@ -1,0 +1,77 @@
+{
+ "town": "운정",
+ "date": "2026-10-27",
+ "units": {
+  "big": {
+   "count": 18,
+   "median_area_m2": 12002,
+   "with_stores": 9,
+   "own_unit_score": {
+    "auc_any": 0.062,
+    "auc_5plus": 0.201,
+    "rho": -0.752,
+    "top20_share": 0.0
+   },
+   "parcels_per_block_median": 40.5
+  },
+  "all": {
+   "count": 611,
+   "median_area_m2": 4128,
+   "with_stores": 180,
+   "own_unit_score": {
+    "auc_any": 0.804,
+    "auc_5plus": 0.843,
+    "rho": 0.499,
+    "top20_share": 0.686
+   },
+   "parcels_per_block_median": 6.0
+  },
+  "parcel": {
+   "count": 5493,
+   "median_area_m2": 399,
+   "with_stores": 488,
+   "own_unit_score": {
+    "auc_any": 0.783,
+    "auc_5plus": 0.913,
+    "rho": 0.284,
+    "top20_share": 0.785
+   }
+  }
+ },
+ "parcel_level": {
+  "big_block_score": {
+   "auc_any": 0.416,
+   "auc_5plus": 0.32,
+   "rho": -0.104,
+   "top20_share": 0.041,
+   "parcels_in_a_block": 503
+  },
+  "all_block_score": {
+   "auc_any": 0.526,
+   "auc_5plus": 0.659,
+   "rho": 0.031,
+   "top20_share": 0.436,
+   "parcels_in_a_block": 5022
+  },
+  "parcel_area_only": {
+   "auc_any": 0.674,
+   "auc_5plus": 0.797,
+   "rho": 0.175,
+   "top20_share": 0.518
+  },
+  "parcel": {
+   "auc_any": 0.783,
+   "auc_5plus": 0.913,
+   "rho": 0.284,
+   "top20_share": 0.785
+  },
+  "parcel+block": {
+   "auc_any": 0.805,
+   "auc_5plus": 0.935,
+   "rho": 0.305,
+   "top20_share": 0.827
+  },
+  "parcels": 5493,
+  "parcels_with_stores": 488
+ }
+}

@@ -1,0 +1,227 @@
+{
+  "id": "cafe",
+  "name": "카페·제과",
+  "parentCategory": "food",
+  "version": "1.0.0",
+  "effectiveFrom": "2026-07-12",
+  "supportedUserTypes": [
+    "entrepreneur",
+    "franchise"
+  ],
+  "matchRules": {
+    "sbizCodes": {
+      "lcls": ["I2"],
+      "mcls": ["I212"],
+      "scls": ["I21201"]
+    },
+    "businessTypePresets": ["cafe"],
+    "fallbackArchetype": "food_drink"
+  },
+  "analysis": {
+    "catchment": {
+      "primary": "walk",
+      "walkMinutes": [
+        5,
+        10
+      ]
+    },
+    "timeSlots": [
+      "commute_morning",
+      "post_lunch",
+      "weekend_afternoon"
+    ],
+    "competitorGroups": {
+      "direct": [
+        "same_price_same_mission_cafe"
+      ],
+      "secondary": [
+        "bakery_cafe",
+        "dessert_shop"
+      ],
+      "indirect": [
+        "convenience_coffee",
+        "fastfood_coffee"
+      ],
+      "channel": [
+        "delivery_cafe"
+      ]
+    },
+    "siteFeatures": {
+      "integration": 0.22,
+      "choice": 0.12,
+      "mean_depth": 0.10,
+      "connectivity": 0.10,
+      "transit": 0.15,
+      "demand": 0.21,
+      "competition": 0.10
+    },
+    "competitorRules": {
+      "vertical": "cafe",
+      "distance_bands_m": [
+        { "max": 100, "weight": 1.0 },
+        { "max": 200, "weight": 0.8 },
+        { "max": 300, "weight": 0.6 },
+        { "max": 500, "weight": 0.4 },
+        { "max": 1000, "weight": 0.2 }
+      ],
+      "intensity_thresholds": [20, 40, 60],
+      "buckets": [
+        {
+          "key": "direct",
+          "label": "직접 경쟁",
+          "weight": 1.0,
+          "mcls_codes": ["I212"],
+          "keywords": ["카페", "커피", "coffee", "무인카페", "로스터리", "음료"]
+        },
+        {
+          "key": "low_price_brand",
+          "label": "저가 브랜드 압박",
+          "weight": 1.4,
+          "keywords": ["메가", "컴포즈", "빽다방", "더벤티", "매머드", "이디야", "텐퍼센트", "벌크", "셀렉토", "하삼동", "공차"]
+        },
+        {
+          "key": "large_brand",
+          "label": "대형 브랜드",
+          "weight": 1.2,
+          "keywords": ["스타벅스", "투썸", "할리스", "파스쿠찌", "엔제리너스"]
+        },
+        {
+          "key": "substitute_bakery",
+          "label": "베이커리/디저트",
+          "weight": 0.7,
+          "keywords": ["베이커리", "제과", "뚜레쥬르", "파리바게뜨", "디저트", "도넛", "마카롱", "빙수"]
+        },
+        {
+          "key": "substitute_convenience",
+          "label": "편의점",
+          "weight": 0.3,
+          "mcls_codes": ["G204"],
+          "scls_codes": ["G20405"],
+          "keywords": ["편의점", "CU", "GS25", "세븐"]
+        },
+        {
+          "key": "substitute_fastfood",
+          "label": "패스트푸드/샌드위치",
+          "weight": 0.4,
+          "keywords": ["맥도날드", "버거킹", "롯데리아", "써브웨이", "샌드위치", "샐러드"]
+        },
+        {
+          "key": "destination",
+          "label": "목적 방문형",
+          "weight": 0.6,
+          "keywords": ["브런치", "로스터리", "스페셜티", "디저트카페", "갤러리"]
+        }
+      ]
+    },
+    "publicSalesMappings": [
+      {
+        "code": "I21201",
+        "service_code": "CS100001",
+        "service_name": "비알코올 음료점업",
+        "keywords": ["카페", "커피", "베이커리"]
+      },
+      {
+        "code": "I212",
+        "service_code": "CS100001",
+        "service_name": "비알코올 음료점업",
+        "keywords": ["카페", "음료"]
+      }
+    ]
+  },
+  "ui": {
+    "summaryKpis": [
+      {
+        "key": "takeout_demand",
+        "label": "테이크아웃 수요"
+      },
+      {
+        "key": "stay_demand",
+        "label": "체류 수요"
+      },
+      {
+        "key": "cafe_saturation",
+        "label": "카페 공급 포화도"
+      },
+      {
+        "key": "visibility",
+        "label": "가시성"
+      }
+    ],
+    "primaryTabs": [
+      "demand_type",
+      "cafe_competition",
+      "time_slots",
+      "walk_access",
+      "compare"
+    ],
+    "secondaryTabs": [
+      "sales"
+    ],
+    "mapLayers": [
+      "takeout_demand",
+      "stay_demand",
+      "workers",
+      "students",
+      "franchise_cafes",
+      "budget_cafes",
+      "dessert_cafes"
+    ],
+    "alerts": [
+      "supply_saturation",
+      "weak_visibility"
+    ],
+    "recommendations": [
+      "choose_takeout_or_stay",
+      "dessert_mix"
+    ],
+    "reportSections": [
+      "summary",
+      "demand_type",
+      "competition_type",
+      "time_slots",
+      "risks"
+    ]
+  },
+  "userOverrides": {
+    "franchise": {
+      "summaryKpis": [
+        {
+          "key": "cannibalization_risk",
+          "label": "기존점 잠식 위험"
+        },
+        {
+          "key": "new_coverage",
+          "label": "신규 커버리지"
+        },
+        {
+          "key": "brand_whitespace",
+          "label": "브랜드 공백"
+        },
+        {
+          "key": "network_efficiency",
+          "label": "점포망 효율"
+        }
+      ],
+      "primaryTabs": [
+        "network",
+        "cannibalization",
+        "new_coverage",
+        "candidates"
+      ],
+      "mapLayers": [
+        "existing_stores",
+        "existing_store_overlap",
+        "new_coverage",
+        "brand_whitespace",
+        "cafe_types"
+      ],
+      "reportSections": [
+        "approval_summary",
+        "network_impact",
+        "cannibalization",
+        "new_market",
+        "decision"
+      ]
+    }
+  }
+}

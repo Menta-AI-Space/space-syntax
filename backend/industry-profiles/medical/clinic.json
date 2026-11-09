@@ -1,0 +1,228 @@
+{
+  "id": "clinic",
+  "name": "병·의원",
+  "parentCategory": "medical",
+  "version": "1.0.0",
+  "effectiveFrom": "2026-07-12",
+  "supportedUserTypes": [
+    "entrepreneur",
+    "franchise"
+  ],
+  "matchRules": {
+    "sbizCodes": {
+      "lcls": ["Q1"],
+      "mcls": ["Q101", "Q102", "Q104"],
+      "scls": []
+    },
+    "businessTypePresets": ["clinic"],
+    "fallbackArchetype": "medical"
+  },
+  "analysis": {
+    "catchment": {
+      "primary": "transit",
+      "transitMinutes": [
+        20,
+        40
+      ],
+      "driveMinutes": [
+        15,
+        30
+      ]
+    },
+    "timeSlots": [
+      "weekday_day",
+      "saturday_morning"
+    ],
+    "competitorGroups": {
+      "direct": [
+        "same_specialty"
+      ],
+      "secondary": [
+        "related_specialty"
+      ],
+      "indirect": [],
+      "channel": []
+    },
+    "siteFeatures": {
+      "integration": 0.20,
+      "choice": 0.05,
+      "mean_depth": 0.05,
+      "connectivity": 0.05,
+      "transit": 0.30,
+      "demand": 0.30,
+      "competition": 0.05
+    },
+    "competitorRules": {
+      "vertical": "clinic",
+      "distance_bands_m": [
+        { "max": 100, "weight": 1.0 },
+        { "max": 200, "weight": 0.8 },
+        { "max": 300, "weight": 0.6 },
+        { "max": 500, "weight": 0.4 },
+        { "max": 1000, "weight": 0.2 }
+      ],
+      "intensity_thresholds": [15, 30, 50],
+      "buckets": [
+        {
+          "key": "direct",
+          "label": "직접 경쟁 (의원·병원)",
+          "weight": 1.0,
+          "mcls_codes": ["Q101", "Q102", "Q104"],
+          "keywords": ["의원", "병원", "클리닉", "의료"]
+        },
+        {
+          "key": "substitute_pharmacy",
+          "label": "약국",
+          "weight": 0.35,
+          "mcls_codes": ["G215"],
+          "keywords": ["약국", "약사"]
+        },
+        {
+          "key": "substitute_hani",
+          "label": "한의원",
+          "weight": 0.55,
+          "mcls_codes": ["Q102"],
+          "keywords": ["한의원", "한방", "추나", "침"]
+        },
+        {
+          "key": "substitute_aesthetic",
+          "label": "피부관리·에스테틱",
+          "weight": 0.65,
+          "keywords": ["피부관리", "에스테틱", "피부미용", "레이저", "다이어트"]
+        },
+        {
+          "key": "substitute_rehab",
+          "label": "재활·도수·필라테스",
+          "weight": 0.45,
+          "keywords": ["재활", "도수", "필라테스", "통증", "물리치료"]
+        },
+        {
+          "key": "substitute_dental_chain",
+          "label": "대형·네트워크 치과",
+          "weight": 0.7,
+          "keywords": ["교정", "임플란트", "치과의원", "치과병원"]
+        },
+        {
+          "key": "specialty_derma",
+          "label": "피부·성형·미용의원",
+          "weight": 1.0,
+          "keywords": ["피부", "성형", "미용의원", "비뇨기"]
+        },
+        {
+          "key": "specialty_dental",
+          "label": "치과",
+          "weight": 1.0,
+          "keywords": ["치과"]
+        },
+        {
+          "key": "specialty_ortho",
+          "label": "정형·통증·재활과",
+          "weight": 1.0,
+          "keywords": ["정형", "통증", "재활", "외과 의원"]
+        }
+      ]
+    },
+    "publicSalesMappings": [
+      {
+        "code": "Q102",
+        "service_code": "CS100092",
+        "service_name": "의원",
+        "keywords": ["의원", "병원"]
+      }
+    ]
+  },
+  "ui": {
+    "summaryKpis": [
+      {
+        "key": "care_population",
+        "label": "진료권 인구"
+      },
+      {
+        "key": "same_specialty_supply",
+        "label": "동일 진료과 공급"
+      },
+      {
+        "key": "medical_gap",
+        "label": "의료 공급 공백"
+      },
+      {
+        "key": "weekend_gap",
+        "label": "야간·주말 진료 공백"
+      }
+    ],
+    "primaryTabs": [
+      "care_demand",
+      "same_specialty",
+      "medical_gap",
+      "transport",
+      "compare"
+    ],
+    "secondaryTabs": [
+      "parking"
+    ],
+    "mapLayers": [
+      "same_specialty",
+      "age_population",
+      "transit_catchment",
+      "drive_catchment",
+      "medical_gap"
+    ],
+    "alerts": [
+      "specialty_saturation",
+      "parking_constraint"
+    ],
+    "recommendations": [
+      "extended_hours",
+      "parking_access"
+    ],
+    "reportSections": [
+      "summary",
+      "care_population",
+      "competition",
+      "access",
+      "medical_gap"
+    ]
+  },
+  "userOverrides": {
+    "franchise": {
+      "summaryKpis": [
+        {
+          "key": "cannibalization_risk",
+          "label": "기존 진료권 중첩"
+        },
+        {
+          "key": "new_coverage",
+          "label": "신규 진료권"
+        },
+        {
+          "key": "medical_gap",
+          "label": "의료 공급 공백"
+        },
+        {
+          "key": "network_efficiency",
+          "label": "의료망 효율"
+        }
+      ],
+      "primaryTabs": [
+        "network",
+        "care_overlap",
+        "new_coverage",
+        "candidates"
+      ],
+      "mapLayers": [
+        "existing_stores",
+        "existing_store_overlap",
+        "transit_catchment",
+        "new_coverage",
+        "medical_gap"
+      ],
+      "reportSections": [
+        "approval_summary",
+        "network_impact",
+        "care_overlap",
+        "new_market",
+        "decision"
+      ]
+    }
+  }
+}

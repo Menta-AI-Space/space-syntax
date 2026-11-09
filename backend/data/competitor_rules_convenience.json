@@ -1,0 +1,40 @@
+{
+  "vertical": "convenience",
+  "distance_bands_m": [
+    { "max": 100, "weight": 1.0 },
+    { "max": 200, "weight": 0.8 },
+    { "max": 300, "weight": 0.6 },
+    { "max": 500, "weight": 0.4 },
+    { "max": 1000, "weight": 0.2 }
+  ],
+  "intensity_thresholds": [20, 40, 60],
+  "buckets": [
+    {
+      "key": "direct",
+      "label": "직접 경쟁 (편의점)",
+      "weight": 1.0,
+      "mcls_codes": ["G204"],
+      "scls_codes": ["G20405"],
+      "keywords": ["편의점", "CU", "GS25", "세븐일레븐", "이마트24", "미니스톱"]
+    },
+    {
+      "key": "small_grocery",
+      "label": "동네 슈퍼·마트",
+      "weight": 0.6,
+      "keywords": ["슈퍼", "마트", "정육점", "청과", "식료품점"]
+    },
+    {
+      "key": "substitute_supermarket",
+      "label": "대형 슈퍼마켓",
+      "weight": 0.4,
+      "mcls_codes": ["G204"],
+      "keywords": ["이마트", "롯데마트", "홈플러스", "슈퍼마켓"]
+    },
+    {
+      "key": "substitute_quick_commerce",
+      "label": "퀵커머스·배달마트",
+      "weight": 0.5,
+      "keywords": ["요기요마트", "B마트", "쿠팡이츠마트", "배달의민족스토어"]
+    }
+  ]
+}

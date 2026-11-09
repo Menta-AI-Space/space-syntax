@@ -1,0 +1,68 @@
+{
+  "vertical": "academy",
+  "distance_bands_m": [
+    { "max": 100, "weight": 1.0 },
+    { "max": 200, "weight": 0.8 },
+    { "max": 300, "weight": 0.6 },
+    { "max": 500, "weight": 0.4 },
+    { "max": 1000, "weight": 0.2 }
+  ],
+  "intensity_thresholds": [18, 35, 55],
+  "buckets": [
+    {
+      "key": "direct",
+      "label": "직접 경쟁 (학원·교습)",
+      "weight": 1.0,
+      "mcls_codes": ["P105", "P106"],
+      "keywords": ["학원", "교습소", "교습", "어학원"]
+    },
+    {
+      "key": "subject_exam",
+      "label": "입시·보습·종합",
+      "weight": 1.0,
+      "keywords": ["입시", "보습", "종합학원", "재수", "검정고시"]
+    },
+    {
+      "key": "subject_english",
+      "label": "영어·어학",
+      "weight": 1.0,
+      "keywords": ["영어", "어학", "토익", "토플", "영어유치원"]
+    },
+    {
+      "key": "subject_math",
+      "label": "수학·사고력",
+      "weight": 1.0,
+      "keywords": ["수학", "사고력", "연산"]
+    },
+    {
+      "key": "subject_arts",
+      "label": "예체능",
+      "weight": 0.9,
+      "keywords": ["미술", "음악", "피아노", "발레", "태권도", "무술", "요가", "필라테스"]
+    },
+    {
+      "key": "subject_coding",
+      "label": "코딩·로봇",
+      "weight": 0.9,
+      "keywords": ["코딩", "로봇", "AI", "프로그래밍", "컴퓨터학원"]
+    },
+    {
+      "key": "substitute_study",
+      "label": "공부방·스터디카페",
+      "weight": 0.55,
+      "keywords": ["공부방", "스터디카페", "스터디", "독서실"]
+    },
+    {
+      "key": "substitute_culture",
+      "label": "문화센터·방과후",
+      "weight": 0.4,
+      "keywords": ["문화센터", "방과후", "유아", "놀이학교"]
+    },
+    {
+      "key": "substitute_online",
+      "label": "자격증·성인교육",
+      "weight": 0.5,
+      "keywords": ["자격증", "고시", "직무", "취미", "성인"]
+    }
+  ]
+}

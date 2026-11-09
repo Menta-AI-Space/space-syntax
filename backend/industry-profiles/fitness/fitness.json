@@ -1,0 +1,220 @@
+{
+  "id": "fitness",
+  "name": "운동·체육시설",
+  "parentCategory": "fitness",
+  "version": "1.0.0",
+  "effectiveFrom": "2026-07-15",
+  "supportedUserTypes": [
+    "entrepreneur",
+    "franchise"
+  ],
+  "matchRules": {
+    "sbizCodes": {
+      "lcls": ["R1", "P1"],
+      "mcls": ["R103"],
+      "scls": ["R10306", "R10307", "R10308", "R10311", "R10316", "P10601", "P10603"]
+    },
+    "businessTypePresets": ["fitness"],
+    "fallbackArchetype": "fitness_leisure"
+  },
+  "analysis": {
+    "catchment": {
+      "primary": "residential",
+      "walkMinutes": [
+        10,
+        15
+      ],
+      "driveMinutes": [
+        10,
+        15
+      ]
+    },
+    "timeSlots": [
+      "commute_morning",
+      "weekday_evening",
+      "weekend"
+    ],
+    "competitorGroups": {
+      "direct": [
+        "same_type_fitness_center"
+      ],
+      "secondary": [
+        "pilates_yoga_studio",
+        "golf_practice_range"
+      ],
+      "indirect": [
+        "martial_arts_gym",
+        "public_sports_center"
+      ],
+      "channel": [
+        "home_training_app"
+      ]
+    },
+    "siteFeatures": {
+      "integration": 0.16,
+      "choice": 0.12,
+      "mean_depth": 0.06,
+      "connectivity": 0.09,
+      "transit": 0.15,
+      "demand": 0.32,
+      "competition": 0.10
+    },
+    "competitorRules": {
+      "vertical": "fitness",
+      "distance_bands_m": [
+        { "max": 100, "weight": 1.0 },
+        { "max": 200, "weight": 0.8 },
+        { "max": 300, "weight": 0.6 },
+        { "max": 500, "weight": 0.4 },
+        { "max": 1000, "weight": 0.2 }
+      ],
+      "intensity_thresholds": [10, 20, 35],
+      "buckets": [
+        {
+          "key": "direct",
+          "label": "직접 경쟁 (헬스장·피트니스)",
+          "weight": 1.0,
+          "scls_codes": ["R10307"],
+          "keywords": ["헬스", "피트니스", "휘트니스", "짐", "GYM", "헬스클럽"]
+        },
+        {
+          "key": "large_franchise",
+          "label": "대형 프랜차이즈 짐",
+          "weight": 1.2,
+          "keywords": ["스포애니", "에이블짐", "애니타임피트니스", "커브스", "바디채널", "고투"]
+        },
+        {
+          "key": "pilates_yoga",
+          "label": "필라테스·요가",
+          "weight": 0.9,
+          "scls_codes": ["P10603"],
+          "keywords": ["필라테스", "요가", "발레", "바레"]
+        },
+        {
+          "key": "pt_studio",
+          "label": "PT·크로스핏 스튜디오",
+          "weight": 0.8,
+          "keywords": ["PT", "퍼스널트레이닝", "크로스핏", "부트캠프", "스튜디오짐"]
+        },
+        {
+          "key": "golf_practice",
+          "label": "골프연습장·스크린골프",
+          "weight": 0.6,
+          "scls_codes": ["R10311"],
+          "keywords": ["골프연습장", "스크린골프", "골프존", "인도어골프", "실내골프"]
+        },
+        {
+          "key": "swim_sports_center",
+          "label": "수영장·종합 스포츠센터",
+          "weight": 0.6,
+          "scls_codes": ["R10306", "R10308", "R10316"],
+          "keywords": ["수영장", "스포츠센터", "스쿼시", "체육센터"]
+        },
+        {
+          "key": "martial_arts",
+          "label": "태권도·무술 도장",
+          "weight": 0.5,
+          "scls_codes": ["P10601"],
+          "keywords": ["태권도", "복싱", "주짓수", "검도", "합기도", "킥복싱", "유도"]
+        }
+      ]
+    },
+    "publicSalesMappings": []
+  },
+  "ui": {
+    "summaryKpis": [
+      {
+        "key": "active_age_population",
+        "label": "핵심 운동 인구"
+      },
+      {
+        "key": "worker_resident_mix",
+        "label": "직장·주거 균형"
+      },
+      {
+        "key": "fitness_competition",
+        "label": "체육시설 포화도"
+      },
+      {
+        "key": "evening_access",
+        "label": "저녁 접근성"
+      }
+    ],
+    "primaryTabs": [
+      "member_area",
+      "fitness_competition",
+      "time_slots",
+      "evening_access",
+      "compare"
+    ],
+    "secondaryTabs": [
+      "sales"
+    ],
+    "mapLayers": [
+      "active_age_population",
+      "workers",
+      "apartments",
+      "residential_area",
+      "fitness_centers",
+      "pilates_yoga_studios",
+      "golf_practice_ranges"
+    ],
+    "alerts": [
+      "supply_saturation",
+      "weak_evening_demand"
+    ],
+    "recommendations": [
+      "target_program_mix",
+      "peak_time_capacity"
+    ],
+    "reportSections": [
+      "summary",
+      "customers",
+      "competition",
+      "time_slots",
+      "risks"
+    ]
+  },
+  "userOverrides": {
+    "franchise": {
+      "summaryKpis": [
+        {
+          "key": "cannibalization_risk",
+          "label": "기존점 잠식 위험"
+        },
+        {
+          "key": "new_coverage",
+          "label": "신규 커버리지"
+        },
+        {
+          "key": "brand_whitespace",
+          "label": "브랜드 공백"
+        },
+        {
+          "key": "network_efficiency",
+          "label": "점포망 효율"
+        }
+      ],
+      "primaryTabs": [
+        "network",
+        "cannibalization",
+        "new_coverage",
+        "candidates"
+      ],
+      "mapLayers": [
+        "existing_stores",
+        "existing_store_overlap",
+        "new_coverage",
+        "brand_whitespace",
+        "active_age_population"
+      ],
+      "reportSections": [
+        "approval_summary",
+        "network_impact",
+        "cannibalization",
+        "new_market",
+        "decision"
+      ]
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "food_drink": {
+    "label": "음식·음료",
+    "cogs_ratio": 0.30,
+    "rent_ratio_low": 0.10,
+    "rent_ratio_high": 0.15,
+    "card_fee_ratio": 0.02,
+    "packaging_ratio": 0.03,
+    "delivery_fee_ratio": 0.15,
+    "misc_fixed_man": 100,
+    "default_ticket_price": 4500
+  },
+  "daily_retail": {
+    "label": "일상 소매",
+    "cogs_ratio": 0.55,
+    "rent_ratio_low": 0.05,
+    "rent_ratio_high": 0.08,
+    "card_fee_ratio": 0.02,
+    "packaging_ratio": 0.01,
+    "delivery_fee_ratio": 0.0,
+    "misc_fixed_man": 50,
+    "default_ticket_price": 8000
+  },
+  "medical": {
+    "label": "의료",
+    "cogs_ratio": 0.15,
+    "rent_ratio_low": 0.08,
+    "rent_ratio_high": 0.12,
+    "card_fee_ratio": 0.02,
+    "packaging_ratio": 0.0,
+    "delivery_fee_ratio": 0.0,
+    "misc_fixed_man": 150,
+    "default_ticket_price": 50000
+  },
+  "education": {
+    "label": "교육",
+    "cogs_ratio": 0.10,
+    "rent_ratio_low": 0.10,
+    "rent_ratio_high": 0.15,
+    "card_fee_ratio": 0.02,
+    "packaging_ratio": 0.0,
+    "delivery_fee_ratio": 0.0,
+    "misc_fixed_man": 80,
+    "default_ticket_price": 200000
+  },
+  "beauty_service": {
+    "label": "미용·서비스",
+    "cogs_ratio": 0.20,
+    "rent_ratio_low": 0.10,
+    "rent_ratio_high": 0.14,
+    "card_fee_ratio": 0.02,
+    "packaging_ratio": 0.02,
+    "delivery_fee_ratio": 0.0,
+    "misc_fixed_man": 70,
+    "default_ticket_price": 35000
+  },
+  "general": {
+    "label": "일반",
+    "cogs_ratio": 0.35,
+    "rent_ratio_low": 0.08,
+    "rent_ratio_high": 0.12,
+    "card_fee_ratio": 0.02,
+    "packaging_ratio": 0.02,
+    "delivery_fee_ratio": 0.10,
+    "misc_fixed_man": 80,
+    "default_ticket_price": 10000
+  }
+}

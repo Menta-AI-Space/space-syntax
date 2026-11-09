@@ -1,0 +1,208 @@
+{
+  "id": "life_service",
+  "name": "생활 서비스",
+  "parentCategory": "life",
+  "version": "1.0.0",
+  "effectiveFrom": "2026-07-15",
+  "supportedUserTypes": [
+    "entrepreneur",
+    "franchise"
+  ],
+  "matchRules": {
+    "sbizCodes": {
+      "lcls": ["S2", "M1"],
+      "mcls": ["S206", "S209", "M113"],
+      "scls": ["S20601", "S20602", "S20699", "S20901", "S20902", "M11301"]
+    },
+    "businessTypePresets": [],
+    "fallbackArchetype": "general"
+  },
+  "analysis": {
+    "catchment": {
+      "primary": "residential",
+      "walkMinutes": [
+        5,
+        10
+      ]
+    },
+    "timeSlots": [
+      "commute_morning",
+      "weekday_evening",
+      "weekend"
+    ],
+    "competitorGroups": {
+      "direct": [
+        "same_service_shop"
+      ],
+      "secondary": [
+        "unmanned_service"
+      ],
+      "indirect": [
+        "platform_pickup_service"
+      ],
+      "channel": [
+        "on_demand_app"
+      ]
+    },
+    "siteFeatures": {
+      "integration": 0.25,
+      "choice": 0.08,
+      "mean_depth": 0.10,
+      "connectivity": 0.12,
+      "transit": 0.08,
+      "demand": 0.27,
+      "competition": 0.10
+    },
+    "competitorRules": {
+      "vertical": "life_service",
+      "distance_bands_m": [
+        { "max": 100, "weight": 1.0 },
+        { "max": 200, "weight": 0.8 },
+        { "max": 300, "weight": 0.6 },
+        { "max": 500, "weight": 0.4 },
+        { "max": 1000, "weight": 0.2 }
+      ],
+      "intensity_thresholds": [12, 25, 45],
+      "buckets": [
+        {
+          "key": "direct_laundry",
+          "label": "세탁소·빨래방",
+          "weight": 1.0,
+          "mcls_codes": ["S209"],
+          "scls_codes": ["S20901", "S20902"],
+          "keywords": ["세탁소", "빨래방", "세탁", "드라이클리닝"]
+        },
+        {
+          "key": "laundry_franchise",
+          "label": "세탁 프랜차이즈·무인빨래방",
+          "weight": 1.3,
+          "keywords": ["크린토피아", "워시엔조이", "크린에이드", "월드크리닝", "무인세탁", "코인세탁", "셀프빨래방"]
+        },
+        {
+          "key": "direct_repair",
+          "label": "수선·수리점",
+          "weight": 1.0,
+          "mcls_codes": ["S206"],
+          "scls_codes": ["S20601", "S20602", "S20699"],
+          "keywords": ["옷수선", "수선", "구두수선", "가방수선", "열쇠", "시계수리"]
+        },
+        {
+          "key": "direct_photo",
+          "label": "사진관·스튜디오",
+          "weight": 1.0,
+          "mcls_codes": ["M113"],
+          "scls_codes": ["M11301"],
+          "keywords": ["사진관", "스튜디오", "증명사진", "셀프사진관", "인생네컷", "포토이즘", "스티커사진"]
+        },
+        {
+          "key": "direct_pet_grooming",
+          "label": "반려동물 미용",
+          "weight": 1.0,
+          "keywords": ["애견미용", "펫미용", "반려동물미용", "펫살롱", "애견목욕"]
+        },
+        {
+          "key": "substitute_platform",
+          "label": "비대면 수거·배달 서비스",
+          "weight": 0.5,
+          "keywords": ["런드리고", "세탁특공대", "청소연구소", "숨고"]
+        }
+      ]
+    },
+    "publicSalesMappings": []
+  },
+  "ui": {
+    "summaryKpis": [
+      {
+        "key": "household_base",
+        "label": "배후 가구"
+      },
+      {
+        "key": "repeat_traffic",
+        "label": "생활 반복동선"
+      },
+      {
+        "key": "service_competition",
+        "label": "경쟁점 거리"
+      },
+      {
+        "key": "daily_route",
+        "label": "생활동선 접근"
+      }
+    ],
+    "primaryTabs": [
+      "household_demand",
+      "daily_route",
+      "competitors",
+      "repeat_demand",
+      "compare"
+    ],
+    "secondaryTabs": [
+      "mixed_use"
+    ],
+    "mapLayers": [
+      "walk_catchment",
+      "households",
+      "apartments",
+      "residential_area",
+      "life_service_competitors",
+      "corner_nodes"
+    ],
+    "alerts": [
+      "nearby_competitor",
+      "weak_household_base"
+    ],
+    "recommendations": [
+      "service_mix",
+      "pickup_delivery"
+    ],
+    "reportSections": [
+      "summary",
+      "household_demand",
+      "daily_route",
+      "competition",
+      "risks"
+    ]
+  },
+  "userOverrides": {
+    "franchise": {
+      "summaryKpis": [
+        {
+          "key": "cannibalization_risk",
+          "label": "기존점 잠식 위험"
+        },
+        {
+          "key": "new_coverage",
+          "label": "신규 생활권"
+        },
+        {
+          "key": "brand_whitespace",
+          "label": "브랜드 공백"
+        },
+        {
+          "key": "network_efficiency",
+          "label": "점포망 효율"
+        }
+      ],
+      "primaryTabs": [
+        "network",
+        "cannibalization",
+        "new_coverage",
+        "candidates"
+      ],
+      "mapLayers": [
+        "existing_stores",
+        "existing_store_overlap",
+        "walk_catchment",
+        "new_coverage",
+        "brand_whitespace"
+      ],
+      "reportSections": [
+        "approval_summary",
+        "network_impact",
+        "cannibalization",
+        "new_market",
+        "decision"
+      ]
+    }
+  }
+}

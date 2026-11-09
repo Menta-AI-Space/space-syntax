@@ -1,0 +1,130 @@
+/* Insight Design System — light theme tokens (ported for space-syntax) */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+:root {
+  color-scheme: light;
+
+  --font-primary: "Pretendard Variable", "Pretendard", "Segoe UI", "Malgun Gothic", sans-serif;
+  --font-brand: "Pretendard", "Segoe UI", "Malgun Gothic", sans-serif;
+
+  --background-normal-alternative: #f5f5f6;
+  --background-elevated-normal: #ffffff;
+
+  --label-strong: #0f0f10;
+  --label-normal: #171719;
+  --label-neutral: #47474a;
+  --label-alternative: #87878a;
+  --label-assistive: #a4a4a8;
+  --label-disable: #c8c8cc;
+
+  --line-normal-normal: #e2e5ea;
+  --line-normal-neutral: #eceef2;
+  --line-normal-alternative: #f0f1f4;
+
+  --fill-normal: #f4f4f5;
+  --fill-alternative: #ebebec;
+  --fill-strong: #e3e3e5;
+
+  --interaction-disable: #f4f4f5;
+  --interaction-inactive: #d8d8dc;
+
+  --blue-45: #1d4ed8;
+  --blue-50: #2563eb;
+  --blue-90: #dbeafe;
+
+  --lime-37: #059669;
+  --lime-90: #d1fae5;
+
+  --orange-39: #d97706;
+  --orange-90: #fef3c7;
+
+  --red-50: #dc2626;
+  --red-90: #fee2e2;
+  --red-95: #fef2f2;
+
+  --purple-40: #7c3aed;
+  --purple-90: #ede9fe;
+
+  --cool-neutral-25: #334155;
+  --cool-neutral-90: #e2e8f0;
+  --cool-neutral-98: #f8fafc;
+
+  --accent-background-light-blue: #eff6ff;
+  --accent-background-lime: #ecfdf5;
+  --accent-background-red-orange: #fff7ed;
+  --accent-foreground-green: #047857;
+  --accent-foreground-red: #b91c1c;
+
+  --status-positive: #059669;
+  --status-negative: #dc2626;
+  --status-cautionary: #d97706;
+
+  --inverse-background: #1a1a2e;
+  --inverse-label: #ffffff;
+  --inverse-primary: #60a5fa;
+
+  --static-white: #ffffff;
+
+  --shadow-normal: 0 1px 4px rgba(15, 23, 42, 0.08);
+  --shadow-strong: 0 4px 16px rgba(15, 23, 42, 0.12);
+  --shadow-elevated: 0 8px 24px rgba(15, 23, 42, 0.1);
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+
+  --text-xs: 0.68rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.9375rem;
+  --text-lg: 1.0625rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+
+  --surface-1: var(--background-elevated-normal);
+  --surface-2: var(--fill-normal);
+  --surface-3: var(--background-normal-alternative);
+
+  --kpi-positive: var(--lime-37);
+  --kpi-negative: var(--red-50);
+  --kpi-neutral: var(--cool-neutral-25);
+  --chart-primary: var(--purple-40);
+  --chart-secondary: #94a3b8;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+html {
+  height: 100%;
+}
+
+html {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-primary);
+  background: var(--background-normal-alternative);
+  color: var(--label-normal);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+}

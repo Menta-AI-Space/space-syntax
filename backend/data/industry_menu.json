@@ -1,0 +1,1050 @@
+{
+  "version": "1.0.0",
+  "menuLabel": "업종별 분석",
+  "description": "대분류 → 세부 업종 2단 메뉴. profile은 전용 분석 프로파일(industry-profiles) id — null이면 범용 분석만 제공(전용 프로파일 추가 예정). keywords는 SBIZ 업종트리 코드 매칭용.",
+  "categories": [
+    {
+      "id": "food",
+      "label": "외식업",
+      "items": [
+        {
+          "id": "korean",
+          "label": "한식",
+          "profile": "restaurant",
+          "keywords": [
+            "한식"
+          ]
+        },
+        {
+          "id": "chinese",
+          "label": "중식",
+          "profile": "restaurant",
+          "keywords": [
+            "중식",
+            "중국식"
+          ]
+        },
+        {
+          "id": "japanese",
+          "label": "일식",
+          "profile": "restaurant",
+          "keywords": [
+            "일식"
+          ]
+        },
+        {
+          "id": "western",
+          "label": "양식",
+          "profile": "restaurant",
+          "keywords": [
+            "서양식",
+            "양식"
+          ]
+        },
+        {
+          "id": "bunsik",
+          "label": "분식",
+          "profile": "restaurant",
+          "keywords": [
+            "분식",
+            "김밥"
+          ]
+        },
+        {
+          "id": "chicken",
+          "label": "치킨",
+          "profile": "restaurant",
+          "keywords": [
+            "치킨"
+          ]
+        },
+        {
+          "id": "pizza",
+          "label": "피자",
+          "profile": "restaurant",
+          "keywords": [
+            "피자"
+          ]
+        },
+        {
+          "id": "burger_sandwich",
+          "label": "햄버거·샌드위치",
+          "profile": "restaurant",
+          "keywords": [
+            "햄버거",
+            "샌드위치",
+            "토스트"
+          ]
+        },
+        {
+          "id": "bbq",
+          "label": "고기·구이",
+          "profile": "restaurant",
+          "keywords": [
+            "갈비",
+            "삼겹살",
+            "구이",
+            "곱창"
+          ]
+        },
+        {
+          "id": "seafood",
+          "label": "해산물",
+          "profile": "restaurant",
+          "keywords": [
+            "해산물",
+            "횟집",
+            "수산물"
+          ]
+        },
+        {
+          "id": "pub",
+          "label": "주점·호프",
+          "profile": "restaurant",
+          "keywords": [
+            "주점",
+            "호프",
+            "맥주",
+            "포차"
+          ]
+        },
+        {
+          "id": "delivery_only",
+          "label": "배달전문점",
+          "profile": "restaurant",
+          "keywords": [
+            "배달"
+          ]
+        },
+        {
+          "id": "buffet",
+          "label": "뷔페",
+          "profile": "restaurant",
+          "keywords": [
+            "뷔페"
+          ]
+        },
+        {
+          "id": "fastfood",
+          "label": "패스트푸드",
+          "profile": "restaurant",
+          "keywords": [
+            "패스트푸드"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cafe_dessert",
+      "label": "카페·디저트",
+      "items": [
+        {
+          "id": "coffee",
+          "label": "커피전문점",
+          "profile": "cafe",
+          "keywords": [
+            "커피",
+            "카페"
+          ]
+        },
+        {
+          "id": "bakery",
+          "label": "베이커리",
+          "profile": "cafe",
+          "keywords": [
+            "제과",
+            "베이커리",
+            "빵"
+          ]
+        },
+        {
+          "id": "dessert_cafe",
+          "label": "디저트카페",
+          "profile": "cafe",
+          "keywords": [
+            "디저트"
+          ]
+        },
+        {
+          "id": "ice_cream",
+          "label": "아이스크림",
+          "profile": "cafe",
+          "keywords": [
+            "아이스크림",
+            "빙수"
+          ]
+        },
+        {
+          "id": "beverage",
+          "label": "음료전문점",
+          "profile": "cafe",
+          "keywords": [
+            "음료",
+            "주스",
+            "버블티"
+          ]
+        },
+        {
+          "id": "traditional_tea",
+          "label": "전통차·전통음료",
+          "profile": "cafe",
+          "keywords": [
+            "전통차",
+            "찻집"
+          ]
+        },
+        {
+          "id": "brunch_cafe",
+          "label": "브런치카페",
+          "profile": "cafe",
+          "keywords": [
+            "브런치"
+          ]
+        },
+        {
+          "id": "takeout_only",
+          "label": "테이크아웃 전문점",
+          "profile": "cafe",
+          "keywords": [
+            "테이크아웃"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "retail",
+      "label": "소매업",
+      "items": [
+        {
+          "id": "convenience",
+          "label": "편의점",
+          "profile": "convenience",
+          "keywords": [
+            "편의점"
+          ]
+        },
+        {
+          "id": "supermarket",
+          "label": "슈퍼마켓",
+          "profile": "convenience",
+          "keywords": [
+            "슈퍼마켓",
+            "슈퍼"
+          ]
+        },
+        {
+          "id": "grocery",
+          "label": "식료품점",
+          "profile": "convenience",
+          "keywords": [
+            "식료품",
+            "청과",
+            "정육",
+            "반찬"
+          ]
+        },
+        {
+          "id": "clothing",
+          "label": "의류",
+          "profile": "retail_specialty",
+          "keywords": [
+            "의류",
+            "옷",
+            "패션"
+          ]
+        },
+        {
+          "id": "cosmetics",
+          "label": "화장품",
+          "profile": "retail_specialty",
+          "keywords": [
+            "화장품"
+          ]
+        },
+        {
+          "id": "household",
+          "label": "생활용품",
+          "profile": "retail_specialty",
+          "keywords": [
+            "생활용품",
+            "잡화"
+          ]
+        },
+        {
+          "id": "electronics",
+          "label": "가전·전자제품",
+          "profile": "retail_specialty",
+          "keywords": [
+            "가전",
+            "전자제품",
+            "컴퓨터"
+          ]
+        },
+        {
+          "id": "mobile_phone",
+          "label": "휴대폰 판매점",
+          "profile": "retail_specialty",
+          "keywords": [
+            "휴대폰",
+            "이동통신"
+          ]
+        },
+        {
+          "id": "optician",
+          "label": "안경점",
+          "profile": "retail_specialty",
+          "keywords": [
+            "안경"
+          ]
+        },
+        {
+          "id": "flower",
+          "label": "꽃집",
+          "profile": "retail_specialty",
+          "keywords": [
+            "꽃",
+            "화원"
+          ]
+        },
+        {
+          "id": "stationery",
+          "label": "문구점",
+          "profile": "retail_specialty",
+          "keywords": [
+            "문구",
+            "팬시"
+          ]
+        },
+        {
+          "id": "pet_supplies",
+          "label": "반려동물용품",
+          "profile": "retail_specialty",
+          "keywords": [
+            "애완",
+            "반려동물"
+          ]
+        },
+        {
+          "id": "secondhand",
+          "label": "중고·리셀 매장",
+          "profile": "retail_specialty",
+          "keywords": [
+            "중고"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "life_service",
+      "label": "생활서비스",
+      "items": [
+        {
+          "id": "hair_salon",
+          "label": "미용실",
+          "profile": "beauty",
+          "keywords": [
+            "미용실",
+            "헤어"
+          ]
+        },
+        {
+          "id": "nail",
+          "label": "네일숍",
+          "profile": "beauty",
+          "keywords": [
+            "네일"
+          ]
+        },
+        {
+          "id": "skin_care",
+          "label": "피부관리",
+          "profile": "beauty",
+          "keywords": [
+            "피부관리",
+            "에스테틱"
+          ]
+        },
+        {
+          "id": "laundry",
+          "label": "세탁소",
+          "profile": "life_service",
+          "keywords": [
+            "세탁"
+          ]
+        },
+        {
+          "id": "repair",
+          "label": "수선집",
+          "profile": "life_service",
+          "keywords": [
+            "수선"
+          ]
+        },
+        {
+          "id": "photo_studio",
+          "label": "사진관",
+          "profile": "life_service",
+          "keywords": [
+            "사진",
+            "스튜디오"
+          ]
+        },
+        {
+          "id": "cleaning_service",
+          "label": "청소서비스",
+          "profile": "life_service",
+          "keywords": [
+            "청소"
+          ]
+        },
+        {
+          "id": "key_stamp",
+          "label": "열쇠·도장",
+          "profile": "life_service",
+          "keywords": [
+            "열쇠",
+            "도장"
+          ]
+        },
+        {
+          "id": "moving",
+          "label": "이사·생활대행",
+          "profile": "life_service",
+          "keywords": [
+            "이사",
+            "용달"
+          ]
+        },
+        {
+          "id": "pet_grooming",
+          "label": "반려동물 미용",
+          "profile": "life_service",
+          "keywords": [
+            "애완동물미용",
+            "펫미용"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "medical",
+      "label": "의료·건강",
+      "items": [
+        {
+          "id": "hospital",
+          "label": "병원",
+          "profile": "clinic",
+          "keywords": [
+            "병원",
+            "종합병원"
+          ]
+        },
+        {
+          "id": "clinic",
+          "label": "의원",
+          "profile": "clinic",
+          "keywords": [
+            "의원",
+            "내과",
+            "소아과",
+            "이비인후과",
+            "정형외과",
+            "피부과"
+          ]
+        },
+        {
+          "id": "dental",
+          "label": "치과",
+          "profile": "clinic",
+          "keywords": [
+            "치과"
+          ]
+        },
+        {
+          "id": "oriental",
+          "label": "한의원",
+          "profile": "clinic",
+          "keywords": [
+            "한의원",
+            "한방"
+          ]
+        },
+        {
+          "id": "pharmacy",
+          "label": "약국",
+          "profile": "pharmacy",
+          "keywords": [
+            "약국"
+          ]
+        },
+        {
+          "id": "checkup_center",
+          "label": "건강검진센터",
+          "profile": null,
+          "keywords": [
+            "건강검진"
+          ]
+        },
+        {
+          "id": "rehab",
+          "label": "재활·물리치료",
+          "profile": null,
+          "keywords": [
+            "재활",
+            "물리치료"
+          ]
+        },
+        {
+          "id": "counseling",
+          "label": "심리상담",
+          "profile": null,
+          "keywords": [
+            "심리상담"
+          ]
+        },
+        {
+          "id": "care_facility",
+          "label": "요양·돌봄시설",
+          "profile": null,
+          "keywords": [
+            "요양",
+            "돌봄"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fitness_leisure",
+      "label": "운동·여가",
+      "items": [
+        {
+          "id": "gym",
+          "label": "헬스장",
+          "profile": "fitness",
+          "keywords": [
+            "헬스",
+            "휘트니스"
+          ]
+        },
+        {
+          "id": "pilates",
+          "label": "필라테스",
+          "profile": "fitness",
+          "keywords": [
+            "필라테스"
+          ]
+        },
+        {
+          "id": "yoga",
+          "label": "요가",
+          "profile": "fitness",
+          "keywords": [
+            "요가"
+          ]
+        },
+        {
+          "id": "ballet",
+          "label": "발레",
+          "profile": "fitness",
+          "keywords": [
+            "발레",
+            "무용"
+          ]
+        },
+        {
+          "id": "golf_practice",
+          "label": "골프연습장",
+          "profile": "fitness",
+          "keywords": [
+            "골프연습장"
+          ]
+        },
+        {
+          "id": "screen_golf",
+          "label": "스크린골프",
+          "profile": "fitness",
+          "keywords": [
+            "스크린골프"
+          ]
+        },
+        {
+          "id": "swimming",
+          "label": "수영장",
+          "profile": "fitness",
+          "keywords": [
+            "수영장"
+          ]
+        },
+        {
+          "id": "martial_arts",
+          "label": "태권도·무술",
+          "profile": "fitness",
+          "keywords": [
+            "태권도",
+            "무술",
+            "합기도"
+          ]
+        },
+        {
+          "id": "indoor_sports",
+          "label": "실내스포츠",
+          "profile": "fitness",
+          "keywords": [
+            "탁구",
+            "배드민턴",
+            "클라이밍",
+            "볼링"
+          ]
+        },
+        {
+          "id": "pc_cafe",
+          "label": "PC방",
+          "profile": "leisure",
+          "keywords": [
+            "PC방",
+            "피시방"
+          ]
+        },
+        {
+          "id": "karaoke",
+          "label": "노래방",
+          "profile": "leisure",
+          "keywords": [
+            "노래방",
+            "노래연습장"
+          ]
+        },
+        {
+          "id": "kids_cafe",
+          "label": "키즈카페",
+          "profile": "leisure",
+          "keywords": [
+            "키즈카페"
+          ]
+        },
+        {
+          "id": "boardgame_cafe",
+          "label": "보드게임카페",
+          "profile": "leisure",
+          "keywords": [
+            "보드게임"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "education",
+      "label": "교육",
+      "items": [
+        {
+          "id": "entrance_exam",
+          "label": "입시학원",
+          "profile": "academy",
+          "keywords": [
+            "입시",
+            "보습"
+          ]
+        },
+        {
+          "id": "english",
+          "label": "영어학원",
+          "profile": "academy",
+          "keywords": [
+            "영어학원",
+            "어학원",
+            "외국어"
+          ]
+        },
+        {
+          "id": "math",
+          "label": "수학학원",
+          "profile": "academy",
+          "keywords": [
+            "수학학원"
+          ]
+        },
+        {
+          "id": "arts_sports_edu",
+          "label": "예체능학원",
+          "profile": "academy",
+          "keywords": [
+            "예체능",
+            "미술학원",
+            "음악학원",
+            "피아노"
+          ]
+        },
+        {
+          "id": "study_room",
+          "label": "독서실",
+          "profile": "academy",
+          "keywords": [
+            "독서실"
+          ]
+        },
+        {
+          "id": "study_cafe",
+          "label": "스터디카페",
+          "profile": "academy",
+          "keywords": [
+            "스터디카페"
+          ]
+        },
+        {
+          "id": "vocational",
+          "label": "직업교육",
+          "profile": null,
+          "keywords": [
+            "직업훈련",
+            "직업교육",
+            "자격증"
+          ]
+        },
+        {
+          "id": "coding",
+          "label": "코딩교육",
+          "profile": "academy",
+          "keywords": [
+            "코딩",
+            "컴퓨터학원"
+          ]
+        },
+        {
+          "id": "early_childhood",
+          "label": "유아교육",
+          "profile": "academy",
+          "keywords": [
+            "유아교육",
+            "놀이학원",
+            "유치원"
+          ]
+        },
+        {
+          "id": "music_art",
+          "label": "음악·미술교육",
+          "profile": "academy",
+          "keywords": [
+            "음악교습",
+            "미술교습"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lodging_tourism",
+      "label": "숙박·관광",
+      "items": [
+        {
+          "id": "hotel",
+          "label": "호텔",
+          "profile": "lodging",
+          "keywords": [
+            "호텔"
+          ]
+        },
+        {
+          "id": "motel",
+          "label": "모텔",
+          "profile": "lodging",
+          "keywords": [
+            "모텔",
+            "여관"
+          ]
+        },
+        {
+          "id": "guesthouse",
+          "label": "게스트하우스",
+          "profile": "lodging",
+          "keywords": [
+            "게스트하우스"
+          ]
+        },
+        {
+          "id": "pension",
+          "label": "펜션",
+          "profile": "lodging",
+          "keywords": [
+            "펜션"
+          ]
+        },
+        {
+          "id": "shared_lodging",
+          "label": "공유숙박",
+          "profile": "lodging",
+          "keywords": [
+            "민박",
+            "공유숙박"
+          ]
+        },
+        {
+          "id": "travel_agency",
+          "label": "여행사",
+          "profile": "professional_office",
+          "keywords": [
+            "여행사"
+          ]
+        },
+        {
+          "id": "tour_experience",
+          "label": "관광체험",
+          "profile": null,
+          "keywords": [
+            "관광",
+            "체험"
+          ]
+        },
+        {
+          "id": "rentacar",
+          "label": "렌터카",
+          "profile": "professional_office",
+          "keywords": [
+            "렌터카",
+            "렌트카"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "auto_transport",
+      "label": "자동차·교통",
+      "items": [
+        {
+          "id": "gas_station",
+          "label": "주유소",
+          "profile": "gas_station",
+          "keywords": [
+            "주유소"
+          ]
+        },
+        {
+          "id": "ev_charging",
+          "label": "전기차 충전소",
+          "profile": "ev_charging",
+          "keywords": [
+            "전기차",
+            "충전소"
+          ]
+        },
+        {
+          "id": "car_wash",
+          "label": "세차장",
+          "profile": "gas_station",
+          "keywords": [
+            "세차"
+          ]
+        },
+        {
+          "id": "car_repair",
+          "label": "자동차 정비",
+          "profile": "gas_station",
+          "keywords": [
+            "자동차정비",
+            "카센터"
+          ]
+        },
+        {
+          "id": "tire",
+          "label": "타이어 판매",
+          "profile": "gas_station",
+          "keywords": [
+            "타이어"
+          ]
+        },
+        {
+          "id": "used_car",
+          "label": "중고차",
+          "profile": null,
+          "keywords": [
+            "중고차"
+          ]
+        },
+        {
+          "id": "parking_lot",
+          "label": "주차장",
+          "profile": null,
+          "keywords": [
+            "주차장"
+          ]
+        },
+        {
+          "id": "bike_kickboard",
+          "label": "자전거·킥보드",
+          "profile": null,
+          "keywords": [
+            "자전거",
+            "킥보드"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "finance_professional",
+      "label": "금융·전문서비스",
+      "items": [
+        {
+          "id": "bank",
+          "label": "은행",
+          "profile": "professional_office",
+          "keywords": [
+            "은행"
+          ]
+        },
+        {
+          "id": "insurance",
+          "label": "보험",
+          "profile": "professional_office",
+          "keywords": [
+            "보험"
+          ]
+        },
+        {
+          "id": "securities",
+          "label": "증권",
+          "profile": "professional_office",
+          "keywords": [
+            "증권"
+          ]
+        },
+        {
+          "id": "loan",
+          "label": "대출상담",
+          "profile": "professional_office",
+          "keywords": [
+            "대부",
+            "대출"
+          ]
+        },
+        {
+          "id": "realestate_agency",
+          "label": "부동산중개",
+          "profile": "professional_office",
+          "keywords": [
+            "부동산중개",
+            "공인중개"
+          ]
+        },
+        {
+          "id": "legal_tax",
+          "label": "법무·세무",
+          "profile": "professional_office",
+          "keywords": [
+            "법무",
+            "세무",
+            "변호사",
+            "법률"
+          ]
+        },
+        {
+          "id": "accounting",
+          "label": "회계",
+          "profile": "professional_office",
+          "keywords": [
+            "회계"
+          ]
+        },
+        {
+          "id": "labor",
+          "label": "노무",
+          "profile": "professional_office",
+          "keywords": [
+            "노무"
+          ]
+        },
+        {
+          "id": "administrative",
+          "label": "행정사",
+          "profile": "professional_office",
+          "keywords": [
+            "행정사"
+          ]
+        },
+        {
+          "id": "shared_office",
+          "label": "공유오피스",
+          "profile": "professional_office",
+          "keywords": [
+            "공유오피스",
+            "사무실임대"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "franchise",
+      "label": "프랜차이즈",
+      "items": [
+        {
+          "id": "fr_food",
+          "label": "외식 프랜차이즈",
+          "profile": "restaurant",
+          "franchise": true,
+          "keywords": [
+            "한식",
+            "치킨",
+            "분식"
+          ]
+        },
+        {
+          "id": "fr_cafe",
+          "label": "카페 프랜차이즈",
+          "profile": "cafe",
+          "franchise": true,
+          "keywords": [
+            "커피"
+          ]
+        },
+        {
+          "id": "fr_convenience",
+          "label": "편의점",
+          "profile": "convenience",
+          "franchise": true,
+          "keywords": [
+            "편의점"
+          ]
+        },
+        {
+          "id": "fr_education",
+          "label": "교육 프랜차이즈",
+          "profile": "academy",
+          "franchise": true,
+          "keywords": [
+            "학원"
+          ]
+        },
+        {
+          "id": "fr_life_service",
+          "label": "생활서비스 프랜차이즈",
+          "profile": "beauty",
+          "franchise": true,
+          "keywords": [
+            "미용실"
+          ]
+        },
+        {
+          "id": "fr_new_brand",
+          "label": "신규 브랜드 출점",
+          "profile": null,
+          "franchise": true,
+          "flow": "new_brand",
+          "keywords": []
+        },
+        {
+          "id": "fr_expansion",
+          "label": "가맹점 확장",
+          "profile": null,
+          "franchise": true,
+          "flow": "expansion",
+          "keywords": []
+        },
+        {
+          "id": "fr_relocation",
+          "label": "기존 점포 이전",
+          "profile": null,
+          "franchise": true,
+          "flow": "relocation",
+          "keywords": []
+        }
+      ]
+    }
+  ]
+}

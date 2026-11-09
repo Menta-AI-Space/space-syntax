@@ -1,0 +1,369 @@
+/* 지도 분석 — 「목 좋은 길」 3단계 지도 (2026-10-26, components/map/StreetGradeMap.tsx).
+   지도가 탭 전체에 깔리고, 왼쪽 위에 범례 카드 하나만 뜬다. */
+
+.street-map {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+.street-map__canvas {
+  position: absolute;
+  inset: 0;
+}
+
+/* 기본 지도의 주황 큰길이 빨간 「목 좋은 길」과 섞이지 않도록 바탕 타일만 흑백으로 */
+.street-map__canvas img[src*="/api/v1/tile/"] {
+  filter: grayscale(1) contrast(0.9) brightness(1.04);
+}
+
+.street-map__card {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 10;
+  width: 300px;
+  max-height: calc(100% - 32px);
+  overflow-y: auto;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--background-elevated-normal);
+  box-shadow: 0 6px 24px rgba(15, 15, 16, 0.14);
+  font-family: var(--font-primary);
+  color: var(--label-normal);
+}
+
+.street-map__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--label-strong);
+}
+
+.street-map__lead {
+  margin: 4px 0 12px;
+  font-size: 13px;
+  color: var(--label-neutral);
+}
+
+.street-map__search {
+  display: flex;
+  gap: 6px;
+}
+
+.street-map__search input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--line-normal-normal);
+  border-radius: var(--radius-sm);
+  font: inherit;
+  font-size: 14px;
+}
+
+.street-map__search button {
+  padding: 8px 12px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--label-strong);
+  color: var(--static-white);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.street-map__error {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: var(--status-negative);
+}
+
+/* 문장이 길면(서버 무응답 안내 등) 단추 둘 옆 좁은 칸에서 네 줄로 꺾였다(360px) —
+   폭이 모자라면 문장이 한 줄을 다 쓰고 단추가 아래로 간다 (2026-11-08 UX 자동 개선). */
+.street-map__error p {
+  flex: 1 1 14em;
+  margin: 0;
+  word-break: keep-all;
+}
+
+.street-map__error button:not(.street-map__legend-toggle) {
+  flex: none;
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 1px solid var(--line-normal-normal);
+  border-radius: var(--radius-sm);
+  background: var(--static-white);
+  color: var(--label-strong);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.street-map__msg {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: var(--status-negative);
+  word-break: keep-all;
+}
+
+.street-map__msg--ok {
+  color: var(--label-neutral);
+}
+
+.street-map__legend {
+  list-style: none;
+  margin: 14px 0 8px;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.street-map__legend li {
+  display: grid;
+  grid-template-columns: 32px auto 1fr;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.street-map__legend li span:last-child {
+  color: var(--label-alternative);
+  text-align: right;
+}
+
+/* 멀리서 보는 중 — 이 단계 길은 지금 칠하지 않았다. */
+.street-map__legend li.street-map__legend-row--off {
+  opacity: 0.4;
+}
+
+.street-map__swatch {
+  display: block;
+  width: 32px;
+  border-radius: 3px;
+}
+
+.street-map__note {
+  margin: 0;
+  font-size: 12px;
+  color: var(--label-alternative);
+}
+
+.street-map__picked {
+  position: relative;
+  margin-top: 12px;
+  padding: 10px 28px 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--fill-alternative);
+  font-size: 14px;
+}
+
+.street-map__picked p {
+  margin: 0;
+}
+
+.street-map__picked strong {
+  color: var(--label-normal);
+}
+
+.street-map__picked-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  word-break: keep-all;
+}
+
+.street-map__picked-rank {
+  white-space: nowrap;
+}
+
+.street-map__picked-swatch {
+  flex: none;
+  width: 18px;
+  height: 6px;
+  border-radius: 3px;
+  transform: translateY(-2px);
+}
+
+.street-map__picked-sub {
+  margin-top: 4px !important;
+  font-size: 12px;
+  color: var(--label-neutral);
+}
+
+.street-map__picked button {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  border: 0;
+  background: none;
+  font-size: 16px;
+  color: var(--label-alternative);
+  cursor: pointer;
+}
+
+.street-map__status {
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: var(--label-neutral);
+}
+
+.street-map__caveats {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--label-neutral);
+}
+
+.street-map__caveats summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.street-map__caveats ul {
+  margin: 6px 0 0;
+  padding-left: 16px;
+  display: grid;
+  gap: 4px;
+}
+
+.street-map__note--folded {
+  display: none;
+}
+
+/* 범례 접기 단추는 휴대폰에서만 — 상태 문장 줄 오른쪽 (2026-11-07). */
+.street-map__legend-toggle {
+  display: none;
+}
+
+/* 휴대폰 — 카드를 아래쪽으로 내리고 폭을 화면에 맞춘다. 지도 위쪽을 가리지 않게. */
+@media (max-width: 640px) {
+  .street-map__card {
+    top: auto;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    width: auto;
+    max-height: 45%;
+    padding: 12px;
+  }
+
+  /* 탭 이름(지도)이 이미 말하므로 제목·소개를 빼고, 매출 확인 범위 문장은
+     「이 지도를 읽는 법」 안으로 접는다 — 카드가 지도를 45% 덮었다. */
+  .street-map__title,
+  .street-map__lead,
+  .street-map__note--top {
+    display: none;
+  }
+
+  .street-map__note--folded {
+    display: block;
+  }
+
+  /* 「이 지도를 읽는 법」 접힘 줄이 높이 18px·12px라 손가락으로 펴기 어려웠다 —
+     다른 휴대폰 누름 칸(다시 불러오기 등)과 같은 36px로 (2026-11-06 UX 자동 개선). */
+  .street-map__caveats {
+    margin-top: 2px;
+  }
+
+  .street-map__caveats summary {
+    /* display를 바꾸면 펼침 삼각형(::marker)이 사라진다 — 여백으로 높이를 맞춘다. */
+    padding: 9px 0;
+    line-height: 18px;
+    font-size: 13px;
+  }
+
+  /* 아이폰 사파리는 글씨가 16px보다 작은 입력칸을 누르면 화면을 확대하고 되돌리지
+     않는다 — 검색 한 번에 지도·범례가 화면 밖으로 밀렸다. AI 입지 탭 검색창
+     (.street-finder__input)과 같은 16px로 (2026-11-06 UX 자동 개선). */
+  .street-map__search input {
+    font-size: 16px;
+  }
+
+  .street-map__legend {
+    grid-template-columns: repeat(3, 1fr);
+    margin: 10px 0 6px;
+  }
+
+  .street-map__legend li {
+    grid-template-columns: 1fr;
+    gap: 2px;
+    font-size: 12px;
+  }
+
+  .street-map__legend li span:last-child {
+    text-align: left;
+  }
+
+  .street-map__swatch {
+    width: 100%;
+  }
+
+  .street-map__status-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+  }
+
+  .street-map__status-row .street-map__status {
+    flex: 1;
+    margin: 0;
+  }
+
+  .street-map__legend-toggle {
+    display: block;
+    flex: none;
+    margin: 0;
+    min-height: 36px;
+    padding: 0 4px;
+    border: 0;
+    background: none;
+    color: var(--label-neutral);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .street-map__legend--folded {
+    display: none;
+  }
+
+  /* 길을 누르면 설명(색 막대·단계 이름·순위)이 범례 한 줄을 대신한다 — 범례까지 두면 390×667에서
+     카드가 꽉 차 범례 아래·「이 지도를 읽는 법」이 카드 밖으로 밀렸다. 설명을 닫으면 다시 보인다
+     (2026-11-07 UX 자동 개선). 접기 단추도 같이 숨겨 「접기」인데 안 보이는 어긋남을 막는다. */
+  .street-map__card--picked .street-map__legend,
+  .street-map__card--picked .street-map__legend-toggle {
+    display: none;
+  }
+
+  /* 누른 길 설명의 닫기(×)가 글자 크기(약 10×24px)뿐이라 손가락으로 맞히기 어려웠다 —
+     설명 칸 오른쪽 위에 36px 칸으로 (2026-11-06 UX 자동 개선). */
+  .street-map__picked {
+    padding-right: 40px;
+  }
+
+  .street-map__picked button {
+    top: 0;
+    right: 0;
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+}
+
+/* 2026-11-07 UX 루프: 지도 분석 카드 글이 낱말 가운데서 꺾였다 — 1280 안내문 「찾았 / 습니다」,
+   매출 문장 「까지 / 입니다」, 누른 길 설명 「손님 / 이」, 390 「가게 / 라면」. 일부 줄(오류·
+   상태)에만 keep-all이 있었다 — 카드 전체를 어절 단위로 꺾고, 긴 낱말만 넘칠 때 자른다. */
+.street-map__card {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+.street-map__lead,
+.street-map__note,
+.street-map__picked-sub {
+  text-wrap: pretty;
+}

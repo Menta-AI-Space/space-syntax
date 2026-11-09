@@ -1,0 +1,2177 @@
+{
+  "version": 1,
+  "updated_at": "2026-08-01T20:39:17+09:00",
+  "heartbeat": "2026-08-01T20:39:11+09:00",
+  "paused": false,
+  "budget": {
+    "daily_limit_usd": 0.0,
+    "spent_today_usd": 0.0,
+    "day": "2026-08-01",
+    "notify_on_limit": true,
+    "notified_today": false
+  },
+  "auth": {
+    "mode": "subscription",
+    "api_fallback": false
+  },
+  "limits": {
+    "max_concurrent_agents": 3,
+    "max_delegation_depth": 1,
+    "agent_timeout_s": 1200,
+    "max_attempts": 2,
+    "halt_after_consecutive_failures": 3
+  },
+  "consecutive_failures": 0,
+  "tasks": [
+    {
+      "id": "T-001",
+      "title": "에이전트에 잠식 도구(cannibalization) 붙이기",
+      "status": "done",
+      "owner": null,
+      "priority": 1,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 2,
+      "blocked_reason": null
+    },
+    {
+      "id": "T-002",
+      "title": "에이전트에 시세·생활인구 도구(area_insights) 붙이기",
+      "status": "done",
+      "owner": null,
+      "priority": 2,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 2,
+      "blocked_reason": null
+    },
+    {
+      "id": "T-003",
+      "title": "에이전트에 권역 도구(territory) 붙이기",
+      "status": "done",
+      "owner": null,
+      "priority": 3,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 2,
+      "blocked_reason": null
+    },
+    {
+      "id": "T-004",
+      "title": "에이전트에 경쟁구조 도구(real_competition) 붙이기",
+      "status": "done",
+      "owner": null,
+      "priority": 4,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 2,
+      "blocked_reason": null
+    },
+    {
+      "id": "T-005",
+      "title": "에이전트에 실거래 비교 도구(property_market) 붙이기",
+      "status": "done",
+      "owner": null,
+      "priority": 5,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 2,
+      "blocked_reason": null
+    },
+    {
+      "id": "T-050",
+      "title": "5초 룰 — _extract_spots를 analysis_cache에 태울지",
+      "status": "blocked",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/goals.py"
+      ],
+      "branch": null,
+      "attempts": 0,
+      "blocked_reason": "사람 결정 대기. 캐시 키가 어긋나면 추천이 조용히 바뀐다. 근거와 검증 절차는 docs/PERF_AREA_SEARCH.md"
+    },
+    {
+      "id": "T-051",
+      "title": "agent.py real_competition 호출에 target_model 누락 — 학원 업종은 항상 400을 '시간초과'로 오표시",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "real_competition.py:247-252는 학원(academy) 업종에서 target_model이 없으면 400을 던지는데, agent.py의 _run_tool(1188-1193)은 RealCompetitionRequest를 만들 때 target_model을 절대 넘기지 않는다. 그 결과 학원 업종 경쟁분석 요청은 항상 실패하고, 실패 사유는 진짜 이유(과목 미지정) 대신 '계산이 오래 걸려 이번 응답에는 담지 못했어요'라는 거짓 안내로 대체된다(2074-2081행 공용 예외처리가 원인을 구분 못함). 과목(수학/영어/국어/과학/입시·논술/예체능/코딩/성인)을 질의에서 추출해 넘기거나, 최소한 실패 사유를 정확히 알려야 한다."
+    },
+    {
+      "id": "T-052",
+      "title": "academy-cluster·lease-feasibility가 backend/app/routers/agent.py의 _TOOLS에 없다",
+      "status": "done",
+      "owner": null,
+      "priority": 9,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "academy_cluster.py(/api/academy-cluster)와 lease_feasibility.py(/api/lease-feasibility)는 실제 서비스 라우터이고 frontend-next(DashboardPanel.tsx, RealCompetitionSection.tsx, lib/api.ts)에서 이미 쓰이는 살아있는 기능인데, agent.py의 _TOOLS/_run_tool 어디에도 없어 대화형 에이전트로는 절대 호출할 수 없다. lease_feasibility는 이미 노출된 lease_verdict와 같은 입력(월세만 있으면 실행 가능)이라 확장 비용이 낮고, academy_cluster는 위 T(real_competition target_model 누락) 수정과 함께 처리하면 학원 업종 경쟁분석 전체가 정상 동작하게 된다."
+    },
+    {
+      "id": "T-053",
+      "title": "RealCompetitionBundleResponse.warnings(HIRA 대체·model_fit 실패 등)가 프론트 어디에도 안 뜬다",
+      "status": "done",
+      "owner": null,
+      "priority": 9,
+      "files": [
+        "frontend-next/components/dashboard/DashboardPanel.tsx",
+        "frontend-next/components/dashboard/RealCompetitionSection.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend/app/routers/real_competition.py:230-404가 모으는 warnings(HIRA 데이터 없어 SBIZ로 대체, model_fit 계산이 HTTPException으로 실패해 fit 자체가 None인 경우 등, 386-387행)를 DashboardPanel.tsx가 competitionBundle에서 받기만 하고 어디에도 렌더링하지 않아, 사용자는 경쟁·모델적합도 결과를 정상 데이터인 것처럼 본다."
+    },
+    {
+      "id": "T-054",
+      "title": "에이전트 도구에 isochrone(도달권역) 없음 — '도보 10분 안에 몇 명 살아' 류 질문에 답할 수단이 없다",
+      "status": "done",
+      "owner": null,
+      "priority": 8,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend/app/routers/dashboard.py의 /api/isochrone(population_estimate·store_count·same_category_count까지 계산)은 frontend-next/components/dashboard/IsochroneSection.tsx가 쓰는 살아있는 기능인데 agent.py의 _TOOLS/_run_tool 어디에도 없어 대화형 에이전트로는 호출할 수 없다. 필요 입력(지점+반경+도보/자전거 분)이 문장에서 뽑아내기 쉬워 확장 비용이 낮다."
+    },
+    {
+      "id": "T-055",
+      "title": "에이전트 도구에 personal_fit(우선순위 재가중) 없음 — 사용자가 '유동인구를 더 중요하게 봐줘'라고 해도 무시된다",
+      "status": "done",
+      "owner": null,
+      "priority": 5,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/app/models/schemas.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend/app/routers/site_score.py의 /api/personal-fit(frontend-next/components/SiteScorePanel.tsx가 씀)은 site_score 응답의 subscores·base_weights를 받아 우선순위 재가중을 한다. 다만 agent.py의 ChatRequest(schemas.py:530-534)는 messages/lat/lng/business_type만 받고 이전 site_score 결과를 안 들고 있어, 단순히 _TOOLS에 추가하는 것만으로는 안 되고 대화 상태에 직전 subscores를 실어야 한다 — 범위가 앞의 두 건보다 크다."
+    },
+    {
+      "id": "T-056",
+      "title": "franchise brand-detail(/api/franchise/brand-detail 창업비용·폐업률)가 agent.py _TOOLS에 없다",
+      "status": "done",
+      "owner": null,
+      "priority": 9,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "franchise.py의 brand-detail(계약해지율·창업비용)은 FranchiseBrandCard.tsx가 쓰는 살아있는 기능인데 agent.py _TOOLS/_run_tool 어디에도 없어 '이디야 창업비용 얼마야' 같은 대화형 질문에 답할 수단이 없다."
+    },
+    {
+      "id": "T-057",
+      "title": "TerritorySection.tsx가 TerritoryAnalysisResponse.warnings를 렌더링하지 않는다",
+      "status": "done",
+      "owner": null,
+      "priority": 8,
+      "files": [
+        "frontend-next/components/dashboard/TerritorySection.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "대시보드 핵심 패널(권역 잠식)인데 backend가 담아 보내는 warnings(예: 도로망 희박·수요 추정치)가 화면 어디에도 없어 신뢰 못 할 수치를 확정값처럼 보여준다."
+    },
+    {
+      "id": "T-058",
+      "title": "TrendsSection.tsx가 TrendsResponse.warnings를 렌더링하지 않는다",
+      "status": "done",
+      "owner": null,
+      "priority": 6,
+      "files": [
+        "frontend-next/components/dashboard/TrendsSection.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "같은 응답의 data_scope 각주는 표시하면서 옆의 warnings 배열은 빠뜨려, '출처는 투명히 밝혔다'는 인상만 주고 정작 더 심각한 경고는 숨긴다."
+    },
+    {
+      "id": "T-059",
+      "title": "SimulationPanel.tsx가 SimulateResponse.warnings(가상도로 미연결 등)를 렌더링하지 않는다",
+      "status": "done",
+      "owner": null,
+      "priority": 9,
+      "files": [
+        "frontend-next/components/SimulationPanel.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "simulation.py가 담는 경고(그린 도로가 기존 망에 안 붙었다 등)를 화면에서 빼먹어 개선/악화 카운트와 지표를 무조건 신뢰할 값처럼 보여준다"
+    },
+    {
+      "id": "T-060",
+      "title": "AppShell.tsx가 /api/analyze의 AnalyzeResponse.warnings(구간 제한·DepthmapX 폴백)를 렌더링하지 않는다",
+      "status": "done",
+      "owner": null,
+      "priority": 9,
+      "files": [
+        "frontend-next/components/AppShell.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "analyze.py가 담는 세그먼트 축소·엔진 폴백 경고가 segment_count 성공 메시지에만 묻혀 사라져, 정확도가 낮아진 상태의 통합도·선택도 값을 그대로 site score에 흘려보낸다"
+    },
+    {
+      "id": "T-061",
+      "title": "ProfitabilityPanel.tsx가 PropertyMarketResult.excluded(제외된 실거래 사유)를 노출하지 않는다",
+      "status": "done",
+      "owner": null,
+      "priority": 5,
+      "files": [
+        "frontend-next/components/profitability/ProfitabilityPanel.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "property_market.py가 계산하는 제외 거래 내역(계약해제·지분거래·근사좌표 등)이 표본 수 n만 보여주고 왜 빠졌는지는 전혀 안 나와 밴드 신뢰도를 스스로 판단하기 어렵다"
+    },
+    {
+      "id": "T-062",
+      "title": "에이전트 도구에 신설도로 시뮬레이션(/simulate) 붙이기 — _TOOLS에 없다",
+      "status": "done",
+      "owner": null,
+      "priority": 1,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "GOALS.md가 명시한 마지막 미연결 기능. 지점(+가상도로 좌표) 파악만 되면 계산되는데 \"여기 길 뚫리면 어떻게 돼\" 류 질문에 에이전트가 답할 방법이 없다"
+    },
+    {
+      "id": "T-063",
+      "title": "LeaseAnalysisSection이 LeaseFeasibilityResponse.warnings를 렌더링하지 않는다",
+      "status": "done",
+      "owner": null,
+      "priority": 9,
+      "files": [
+        "frontend-next/components/dashboard/LeaseAnalysisSection.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend/app/routers/lease_feasibility.py가 잠식·SGIS 수요·경쟁점포 조회 실패나 매출벤치마크 폴백을 warnings에 담아 보내는데(schemas.py:607), 화면은 verdict·손익분기 숫자만 그대로 보여줘 입력값이 일부 깨져도 사용자가 알 방법이 없다"
+    },
+    {
+      "id": "T-064",
+      "title": "ProfitabilityPanel의 MarketBand가 insufficient_sample을 무시하고 표본 1~7건도 확정 시세밴드처럼 보여준다",
+      "status": "done",
+      "owner": null,
+      "priority": 9,
+      "files": [
+        "frontend-next/components/profitability/ProfitabilityPanel.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "fetch_market_band(backend/app/services/property_market.py)는 n>0이면 표본이 MIN_SAMPLE(8)보다 훨씬 적어도(심지어 1건) p25/p50/p75를 계산해 insufficient_sample=True로 반환하는데, MarketBand 컴포넌트는 market.p50이 null일 때(n=0)만 '표본 부족' 문구를 보여주고 insufficient_sample 필드 자체를 아예 참조하지 않아 표본 1~7건짜리 밴드도 신뢰 가능한 시세처럼 그대로 노출된다 — verdicts.py는 같은 플래그로 서술 텍스트에 주의 문구를 넣는데 이 위젯만 그 경로를 안 탄다."
+    },
+    {
+      "id": "T-065",
+      "title": "CandidateCompare.tsx가 후보지 비교에서 SiteScoreResponse.warnings를 버려 저하된 점수도 '추천'으로 표시한다",
+      "status": "done",
+      "owner": null,
+      "priority": 9,
+      "files": [
+        "frontend-next/components/CandidateCompare.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "교통·상권 API 실패나 DepthmapX 폴백·도달권 계산 실패로 total_score가 저하된 후보도 그 사실을 숨긴 채 초록 '추천' 배지와 '▲ 최고' 표시로 최선인 것처럼 보여준다 — 단일 지점 화면(SiteScorePanel.tsx)은 같은 응답의 warnings를 이미 렌더링하는 것과 대조된다"
+    },
+    {
+      "id": "T-066",
+      "title": "ModelFitSection(RealCompetitionSection.tsx)이 ModelFitResponse.warnings를 렌더링하지 않는다",
+      "status": "done",
+      "owner": null,
+      "priority": 8,
+      "files": [
+        "frontend-next/components/dashboard/RealCompetitionSection.tsx",
+        "frontend-next/components/dashboard/DashboardPanel.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "정형외과 주차·엘리베이터 필요, 학원 픽업 동선 확인 필요, 프랜차이즈 빵집 가격 압박 같은 모델별 실질 주의사항이 엔진에서 계산되지만 화면에는 점수·판정만 나오고 사라진다 — 같은 파일의 CompetitionSection·AcademyClusterSection은 이미 warnings를 렌더링해서 이 컴포넌트만 빠졌다"
+    },
+    {
+      "id": "T-067",
+      "title": "AgentChat.tsx가 도구 실행 결과(tool_result)를 화면에 구조화해 보여주지 않는다 — decide·lease_verdict 등을 실행해도 site_score 막대만 보인다",
+      "status": "done",
+      "owner": null,
+      "priority": 9,
+      "files": [
+        "frontend-next/components/agent/AgentChat.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend/app/routers/agent.py의 /api/agent/ask는 문장에서 lease_verdict·purchase_verdict·decide·area_search·diagnose·cannibalization·territory·real_competition·academy_cluster·lease_feasibility·property_market·isochrone·franchise_brand_detail 등 17개 도구 중 하나를 골라 실행하고 그 결과를 tool_result(dict)에 담아 그대로 돌려주는데(agent.py:2557-2626), frontend-next/components/agent/AgentChat.tsx는 result.tool_result를 오직 /api/agent/answer에 LLM 서술용 컨텍스트로 넘기는 데만 쓰고(82행) 화면에는 항상 result.site(기본 입지 점수 막대·AnalysisVisuals)만 그린다(233-294행). 같은 데이터를 GoalIntake→VerdictReport/LeaseVerdictReport/PurchaseVerdictReport/DiagnoseReport/AreaSearchReport 경로로 받으면 verdict 배지·negotiation 수치·risks·warnings까지 카드로 보여주면서, 자연어 채팅으로 물으면 그 구조화된 판정이 전부 사라지고 LLM 프로즈 서술과 무관한 종합 점수 막대만 남는다 — 프로젝트 목표 '엔진이 결정론적으로 계산한 숫자·판정을 그대로 보여준다'(agent.py 21-23행)와 정면으로 어긋난다."
+    },
+    {
+      "id": "T-068",
+      "title": "SynergySection.tsx가 SynergyResponse.warnings를 렌더링하지 않는다",
+      "status": "done",
+      "owner": null,
+      "priority": 4,
+      "files": [
+        "frontend-next/components/dashboard/SynergySection.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "같은 파일 안 형제 섹션(ModelFitResponse.warnings 등)은 경고를 렌더링하는데 시너지 카드만 빠져 있다 — compute_synergy_cluster가 지금은 warnings=[]만 반환해 당장 화면이 틀린 값을 보여주진 않지만, 이후 그 함수가 실제 경고를 채우기 시작하는 순간 조용히 묻히는 사고가 재현된다"
+    },
+    {
+      "id": "T-069",
+      "title": "AgentChat.tsx의 ToolResultCard가 cannibalization·territory·real_competition·isochrone·academy_cluster·lease_feasibility·franchise_brand_detail·area_insights 8개 도구 결과를 구조화해 보여주지 않는다",
+      "status": "done",
+      "owner": null,
+      "priority": 9,
+      "files": [
+        "frontend-next/components/agent/AgentChat.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "T-067이 decide·lease_verdict·purchase_verdict·diagnose·area_search·profitability·trends 7개만 ToolResultCard switch에 연결했고(ade536f), agent.py _TOOLS의 나머지 8개는 backend에서 정상 계산되는데도(agent.py:1075-1153, 1719-1987에 각각 _run_tool·서술 변환 로직 존재) default 분기(157행)에서 null을 반환해 잠식위험·권역분석·경쟁구조·도달권·학원클러스터·임차타당성·프랜차이즈창업비용·시세를 물어봐도 site_score 막대만 보인다."
+    },
+    {
+      "id": "T-070",
+      "title": "SiteScorePanel.tsx(및 CandidateCompare.tsx)가 subscore.display==='—'일 때도 OR 우선순위 때문에 subscore.detail(진짜 이유)을 절대 보여주지 않는다",
+      "status": "done",
+      "owner": null,
+      "priority": 8,
+      "files": [
+        "frontend-next/components/SiteScorePanel.tsx",
+        "frontend-next/components/CandidateCompare.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "site_score.py가 업종 미선택·SGIS 데이터 없음 같은 경우 display를 '—'로, detail에는 실제 사유를 담아 반환하는데(services/site_score.py:726,739), SiteScorePanel.tsx:183의 `{s.display || s.detail}`은 '—'도 truthy라 항상 display를 골라 detail이 가장 필요한 순간(신뢰 못 할 값)에 아무 설명 없는 '—'만 남긴다."
+    },
+    {
+      "id": "T-071",
+      "title": "AgentChat.tsx의 ToolResultCard가 property_market(실거래 비교) 결과를 구조화해 보여주지 않는다",
+      "status": "done",
+      "owner": null,
+      "priority": 9,
+      "files": [
+        "frontend-next/components/agent/AgentChat.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "_TOOLS에 있는 property_market은 위치만 있으면 실행되는데 ToolResultCard switch에 case가 없어 default:null로 떨어진다 — 실거래 비교·백분위·표본수·insufficient_sample이 계산되고도 채팅 화면엔 아무것도 안 보인다"
+    },
+    {
+      "id": "T-072",
+      "title": "ProfitabilityToolCard(AgentChat.tsx)가 ProfitabilityAnalyzeResponse.market·rent_reference를 렌더링하지 않는다",
+      "status": "done",
+      "owner": null,
+      "priority": 6,
+      "files": [
+        "frontend-next/components/agent/AgentChat.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "채팅의 profitability 도구는 항상 market_context(lat/lng/area_sqm)를 넘겨 백엔드가 주변 실거래 밴드·percentile·임대료 참고치까지 계산해 내려주지만, 카드는 cap_rate·DSCR·IRR 타일과 risks/levers/warnings만 조립하고 market·rent_reference 필드는 통째로 버린다"
+    },
+    {
+      "id": "T-073",
+      "title": "AgentChat.tsx의 CannibalizationToolCard가 자기잠식(self_total_count·self_competitors·self_overlap_pct·demand_factor·overlap_with) 데이터를 통째로 안 그린다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "frontend-next/components/agent/AgentChat.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "도구 이름 자체가 '잠식·자기잠식 위험 분석'인데 카드는 동종 경쟁만 보여주고 자사 매장 자기잠식은 엔진이 계산해도 화면에 전혀 안 나온다 — 같은 응답을 쓰는 dashboard/CannibalizationSection.tsx는 SelfCannibalBlock으로 이미 다 그리고 있어 참고 구현이 있다"
+    },
+    {
+      "id": "T-074",
+      "title": "AgentChat.tsx의 LeaseFeasibilityToolCard가 상권 벤치마크 월매출·권장 임차비 상한(benchmark_monthly_revenue_man·recommended_rent_max_man·benchmark_data_source 등)을 안 보여준다",
+      "status": "done",
+      "owner": null,
+      "priority": 8,
+      "files": [
+        "frontend-next/components/agent/AgentChat.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "판정의 근거가 되는 벤치마크 비교치가 응답에는 있는데 채팅 카드에서 빠져 '왜 이 월세가 적정/과다인지'가 안 보인다 — dashboard/LeaseAnalysisSection.tsx의 LeaseResult가 이미 같은 필드를 렌더링 중이라 그대로 참조 가능"
+    },
+    {
+      "id": "T-075",
+      "title": "AgentChat.tsx의 RealCompetitionToolCard가 경쟁 구간별 근접 경쟁점(bucket.nearest)을 안 보여주고 개수·강도만 보여준다",
+      "status": "done",
+      "owner": null,
+      "priority": 5,
+      "files": [
+        "frontend-next/components/agent/AgentChat.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "어떤 가게가 경쟁인지 이름이 안 보여 '경쟁 3곳'이라는 숫자만 남는다 — dashboard/RealCompetitionSection.tsx의 BucketRow는 같은 응답의 nearest를 펼쳐 보여주고 있어 동일 패턴을 재사용할 수 있다"
+    },
+    {
+      "id": "T-076",
+      "title": "franchise_brand_detail이 여러 연도 스냅샷 중 최신이 아니라 frcs_cnt가 큰 연도를 고른다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/franchise.py",
+        "frontend-next/components/agent/AgentChat.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "franchise_brands는 (yr,brand_nm,hq_conm) 유니크키라 연도별로 누적되는데 _brand_detail 쿼리가 ORDER BY frcs_cnt DESC만 쓰고 yr을 안 보므로, 응답 스키마에 yr 필드가 있어도 옛날 연도 창업비용·폐업률이 조용히 최신인 척 나올 수 있고 프론트도 그 yr을 안 보여줘 확인할 길이 없다"
+    },
+    {
+      "id": "T-077",
+      "title": "RealCompetitionToolCard가 경쟁 강도 점수의 기준 권역(reach_mode·reach_minutes·reach_label)을 안 보여준다",
+      "status": "done",
+      "owner": null,
+      "priority": 8,
+      "files": [
+        "frontend-next/components/agent/AgentChat.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "백엔드 RealCompetitionResponse는 reach_mode/reach_minutes/reach_label을 내려주는데 카드는 total_weighted_score·total_intensity만 보여줘, 도보 10분권 기준인지 더 넓은 차량권 기준인지 몰라도 '경쟁 낮음' 판정을 그대로 믿게 된다"
+    },
+    {
+      "id": "T-078",
+      "title": "TrendsToolCard가 성장률 수치의 데이터 출처(data_scope)를 안 보여준다",
+      "status": "done",
+      "owner": null,
+      "priority": 7,
+      "files": [
+        "frontend-next/components/agent/AgentChat.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "TrendsResponse.data_scope는 SBIZ 스냅샷·서울시 상권분석서비스·데이터 없음 중 어느 쪽인지 구분해 내려주는데 카드는 growth_pct 수치만 보여줘 신뢰도가 낮은 값도 확정치처럼 보인다"
+    },
+    {
+      "id": "T-079",
+      "title": "AgentChat.tsx의 ProfitabilityMarketSection이 실거래 밴드의 relaxations·excluded·min_deal_date·max_deal_date를 안 보여준다",
+      "status": "done",
+      "owner": null,
+      "priority": 8,
+      "files": [
+        "frontend-next/components/agent/AgentChat.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "같은 PropertyMarketResponse를 쓰는 ProfitabilityPanel.tsx(메인 투자수익성 탭)는 완화 조건·제외거래 사유·실거래 기간을 다 보여주는데, 챗 도구카드가 공유하는 ProfitabilityMarketSection(AgentChat.tsx:52-84)만 p50/p25/p75/n 등만 쓰고 이 4개 필드를 빼먹어 챗으로 물으면 같은 값이 더 신뢰도 높아 보이는 정보 비대칭이 생긴다"
+    },
+    {
+      "id": "T-080",
+      "title": "PropertyMarketResponse.time_adjusted·as_of가 프론트 어디에도 렌더링되지 않는다",
+      "status": "done",
+      "owner": null,
+      "priority": 6,
+      "files": [
+        "frontend-next/components/profitability/ProfitabilityPanel.tsx",
+        "frontend-next/components/agent/AgentChat.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend/app/services/property_market.py가 '시점 보정 없음 — 최근 N개월 원자료'임을 명시하려고 넣은 필드인데 lib/api.ts 타입 선언에만 있고 실제 컴포넌트(.tsx)에는 한 번도 쓰이지 않아, 사용자가 실거래 밴드를 시점 보정된 확정 시세처럼 오해할 수 있다"
+    },
+    {
+      "id": "T-081",
+      "title": "LeaseAnalysisSection·LeaseFeasibilityToolCard가 LeaseFeasibilityResponse.site_context(주변 경쟁·잠식·업종 배경)를 통째로 안 보여준다",
+      "status": "done",
+      "owner": null,
+      "priority": 9,
+      "files": [
+        "frontend-next/components/dashboard/LeaseAnalysisSection.tsx",
+        "frontend-next/components/agent/AgentChat.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend/app/routers/lease_feasibility.py가 채워 보내는 LeaseSiteContextOut(total_score·grade·competition_label·cannibalization_risk·best_restaurant_models 등 9개 필드)를 대시보드·챗 카드 모두 전혀 렌더링하지 않아, 임차 판정이 실은 주변 경쟁·잠식 상황에 좌우되는데도 사용자는 순수 임대료 계산 결과인 것처럼 본다"
+    },
+    {
+      "id": "T-082",
+      "title": "ExplanationOut.source(llm/rule 서술 출처)가 어느 화면에도 안 나온다",
+      "status": "done",
+      "owner": null,
+      "priority": 4,
+      "files": [
+        "frontend-next/components/dashboard/LeaseAnalysisSection.tsx",
+        "frontend-next/components/agent/AgentChat.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend가 서술문이 LLM 생성인지 규칙 템플릿 폴백인지 구분해 explanation.source에 담아 보내는데(schemas.py:259-261) 프론트는 explanation.text만 쓰고 source는 어디서도 참조하지 않아, LLM 실패로 규칙 문구가 대신 나가도 사용자는 구분할 수 없다"
+    },
+    {
+      "id": "T-083",
+      "title": "RealCompetitionSection.tsx의 AcademyClusterSection이 ParentSafetyDetailOut.nearby_risks를 안 보여준다(같은 데이터를 쓰는 AgentChat.tsx는 보여줌)",
+      "status": "done",
+      "owner": null,
+      "priority": 6,
+      "files": [
+        "frontend-next/components/dashboard/RealCompetitionSection.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "같은 응답 필드를 AgentChat.tsx:348은 이미 렌더링하는데 대시보드 쪽 학원 클러스터 카드만 same_building_risks 개수만 보여주고 nearby_risks는 빼먹어, '동일건물 위해업소 없음'만 보고 인근의 위해업소 존재를 놓칠 수 있다"
+    },
+    {
+      "id": "T-084",
+      "title": "DashboardPanel의 ChatSection이 도구 없는 /api/chat(chat_consultation)을 쓰면서 '임대료 밴드 필터'·'상권 스캐너' 칩으로 area_search·lease_verdict급 기능을 약속한다",
+      "status": "done",
+      "owner": null,
+      "priority": 9,
+      "files": [
+        "frontend-next/components/dashboard/ChatSection.tsx",
+        "backend/app/services/chat_consultation.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "칩 문구('월세 300 이하 후보만 추려줘')는 area_search/필터를 약속하지만 chat_consultation은 LLM 텍스트 생성만 하고 도구 호출이 전혀 없다(OpenAI 키 없으면 rule_based_chat로 질문만 되돌려줌) — 같은 화면 옆 AgentChat.tsx가 쓰는 /api/agent/ask는 이미 area_search·lease_verdict 등 17개 도구를 갖췄는데 대시보드 탭 채팅만 이걸 못 쓴다"
+    },
+    {
+      "id": "T-085",
+      "title": "SalesBenchmarkOut.scope(trdar 실측/dong 대체 구분)이 화면 어디에도 안 나온다",
+      "status": "done",
+      "owner": null,
+      "priority": 8,
+      "files": [
+        "frontend-next/lib/api.ts",
+        "frontend-next/components/AdaptiveDashboard.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "site_score.py:694가 채운 상권 매출이 지정 상권 실측(trdar)인지 상권 밖이라 행정동 평균으로 채운 값(dong)인지 scope로 구분해 두는데, AdaptiveDashboard의 '서울 중앙값의 X배' 비교가 이를 안 가리고 같은 확신으로 보여준다"
+    },
+    {
+      "id": "T-086",
+      "title": "AgentChat.tsx의 AcademyClusterBlock이 ParentSafetyDetailOut.sensitivity_note를 안 보여준다(같은 데이터를 쓰는 RealCompetitionSection은 보여줌)",
+      "status": "done",
+      "owner": null,
+      "priority": 7,
+      "files": [
+        "frontend-next/components/agent/AgentChat.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "RealCompetitionSection.tsx:294는 '학부모 안심도' 등급의 근거(민감도 적용 이유)를 sensitivity_note로 보여주는데, 같은 academy_cluster 응답을 쓰는 AgentChat의 AcademyClusterBlock은 점수·등급만 보여주고 근거를 뺀다"
+    },
+    {
+      "id": "T-087",
+      "title": "ProfitabilityPanel.tsx가 ProfitabilityAnalyzeResponse.explanation_source(llm/rule)를 안 보여준다",
+      "status": "done",
+      "owner": null,
+      "priority": 7,
+      "files": [
+        "frontend-next/components/profitability/ProfitabilityPanel.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "profitability_explain.py는 LLM 설명 실패 시 rule 기반 대체 설명으로 조용히 내려가는데(explanation_source로 표시), ProfitabilityPanel은 renderExplanation(data.explanation) 텍스트만 보여줘 두 출처의 신뢰도 차이가 화면에서 사라진다 — ExplanationOut.source를 고친 커밋(d1a0305)과 같은 유형의 다른 필드"
+    },
+    {
+      "id": "T-088",
+      "title": "에이전트가 앞 대화를 못 이어받는다 — 백엔드가 history를 받아 의도에 반영",
+      "status": "done",
+      "owner": null,
+      "priority": 1,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "지금은 질문 하나=답 하나다. '그럼 옆 골목은?'이라고 하면 앞 턴의 주소·업종을 잊고 처음부터 다시 묻는다. /api/agent/ask가 이전 turn 목록을 받아, 이번 문장에 주소나 업종이 없으면 앞 턴 것을 이어받게 한다. 앞 턴을 덮어쓰지는 말 것 — 이번 문장에 새 값이 있으면 그게 이긴다.",
+      "depends_on": [],
+      "budget_min": 120
+    },
+    {
+      "id": "T-089",
+      "title": "프론트가 앞 대화를 안 보낸다 — AgentChat이 history를 실어 보내도록",
+      "status": "done",
+      "owner": null,
+      "priority": 2,
+      "files": [
+        "frontend-next/components/agent/AgentChat.tsx",
+        "frontend-next/lib/api.ts"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "백엔드가 history를 받게 된 뒤 프론트가 안 보내면 아무 효과가 없다. 지금까지 주고받은 질문·답을 함께 보낸다. 길어지면 최근 몇 턴만 보낸다 — 전부 보내면 토큰이 터지고 느려진다.",
+      "depends_on": [
+        "T-088"
+      ],
+      "budget_min": 90
+    },
+    {
+      "id": "T-090",
+      "title": "값이 모자라면 한 번 알리고 끝난다 — 되물어서 끌어내도록",
+      "status": "done",
+      "owner": null,
+      "priority": 3,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "'월세를 알려 주시면 계약 판단까지 해 드려요'라고 한 번 적고 끝난다. 사람이라면 '예산이 어느 정도세요?'라고 물어서 끌어낸다. 도구에 필요한 값이 빠졌을 때 질문을 응답에 실어 보내고, 다음 턴에서 그 답을 파라미터로 받는다. 단 되묻기는 한 번까지 — 계속 물으면 답을 못 받는 사용자가 갇힌다.",
+      "depends_on": [
+        "T-089"
+      ],
+      "budget_min": 120
+    },
+    {
+      "id": "T-091",
+      "title": "도구를 하나만 쓴다 — 질문 하나에 여러 도구를 엮어 답하도록",
+      "status": "done",
+      "owner": null,
+      "priority": 4,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "'신촌에 카페 낼 건데 어때?'에 점수만 답한다. 사람이라면 점수+경쟁+임대료+매출을 엮는다. 질문이 넓으면 도구를 2~3개 돌려 결과를 합쳐 서술에 넘긴다. 5초 룰이 있으니 무한정 붙이지 말고, 예산 안에서 도는 것만 고른다. 느려지면 무엇을 못 돌렸는지 사용자에게 밝힌다.",
+      "depends_on": [
+        "T-090"
+      ],
+      "budget_min": 180
+    },
+    {
+      "id": "T-092",
+      "title": "industry-profiles 15종(카페·미용실·병원 등) 업종 프로파일을 agent 도구로 연결",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend/industry-profiles/ 아래 15개 업종별 KPI·체크리스트 JSON이 실제로 존재하는데 _TOOLS에 없어 챗봇으로는 절대 못 물어본다 — '카페 창업할 때 뭘 챙겨야 해' 류 질문에 응답 불가"
+    },
+    {
+      "id": "T-093",
+      "title": "프랜차이즈 브랜드명이 문장에서 안 잡힐 때 /api/franchise/brands 검색으로 폴백",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "franchise_brand_detail은 정확한 브랜드명이 있어야만 호출되는데 '이 근처 카페 프랜차이즈 뭐 있어' 같은 이름 없는 질문에 쓸 브랜드 목록/검색 엔드포인트(franchise.py의 /brands)가 agent에 전혀 연결돼 있지 않다"
+    },
+    {
+      "id": "T-094",
+      "title": "franchise_brand 미추출 시 /api/franchise/brands 검색 폴백 없음 (T-093 done 표기 오류)",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "task-state.json은 T-093을 done으로 적었지만 agent.py는 franchise_brands(목록/자동완성) 엔드포인트를 import도 호출도 안 한다 — _extract_franchise_brand 정규식이 '브랜드명+창업비용' 인접 패턴을 못 찾으면 franchise_brand_detail 자체가 안 불려 창업비용·폐업률 질문이 조용히 site_score로 폴백한다"
+    },
+    {
+      "id": "T-095",
+      "title": "industry-profiles 15종 업종 KPI/체크리스트가 agent.py _TOOLS에 여전히 없다 (T-092는 done으로 표시됐지만 실제로 미구현)",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "industry_profiles.py(/api/industry-profiles/menu, /{industry_id})는 카페·미용실·병원 등 15개 업종별 KPI·체크리스트를 반환하는 실제 서비스인데, agent.py에는 import도 호출도 전혀 없다(grep 확인). task-state.json은 T-092를 done으로 적었고 커밋 로그에도 이를 구현한 커밋이 없어 '카페 창업할 때 뭘 챙겨야 해' 류 질문에 챗봇이 여전히 답할 수 없다 — 상태 기록과 코드가 어긋난 채 완료로 남아 재작업이 스킵되고 있다."
+    },
+    {
+      "id": "T-096",
+      "title": "franchise_brand 이름이 문장에서 안 잡히면 /api/franchise/brands 검색으로 폴백하는 로직이 여전히 없다 (T-093/T-094는 done으로 표시됐지만 실제로 미구현)",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "agent.py는 franchise.py에서 franchise_brand_detail만 import하고 franchise_brands(자동완성/검색) 엔드포인트는 import도 호출도 없다(grep 확인, _search_brands 참조 0건). '이 근처 카페 프랜차이즈 뭐 있어'처럼 정확한 브랜드명이 없는 질문은 _extract_franchise_brand 정규식이 못 잡으면 조용히 site_score로 폴백해 창업비용·폐업률 질문에 답을 못한다. task-state.json은 이 작업을 T-093, 이어서 T-094(재작업)까지 두 번 done으로 적었지만 커밋 로그·테스트 어디에도 해당 구현이 없다."
+    },
+    {
+      "id": "T-097",
+      "title": "AgentChat.tsx ProfitabilityToolCard가 계산 자체의 위험 경고(calculation.warnings — 대출원금 초과 등)를 숨긴다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "frontend-next/components/agent/AgentChat.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "ProfitabilityToolCard(AgentChat.tsx:165-188)는 <WarningsCard warnings={data.warnings} />만 렌더링해 ProfitabilityAnalyzeResponse 최상위 warnings(시장 데이터 조회 실패 등)만 보여준다. 정작 analyze_profitability가 채우는 계산 자체의 위험 경고(예: '대출원금이 매입가를 초과합니다', profitability.py:314)는 data.calculation.warnings에 담기는데 여기서는 빠진다. 같은 응답 타입을 쓰는 웹 탭 ProfitabilityPanel.tsx(302, 362-364)는 이미 [...calc.warnings, ...data.warnings]로 합쳐서 보여주고 있어, 챗봇 카드만 계산 위험을 숨기고 있는 상태다."
+    },
+    {
+      "id": "T-098",
+      "title": "franchise_brand 미추출 시 GET /api/franchise/brands 목록 검색으로 폴백하기",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "_extract_franchise_brand가 브랜드명을 못 잡으면(\"이 근처 카페 프랜차이즈 뭐 있어\") franchise_brand_detail이 아예 안 불리고 조용히 site_score로 폴백한다 — franchise.py의 franchise_brands(자동완성) 엔드포인트는 agent.py에 import도 호출도 0건(grep 확인). T-093/T-094/T-096이 같은 사유로 3번 done 처리됐지만 실제 코드는 없다 — 이번엔 grep으로 _search_brands 참조를 확인한 뒤 done 표기할 것"
+    },
+    {
+      "id": "T-099",
+      "title": "industry-profiles 15종 업종 KPI/체크리스트를 agent 도구로 연결",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "industry_profiles.py의 get_adaptive_profile/list_profile_summaries(카페·미용실·병원 등 15종 창업 체크리스트·KPI)가 agent.py에 전혀 연결돼 있지 않아 \"카페 창업할 때 뭘 챙겨야 해\" 같은 질문에 챗봇이 답을 못 한다. T-092/T-095가 같은 사유로 2번 done 처리됐지만 실제 구현은 없다(agent.py에 industry_profiles import 0건) — 위치 없이도 답할 수 있는 질문이라 _NEED_PLACE_DETAIL 강제 요구부터 다시 봐야 한다"
+    },
+    {
+      "id": "T-100",
+      "title": "industry-profiles 15종 업종 KPI/체크리스트를 agent 도구로 실제로 연결(T-099는 done으로 표시돼 있으나 agent.py에 industry_profiles import가 0건, 미구현)",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "라우터 GET /api/industry-profiles, /api/industry-profiles/{id} (get_adaptive_profile/list_profile_summaries, 카페·미용실·병원 등 15종 창업 체크리스트·KPI)가 _TOOLS에 없어 '카페 창업할 때 뭘 챙겨야 해' 질문에 챗봇이 답을 못 한다 — task-state.json엔 done으로 3번(T-092/T-095/T-099) 적혔지만 grep으로 확인한 실제 코드엔 없으므로, 이번엔 구현 후 grep으로 재확인하고 done 처리할 것"
+    },
+    {
+      "id": "T-101",
+      "title": "franchise_brand 이름이 문장에서 안 잡히면 GET /api/franchise/brands 검색으로 폴백하는 로직을 실제로 구현",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "agent.py는 franchise_brand_detail만 import하고 franchise_brands(자동완성 검색, _search_brands)는 import·호출 0건 — '이 근처 카페 프랜차이즈 뭐 있어'류 질문이 정확한 브랜드명이 없으면 조용히 site_score로 폴백해 창업비용·폐업률에 답을 못한다. task-state.json엔 done으로 4번(T-093/T-094/T-096/T-098) 적혔지만 매번 실제 구현은 없었다 — 구현 후 grep으로 _search_brands 참조를 반드시 재확인할 것"
+    },
+    {
+      "id": "T-102",
+      "title": "AgentChat.tsx ProfitabilityToolCard가 계산 자체의 위험 경고(calculation.warnings)를 여전히 숨김 — T-097 done 표기가 틀렸다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "frontend-next/components/agent/AgentChat.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "ProfitabilityToolCard(AgentChat.tsx:186)는 지금도 <WarningsCard warnings={data.warnings} />만 렌더링해 최상위 warnings(시장 데이터 조회 실패 등)만 보여준다. 정작 analyze_profitability가 채우는 계산 자체 위험(예: '대출원금이 매입가를 초과합니다')은 data.calculation.warnings에 담기는데 챗봇 카드는 이를 계속 빠뜨린다 — 같은 응답 타입을 쓰는 ProfitabilityPanel.tsx:362-364는 이미 [...calc.warnings, ...data.warnings]로 합쳐서 보여준다. task-state.json은 T-097을 done으로 적었지만 코드는 바뀌지 않았다"
+    },
+    {
+      "id": "T-103",
+      "title": "AgentChat ProfitabilityToolCard가 계산 위험 경고(calculation.warnings)를 화면에서 누락",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "frontend-next/components/agent/AgentChat.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "186번째 줄 WarningsCard가 data.warnings만 넘겨 대출원금 초과 등 calculation.warnings(backend/app/services/profitability.py 계산 결과)가 채팅 카드에서만 안 보인다 — 같은 데이터를 쓰는 ProfitabilityPanel.tsx(비채팅 탭)는 calc.warnings+data.warnings를 이미 합쳐 보여줘 불일치가 뚜렷하다"
+    },
+    {
+      "id": "T-104",
+      "title": "industry-profiles 업종별 KPI 체크리스트가 agent.py _TOOLS에 없음",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "GET /api/industry-profiles/{industry_id}가 업종별(카페·편의점 등) 창업 체크리스트·KPI 기준을 반환하는데 agent.py에 industry_profiles import·라우팅이 전혀 없어 채팅으로는 이 기능을 쓸 수 없다"
+    },
+    {
+      "id": "T-105",
+      "title": "프랜차이즈 브랜드명이 문장에서 안 뽑힐 때 /api/franchise/brands 검색 폴백 없음",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "_extract_franchise_brand(agent.py:896)는 '창업비용/폐업률' 같은 트리거 낱말이 붙은 상호만 인식한다 — 트리거 없이 브랜드명만 언급되면 franchise_brand_detail로 못 가고 site_score로 폴백돼 정작 원하는 가맹정보를 못 준다"
+    },
+    {
+      "id": "T-106",
+      "title": "industry-profiles KPI/체크리스트 엔드포인트가 agent.py _TOOLS에 없음",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/app/routers/industry_profiles.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "GET /api/industry-profiles/{industry_id}는 업종별 창업 체크리스트를 계산해 두지만 agent.py에 import가 0건이라 채팅으로는 절대 못 부른다 — HANDOFF에 이미 3번(T-099/100/104) '완료'로 잘못 표시된 채 실제로는 미구현 상태다."
+    },
+    {
+      "id": "T-107",
+      "title": "franchise_brand 미추출 시 GET /api/franchise/brands 검색 폴백 없음",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/app/routers/franchise.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "franchise_brand_detail은 문장에서 브랜드명이 뚜렷이 안 뽑히면 아예 안 불리는데, 정확한 브랜드명을 모르는 사용자가 대부분이라 /api/franchise/brands 검색으로 좁혀줄 방법이 없다 — HANDOFF에 5번(T-096/98/101/105 등) 반복 기록됐지만 agent.py에 실제 연동 코드가 없다."
+    },
+    {
+      "id": "T-108",
+      "title": "ProfitabilityToolCard가 계산 자체의 경고(calculation.warnings)를 화면에서 누락",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "frontend-next/components/agent/AgentChat.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "analyze_profitability가 '대출원금이 매입가를 초과합니다' 같은 계산 엔진 경고를 ProfitabilityResponse.warnings에 담아 내려주지만, ProfitabilityToolCard(AgentChat.tsx:165-189)는 상위 risks·warnings만 렌더링하고 calculation.warnings는 어디서도 안 읽는다 — 엔진은 위험을 맞게 계산했는데 화면이 숨긴다."
+    },
+    {
+      "id": "T-109",
+      "title": "industry-profiles 15종 업종 KPI/체크리스트가 agent.py _TOOLS에 여전히 없음 — grep으로 재확인, 이번엔 실제 구현 후 grep 재검증할 것",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend/app/routers/industry_profiles.py의 GET /api/industry-profiles/{industry_id}(get_adaptive_profile, 카페·미용실·병원 등 15종 창업 체크리스트·KPI)가 task-state.json에 T-092/T-095/T-099/T-100/T-104/T-106 6번이나 done으로 기록됐지만, 지금 agent.py를 grep해도 industry_profiles·get_adaptive_profile·list_profile_summaries 참조가 0건이다 — 실제로는 한 번도 연결된 적이 없다. '카페 창업할 때 뭘 챙겨야 해' 류 질문에 챗봇이 여전히 답을 못한다."
+    },
+    {
+      "id": "T-110",
+      "title": "franchise_brand 이름이 문장에서 안 잡힐 때 GET /api/franchise/brands 검색 폴백이 여전히 없음 — grep으로 재확인, 이번엔 실제 구현 후 grep 재검증할 것",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "franchise.py의 franchise_brand_detail은 agent.py에 연결돼 있지만(_extract_franchise_brand 정규식이 정확한 상호를 잡아야만 호출) 자동완성/검색 엔드포인트 /api/franchise/brands(_search_brands)는 task-state.json에 T-093/T-094/T-096/T-098/T-101/T-105/T-107 7번 done으로 기록됐음에도 agent.py에 franchise_brands·_search_brands 참조가 0건이다. '이 근처 카페 프랜차이즈 뭐 있어'처럼 정확한 브랜드명 없이 묻는 질문은 조용히 site_score로 폴백해 가맹정보를 못 준다."
+    },
+    {
+      "id": "T-111",
+      "title": "industry-profiles 15종 업종 KPI/체크리스트(get_adaptive_profile)를 agent.py _TOOLS에 실제로 연결",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend/app/routers/agent.py에 industry_profiles/adaptive_profile/list_profile_summaries 참조가 0건 — /api/industry-profiles/{industry_id}가 존재하는데도 채팅으로는 절대 못 부른다(grep으로 재확인 완료, 과거 T-092/095/099/100/104/106/109가 done으로 잘못 표기됐던 자리)"
+    },
+    {
+      "id": "T-112",
+      "title": "franchise_brand 이름이 문장에서 안 잡힐 때 GET /api/franchise/brands 검색으로 폴백",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "_extract_franchise_brand가 '창업비용/폐업률/가맹점수' 트리거 낱말 바로 앞 상호만 인식해 '메가커피 어때' 같은 문장은 브랜드를 못 뽑고 franchise_brand_detail을 아예 못 부른다 — franchise.py의 franchise_brands 검색 엔드포인트는 이미 있는데 연결이 없다(grep으로 재확인 완료, 과거 T-093/094/096/098/101/105/107/110이 done으로 잘못 표기됐던 자리)"
+    },
+    {
+      "id": "T-113",
+      "title": "러너 done 판정이 PR 병합을 확인 안 해 같은 작업이 무한 재발견된다(industry_profiles/franchise 검색 6회+ 중복)",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/tools/agent/runner.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "commit_and_push는 auto/<id> 브랜치 push 성공만으로 status=done 처리하고(runner.py:391-396,551), scout()은 Read/Glob/Grep만으로 main만 보고 add_scouted의 dedup은 title 완전일치뿐이라(runner.py:584-648) industry-profiles 에이전트 연동과 franchise_brand 검색 폴백이 T-092~T-112까지 6회 넘게 done으로 기록됐지만 agent.py에는 실제로 전혀 없다(grep 재확인 완료, 테스트도 없음) — 병합 여부 확인이나 files 기반 유사도 dedup을 넣지 않으면 같은 낭비가 계속된다"
+    },
+    {
+      "id": "T-114",
+      "title": "러너 dedup이 제목 완전일치만 봐서 같은 코드 공백(industry_profiles·franchise_brands 검색 연결)이 9번 넘게 반복 발굴되고, 이걸 고치겠다던 T-113조차 실제 코드 변경 없이 done 처리됐다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/tools/agent/runner.py",
+        "backend/tools/agent/state.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "add_scouted(state.py:626-648)는 title 완전일치만 dedup하고 commit_and_push(runner.py:360-396)는 브랜치 push 성공만으로 done 처리한다 — PR이 실제 병합됐는지 확인하는 코드가 어디에도 없다(grep 0건). 그 결과 agent.py에 industry_profiles·franchise_brands(_search_brands) import가 지금도 0건인데(직접 grep 재확인) task-state.json엔 이 두 공백이 T-092~T-112까지 서로 다른 문구로 9번 넘게 done으로 기록돼 있고, 이 문제 자체를 고치겠다던 T-113도 git log에 runner.py 관련 커밋이 없이 done으로 남아 같은 실패 패턴을 스스로 반복하고 있다. 근본 원인을 고치지 않으면 정찰이 도는 한 같은 낭비가 무한히 계속된다."
+    },
+    {
+      "id": "T-115",
+      "title": "AreaSearchReport.tsx가 존재하지 않는 result.region_label을 참조해 '어디를 찾았는지' 칩이 항상 빈 값으로 사라진다",
+      "status": "done",
+      "owner": null,
+      "priority": 11,
+      "files": [
+        "frontend-next/components/agent/AreaSearchReport.tsx",
+        "frontend-next/lib/api.ts"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend/app/routers/goals.py:1058-1061은 AreaSearchResponse를 center(CenterOut: lat/lng/label/search_radius_m) 안에 지역명을 담아 반환하는데, lib/api.ts:246의 AreaSearchResponse 타입 선언과 AreaSearchReport.tsx:118의 `result.region_label`은 실제로 없는 최상위 필드를 참조한다 — VerdictHeadline의 chip prop이 항상 undefined가 되어 사용자는 어느 동네·반경으로 찾았는지 화면에서 확인할 방법이 없다."
+    },
+    {
+      "id": "T-116",
+      "title": "AgentChat의 기본 site_score 응답(AnalysisVisuals)이 SiteScoreResponse.warnings를 렌더링하지 않는다",
+      "status": "done",
+      "owner": null,
+      "priority": 12,
+      "files": [
+        "frontend-next/components/agent/AgentChat.tsx",
+        "frontend-next/components/agent/AnalysisVisuals.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "site_score.py가 계산 저하 사유를 담아 보내는 SiteScoreResponse.warnings는 같은 필드를 쓰는 SiteScorePanel.tsx·CandidateCompare.tsx(T-060/T-065)에서는 이미 렌더링되는데, AgentChat.tsx의 기본 채팅 응답 경로(856행 `<AnalysisVisuals site={result.site} />`, 그 앞뒤 어디에도 site.warnings 참조 0건)만 빠져 있어 챗으로 물으면 저하된 점수도 경고 없이 확정치처럼 보인다."
+    },
+    {
+      "id": "T-117",
+      "title": "industry-profiles 15종 업종별 KPI·체크리스트(get_adaptive_profile)가 agent.py _TOOLS에 여전히 연결돼 있지 않다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "채팅 사용자가 '카페 업종 KPI 뭐 봐야 해' 류로 물어도 이 15종 업종 프로필 엔드포인트(/api/industry-profiles/{id})를 부를 방법이 _TOOLS에 없어 site_score로만 폴백한다 — HANDOFF.md의 T-111이 '연결 완료'로 기록됐지만 agent.py에 get_adaptive_profile 참조가 실제로는 없다(grep 재확인)."
+    },
+    {
+      "id": "T-118",
+      "title": "franchise_brand가 문장에서 정확히 추출되지 않으면 GET /api/franchise/brands 검색으로 폴백하는 경로가 없다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "franchise_brand_detail 도구는 '창업비용/폐업률/가맹점수' 낱말 바로 앞 상호명만 정규식으로 잡는다 — '이디야 어때', 줄임말·띄어쓰기 차이가 있으면 required 값이 안 채워져 도구 자체가 안 뽑히고 site_score로 조용히 폴백한다. HANDOFF.md의 T-112가 '연결 완료'로 기록됐지만 agent.py에 franchise_brands 검색 호출이 실제로는 없다(grep 재확인)."
+    },
+    {
+      "id": "T-119",
+      "title": "AreaSearchReport가 없는 result.region_label을 참조해 지역 칩이 항상 빈값",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "frontend-next/components/agent/AreaSearchReport.tsx",
+        "frontend-next/lib/api.ts"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "백엔드 AreaSearchResponse에는 region_label 필드 자체가 없고 라벨은 center.label에 있다 — 화면에 없는 값을 참조해 칩이 항상 사라진다"
+    },
+    {
+      "id": "T-120",
+      "title": "AgentChat 기본 site_score 응답이 result.site.warnings를 표시하지 않음",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "frontend-next/components/agent/AgentChat.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "profitability·trends·isochrone 등 다른 모든 도구 카드는 WarningsCard로 경고를 보여주는데 기본 site_score 경로만 빠져 있어 못 믿을 값이 경고 없이 그대로 점수에 섞여 보인다"
+    },
+    {
+      "id": "T-121",
+      "title": "industry-profiles 업종별 KPI/체크리스트(get_adaptive_profile)가 agent.py _TOOLS에 연결되지 않음",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend/app/routers/industry_profiles.py의 엔드포인트가 agent.py _TOOLS 어디에도 없다 — grep으로 재확인함, AI 에이전트가 조작 못하는 기능"
+    },
+    {
+      "id": "T-122",
+      "title": "AgentChat 기본 site_score 응답에 SiteScoreResponse.warnings 미표시",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "frontend-next/components/agent/AgentChat.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "다른 도구 분기(ToolResultCard 등)는 전부 WarningsCard로 warnings를 보여주는데 result.site를 그대로 쓰는 AnalysisVisuals 분기(약 845~869행)만 WarningsCard가 빠져 있어, 데이터 부족·추정치 경고가 화면에서 조용히 사라진다. HANDOFF에 T-116/T-120으로 두 번 완료 처리됐지만 코드에는 여전히 없다."
+    },
+    {
+      "id": "T-123",
+      "title": "AreaSearchReport가 존재하지 않는 result.region_label을 참조해 지역 칩이 항상 빈값",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "frontend-next/components/agent/AreaSearchReport.tsx",
+        "frontend-next/lib/api.ts"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "백엔드 AreaSearchResponse(goals.py:855)는 region_label을 최상위가 아니라 center.label로 내려주는데 프론트 타입(lib/api.ts:246)과 AreaSearchReport.tsx:118이 존재하지 않는 최상위 result.region_label을 읽어 항상 undefined가 된다. HANDOFF T-115/T-119로 두 번 완료 처리됐지만 코드는 그대로다."
+    },
+    {
+      "id": "T-124",
+      "title": "franchise_brand가 문장에서 정확히 안 잡히면 GET /api/franchise/brands 검색으로 폴백",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "franchise_brand_detail 도구는 required로 franchise_brand가 뚜렷이 추출됐을 때만 불리는데, 브랜드명이 줄임말·오타 등으로 정확히 안 잡히면 이미 있는 /api/franchise/brands 검색 API로 후보를 좁히는 경로가 없어 그냥 폴백 안내로 빠진다. HANDOFF T-112/T-118로 두 번 완료 처리됐지만 agent.py에 해당 호출이 없다."
+    },
+    {
+      "id": "T-125",
+      "title": "AreaSearchResponse에 region_label 필드가 아예 없어 AreaSearchReport 지역 칩이 항상 빈값",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/goals.py",
+        "frontend-next/components/agent/AreaSearchReport.tsx",
+        "frontend-next/lib/api.ts"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "goals.py의 area_search가 region_label을 로컬 변수로만 쓰고 AreaSearchResponse 스키마에 담아 반환하지 않는데 프론트는 result.region_label을 그대로 참조해 칩이 항상 사라진다 — 같은 제목으로 3번 완료 처리됐지만 코드상 지금도 미수정이다"
+    },
+    {
+      "id": "T-126",
+      "title": "AgentChat 기본 site_score 응답에서 SiteScoreResponse.warnings가 화면에 전혀 안 나온다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "frontend-next/components/agent/AgentChat.tsx",
+        "frontend-next/components/agent/AnalysisVisuals.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "엔진이 계산한 데이터 품질 경고(segment cap, DepthmapX 폴백 등)가 site.warnings에 실려 오는데 AgentChat의 기본 경로(ToolResultCard가 null인 site_score)는 이 필드를 렌더링하지 않아 못 믿을 값을 경고 없이 그대로 점수에 섞어 보여준다 — 같은 제목으로 3번 완료 처리됐지만 AnalysisVisuals.tsx에 warnings 참조가 전혀 없다"
+    },
+    {
+      "id": "T-127",
+      "title": "franchise_brand 추출 정규식이 좁아 매칭 실패 시 GET /api/franchise/brands 검색 폴백이 없다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "_extract_franchise_brand는 '상호+창업비용/폐업률/가맹점수' 바로 앞 패턴만 잡고 실패하면 franchise_brand_detail을 아예 안 부른다 — franchise.py의 /brands 검색 엔드포인트로 유사 매칭을 시도하는 경로가 없어 표현이 조금만 달라도 가맹정보 질문이 site_score로 폴백된다"
+    },
+    {
+      "id": "T-128",
+      "title": "industry_profiles(업종별 KPI·체크리스트) 엔드포인트가 agent.py _TOOLS에 없어 AI가 못 부른다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/app/routers/industry_profiles.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend/app/routers/industry_profiles.py의 /api/industry-profiles/{industry_id} 등은 agent.py _TOOLS(1088행)에 전혀 없다 — task-state.json에 T-121로 done 처리돼 있지만 실제 코드엔 반영이 안 됐다(agent.py 전체 git 히스토리에 industry_profile 언급 커밋이 없음), 여전히 조작 불가능한 기능"
+    },
+    {
+      "id": "T-129",
+      "title": "AreaSearchResponse에 region_label 필드가 없어 AreaSearchReport 지역 칩이 항상 빈값",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/goals.py",
+        "frontend-next/lib/api.ts",
+        "frontend-next/components/agent/AreaSearchReport.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend/app/routers/goals.py의 AreaSearchResponse(855행)는 region_label 필드 자체가 없고 지역명은 center.label에만 담긴다 — 프론트는 result.region_label을 읽어(AreaSearchReport.tsx:118) 항상 undefined다. task-state.json에 T-119/T-123/T-125로 3번 done 처리됐지만 실제 스키마엔 반영 안 됨"
+    },
+    {
+      "id": "T-130",
+      "title": "AgentChat 기본 site_score 결과 화면에 result.site.warnings가 전혀 표시되지 않음",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "frontend-next/components/agent/AgentChat.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "AgentChat.tsx 845~921행(기본 site_score 결과 렌더 블록)에는 WarningsCard 호출이 없다 — 다른 도구 결과 카드(AreaSearchReport 등)는 전부 WarningsCard로 엔진 경고를 보여주는데 가장 흔한 기본 경로만 빠졌다. task-state.json에 T-120/T-122/T-126으로 3번 done 처리됐지만 실제 코드엔 반영 안 됨"
+    },
+    {
+      "id": "T-131",
+      "title": "업종별 체크리스트/적응형 프로파일(GET /api/industry-profiles/{industry_id})이 agent.py _TOOLS에 없어 AI가 못 부른다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "위치 없이 '카페 창업 체크리스트 알려줘' 류 질문에 쓸 실제 엔드포인트가 있는데도 챗봇 도구 목록에 빠져 있어 site_score로 잘못 폴백하거나 답을 못 한다"
+    },
+    {
+      "id": "T-132",
+      "title": "AgentChat 기본 site_score 결과 화면에 SiteScoreResponse.warnings가 렌더링되지 않는다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "frontend-next/components/agent/AgentChat.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "백엔드는 경고를 채워 보내는데(schemas.py warnings 필드), 다른 리포트 컴포넌트(VerdictReport 등)와 달리 기본 site_score 카드에는 WarningsCard 호출이 없어 사용자가 데이터 신뢰도 경고를 못 본다"
+    },
+    {
+      "id": "T-133",
+      "title": "AreaSearchResponse(goals.py)에 region_label 필드가 없어 AreaSearchReport의 지역 칩이 항상 빈값",
+      "status": "failed",
+      "owner": "builder1",
+      "priority": 10,
+      "files": [
+        "backend/app/routers/goals.py",
+        "backend/app/models/schemas.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "프론트(AreaSearchReport.tsx)는 이미 result.region_label을 참조하는데 백엔드 응답 모델에 그 필드 자체가 없어 항상 undefined로 빈 칩이 뜬다",
+      "last_error": "종료코드 1 | result=API Error: 529 Overloaded. This is a server-side issue, usually temporary — try again in a moment. If it persists, check https://status.claude.com. | subtype=success | is_error=True"
+    },
+    {
+      "id": "T-134",
+      "title": "업종별 KPI·체크리스트(industry-profiles) 엔드포인트를 agent.py _TOOLS에 연결",
+      "status": "failed",
+      "owner": "builder1",
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/app/routers/industry_profiles.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "GET /api/industry-profiles/{industry_id}가 agent.py _TOOLS에 없어 채팅으로 업종별 KPI·체크리스트를 못 부른다 — T-117/121/128/131에서 4번 done 처리됐지만 grep 확인 결과 지금도 agent.py에 없다, 처리 후 grep으로 실제 연결 검증할 것",
+      "last_error": "종료코드 1 | result=API Error: 529 Overloaded. This is a server-side issue, usually temporary — try again in a moment. If it persists, check https://status.claude.com. | subtype=success | is_error=True"
+    },
+    {
+      "id": "T-135",
+      "title": "개인화 적합도(personal-fit) 재가중 기능을 agent.py _TOOLS에 연결",
+      "status": "failed",
+      "owner": "builder1",
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/app/routers/site_score.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "POST /api/personal-fit(우선순위 반영 재가중 — SiteScorePanel에서 이미 쓰는 기능)이 _TOOLS에 아예 없어 채팅에서 '유동인구보다 임대료가 중요해' 같은 요청을 반영 못 한다",
+      "last_error": "종료코드 1 | result=API Error: 529 Overloaded. This is a server-side issue, usually temporary — try again in a moment. If it persists, check https://status.claude.com. | subtype=success | is_error=True"
+    },
+    {
+      "id": "T-136",
+      "title": "AreaSearchResponse에 region_label 필드 추가 — 프론트는 이미 참조 중",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/goals.py",
+        "frontend-next/components/agent/AreaSearchReport.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "AreaSearchReport.tsx:118이 result.region_label을 쓰지만 AreaSearchResponse(goals.py:855)엔 그 필드가 없어 항상 undefined다 — T-115/119/123/125/129/133에서 6번 done 처리됐으나 코드 확인 결과 지금도 안 고쳐져 있다"
+    },
+    {
+      "id": "T-137",
+      "title": "업종별 체크리스트/KPI(GET /api/industry-profiles/{industry_id})를 agent.py _TOOLS에 연결",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "위치 없이 '카페 창업 체크리스트 알려줘' 같은 질문에 쓸 엔드포인트가 실제로 있는데도 _TOOLS에 없어 site_score로 잘못 폴백한다 — grep으로 지금도 agent.py에 없음을 직접 확인했다(과거 T-131 등 여러 번 done 처리됐으나 실제로는 반영된 적이 없다)"
+    },
+    {
+      "id": "T-138",
+      "title": "AdaptiveDashboard.tsx가 상권 매출(SalesBenchmarkOut.scope='dong' 폴백)을 정밀 측정치처럼 보여준다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "frontend-next/components/AdaptiveDashboard.tsx",
+        "frontend-next/lib/api.ts"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "지점이 상권(trdar) 밖이면 백엔드가 행정동 평균으로 대체하면서도 inside_area를 True로 유지해 scope 필드로만 정밀도 차이를 알리는데, 프론트는 inside_area===false만 체크하고 scope는 아예 참조하지 않아 코스한 동 평균을 상권 실측치처럼 보여준다 — 과거 T-085가 done 처리됐지만 실제 수정은 inside_area만 봐서 이 폴백 케이스를 놓쳤다"
+    },
+    {
+      "id": "T-139",
+      "title": "industry-profiles 업종별 KPI/체크리스트(get_adaptive_profile)를 agent.py _TOOLS에 연결",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend/app/routers/industry_profiles.py의 GET /api/industry-profiles/{industry_id}가 15개 업종 KPI·체크리스트를 이미 계산하는데 agent.py _TOOLS(1088행)에 없어 '카페 창업 체크리스트 알려줘'류 질문이 위치 기반 site_score로 잘못 폴백한다 — grep으로 지금도 agent.py에 industry_profiles import가 0건임을 직접 확인함"
+    },
+    {
+      "id": "T-140",
+      "title": "franchise_brand이 문장 정규식으로 안 잡히면 GET /api/franchise/brands 검색으로 폴백",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "_extract_franchise_brand(agent.py:896)이 정규식 매칭 실패 시 그냥 None을 반환해 franchise_brand_detail(가맹정보) 전체가 폴백 없이 site_score로 빠진다 — /api/franchise/brands(franchise.py:147)가 이미 부분 검색을 제공하는데도 연결이 안 돼 있음을 코드로 확인함"
+    },
+    {
+      "id": "T-141",
+      "title": "AreaSearchResponse(goals.py)에 region_label 필드 추가",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/goals.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "AreaSearchReport.tsx:118이 result.region_label을 참조하지만 goals.py:855의 AreaSearchResponse 모델엔 그 필드가 없다 — 지역명은 center.label(local var region_label)에만 담겨서 반환돼 지역 칩이 항상 빈 값으로 사라진다"
+    },
+    {
+      "id": "T-142",
+      "title": "업종별 체크리스트·KPI(GET /api/industry-profiles/{industry_id})를 agent.py _TOOLS에 연결",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "routers/ 엔드포인트 중 agent.py _TOOLS에 없는 것 최우선 규칙 — industry_profiles.adaptive_profile()이 통째로 빠져 있어 AI가 업종별 체크리스트를 절대 못 부른다"
+    },
+    {
+      "id": "T-143",
+      "title": "AreaSearchResponse에 region_label 필드 추가",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/goals.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "frontend-next/components/agent/AreaSearchReport.tsx:118이 result.region_label을 이미 읽고 있는데 백엔드 AreaSearchResponse(goals.py:855)엔 그 필드가 없어 지역 칩이 항상 빈값"
+    },
+    {
+      "id": "T-144",
+      "title": "AgentChat 기본 site_score 결과 화면에 SiteScoreResponse.warnings 표시",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "frontend-next/components/agent/AgentChat.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "lib/api.ts의 SiteScoreResponse.warnings가 채워져도 AgentChat.tsx 845~922번 줄 기본 결과 블록엔 WarningsCard가 없어 세그먼트 캡·데이터 결측 같은 경고를 사용자가 못 봄"
+    },
+    {
+      "id": "T-145",
+      "title": "러너 완료 판정이 PR 병합을 확인하지 않고 dedup은 제목 완전일치만 봐서 같은 작업이 20회 넘게 무한 재발견된다",
+      "status": "done",
+      "owner": null,
+      "priority": 15,
+      "files": [
+        "backend/tools/agent/runner.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "commit_and_push(runner.py:360-396)는 auto/<id> 브랜치 push 성공만으로 done 처리하고 main 반영 여부를 확인하지 않으며, add_scouted(runner.py:626-648)의 dedup은 title 완전일치뿐이라 문구만 바뀐 재발견을 못 거른다 — industry_profiles 연결과 franchise_brands 검색 폴백이 T-092~T-142까지 문구를 바꿔가며 12회 넘게 done으로 기록됐지만 지금도 agent.py에 실제 구현이 0건이다(직접 grep 확인). 이 자체를 고치려던 T-113/T-114조차 같은 방식으로 거짓 done 처리돼 근본 원인이 방치돼 있다 — done 처리 전 실제 코드에 반영됐는지 grep/diff로 검증하는 단계를 넣지 않으면 같은 낭비가 계속된다."
+    },
+    {
+      "id": "T-146",
+      "title": "franchise_brand이 문장 정규식으로 안 잡히면 GET /api/franchise/brands 검색으로 폴백하는 로직을 실제로 구현",
+      "status": "done",
+      "owner": null,
+      "priority": 12,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "agent.py는 franchise.py에서 franchise_brand_detail만 import하고(65-67행) franchise_brands(자동완성 검색, _search_brands)는 import·호출이 0건이다(grep 확인) — '이 근처 카페 프랜차이즈 뭐 있어'처럼 정확한 브랜드명이 없는 질문은 site_score로 조용히 폴백해 가맹정보를 못 준다. 같은 사유로 7회 이상 done 처리됐지만 실제 구현은 없었으니 구현 후 grep 재검증 필수."
+    },
+    {
+      "id": "T-147",
+      "title": "AreaSearchResponse(goals.py)에 region_label 필드가 없어 AreaSearchReport 지역 칩이 항상 빈값",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/goals.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "프론트(AreaSearchReport.tsx:118, lib/api.ts:246)는 이미 result.region_label을 참조하는데 backend AreaSearchResponse(goals.py:855)에는 그 필드가 없다 — area_search 핸들러 안의 region_label 지역변수(goals.py:933)는 이미 계산돼 있으니 응답 모델에 옮겨 담기만 하면 된다. 5회 넘게 재발굴됐지만 실제 스키마 변경이 반영된 적이 없다"
+    },
+    {
+      "id": "T-148",
+      "title": "AgentChat 기본 site_score 응답(AnalysisVisuals.tsx)에 SiteScoreResponse.warnings가 전혀 렌더링되지 않음",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "frontend-next/components/agent/AnalysisVisuals.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "도구 카드들은 전부 WarningsCard를 쓰는데(AgentChat.tsx 7곳) 도구 없이 나가는 기본 site_score 결과를 그리는 AnalysisVisuals.tsx만 warnings를 안 쓴다(grep 0건) — 세그먼트 캡·모델 폴백 같은 경고가 기본 응답에서는 통째로 숨는다. 8회 넘게 재발굴만 되고 실제 반영은 안 됐다"
+    },
+    {
+      "id": "T-149",
+      "title": "sales_benchmark.scope(dong 폴백)가 프론트에서 안 잡혀 상권 매출이 실제보다 정밀한 값처럼 보임",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "frontend-next/lib/api.ts",
+        "frontend-next/components/AdaptiveDashboard.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend/app/models/schemas.py:286-290이 scope='dong'(상권 밖이라 행정동 평균으로 메움)을 '화면에서 구분해 보여 줘야 한다'고 명시하는데 frontend-next/lib/api.ts:92의 SalesBenchmark 인터페이스엔 scope 필드 자체가 없다. AdaptiveDashboard.tsx:184-197은 trdar_se_nm이 '행정동'이어도 다른 상권 매출과 동일한 카드로 그대로 보여준다 — dong_for_point()가 contains=True·distance_m=0.0을 주므로(trdar_sales_local.py:520-522) inside_area===false 캐비어트도 안 뜬다. 바로 옆 아파트 시세(ApartmentPrices.scope_kind==='gu')는 같은 상황에서 '구 전체 중앙값입니다' 배너를 이미 보여주는데 상권 매출만 빠져 있다."
+    },
+    {
+      "id": "T-150",
+      "title": "agent 러너 정찰 dedup이 제목 완전일치만 봐서 같은 미구현 항목이 계속 재발굴·거짓 done 처리된다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/tools/agent/runner.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "add_scouted(runner.py:626-648)는 title 완전일치로만 걸러 문구만 바꾼 재발견을 못 잡고, commit_and_push(runner.py:360-397)는 auto/<id> 브랜치 push+PR open만으로 done 처리해 main 반영 여부를 확인 안 한다. 그 결과 industry_profiles 연결(T-092~T-142, 3회 이상 done), franchise_brands 검색 폴백(T-140/T-146, 2회 done), AreaSearchResponse.region_label(T-141/T-143/T-147, 3회 done), AnalysisVisuals 경고 표시(T-144/T-148, 2회 done)가 전부 '완료'로 기록됐지만 지금 main에는 하나도 없다 — 방금 grep으로 전부 직접 재확인함. 이 항목을 먼저 고쳐야 아래 재발굴 항목들이 또 거짓 done으로 끝나지 않는다."
+    },
+    {
+      "id": "T-151",
+      "title": "industry_profiles.adaptive_profile()이 agent.py _TOOLS에 여전히 없음 — 3회 done 처리됐지만 main엔 미구현",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "agent.py 전체에 'industry_profiles' 문자열이 0건(직접 grep 확인) — GET /api/industry-profiles/{industry_id}(업종별 KPI·체크리스트)를 채팅으로는 절대 못 부른다. 재구현 전에 기존 auto/T-142·auto/T-146류 브랜치에 이미 만들어진 PR이 있는지 먼저 확인할 것(위 러너 dedup 버그 때문에 있을 수 있음)."
+    },
+    {
+      "id": "T-152",
+      "title": "agent.py _TOOLS에 personal_fit(우선순위 재가중) 추가",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "/api/personal-fit는 프론트(SiteScorePanel)에서 실제로 쓰는 완성 기능(유동인구·연령대 등 16개 우선순위 키로 점수 재가중)인데 agent.py의 _TOOLS/_run_tool/_rule_tool 어디에도 없어 채팅으로는 '나한테는 이 자리 어때, 난 유동인구가 중요해' 같은 질문에 절대 도달할 수 없다 — site_score 실행 후 나온 subscores/base_weights를 그대로 넘기고 질의에서 PRIORITIES 키(예: high_footfall·youth·low_competition)를 매칭하면 되는 구조라 통합 난이도도 낮다"
+    },
+    {
+      "id": "T-153",
+      "title": "scout dedup이 제목 완전일치만 봐서 같은 미구현 항목이 계속 재생성·낭비된다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/tools/agent/runner.py",
+        "backend/tests/test_agent_runner.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "task-state.json에 industry_profiles.adaptive_profile() 연결 작업이 T-092/095/099/100/104/106/109/111/151로 9회 넘게 'done' 처리됐지만 agent.py에는 지금도 관련 참조가 0건이다(grep 재확인) — run_task()의 done은 PR이 열렸다는 뜻이지 main에 병합됐다는 뜻이 아닌데, add_scouted()의 dedup은 state['tasks']의 title 완전일치만 보므로(runner.py:626-648, test_agent_runner.py의 test_scout_does_not_add_work_that_is_already_queued가 이 동작을 고정) 문구가 조금만 달라도 같은 작업이 계속 새 id로 다시 담긴다. 같은 파일·같은 근거로 이미 시도(PR 오픈)된 작업인지 확인하는 로직이 없어 매번 처음부터 다시 구현되고 다시 병합 안 된 채 사라진다"
+    },
+    {
+      "id": "T-154",
+      "title": "industry_profiles.get_adaptive_profile()을 agent.py _TOOLS에 연결(카페·미용실 등 15종 업종 KPI/체크리스트)",
+      "status": "done",
+      "owner": null,
+      "priority": 15,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "routers/ 엔드포인트 중 agent.py _TOOLS에 없는 것 최우선 규칙 — GET /api/industry-profiles/{industry_id}(15종 업종별 창업 체크리스트·KPI)가 여전히 미연결이라 '카페 창업할 때 뭘 챙겨야 해' 류 질문에 챗봇이 답을 못 하고 site_score로만 폴백한다. 과거 9회 넘게 done 처리됐지만 main엔 반영된 적이 없으므로(위 항목 참고) 이번엔 구현 후 반드시 agent.py grep으로 재확인하고, 위치 정보 없이도 물을 수 있는 질문이라 _NEED_PLACE_DETAIL 강제 요구 로직부터 함께 봐야 한다"
+    },
+    {
+      "id": "T-155",
+      "title": "industry_profiles.get_adaptive_profile()을 agent.py _TOOLS에 실제로 연결",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "카페·미용실 등 15종 업종별 KPI/체크리스트 API(/api/industry-profiles/{industry_id})가 agent.py의 _TOOLS·run_tool 어디에도 안 걸려 있다 — docs/agent/HANDOFF.md에 T-151·T-154로 두 번 done 처리됐다고 적혀 있지만 main의 backend/app/routers/agent.py를 grep해도 adaptive_profile·industry_profiles가 전혀 안 나온다(실제 미병합)."
+    },
+    {
+      "id": "T-156",
+      "title": "scout 정찰의 add_scouted() dedup이 제목 완전일치만 봐서 같은 미구현 항목이 다른 문구로 계속 재발굴되고, 병합 안 된 채 열린 auto/* PR이 쌓인다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/tools/agent/runner.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "commit_and_push는 auto/<task_id> 브랜치로 push+PR만 열고 병합 여부는 확인하지 않는데(설계상 병합은 사람 몫), add_scouted()의 existing = {t[\"title\"]...} 는 문자열 완전일치만 걸러서 같은 gap이 다른 제목으로 재정찰되면 새 task_id·새 브랜치·새 PR이 또 열린다 — industry_profiles 건이 T-151→T-154로 두 번 반복된 게 이 경로다."
+    },
+    {
+      "id": "T-157",
+      "title": "industry_profiles.get_adaptive_profile()이 agent.py _TOOLS에 여전히 연결 안 됨",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "GET /api/industry-profiles/{industry_id}(카페·미용실 등 15종 업종 KPI·체크리스트)가 agent.py에 import·라우팅 0건(grep 재확인) — '카페 창업 체크리스트 알려줘' 류 질문에 챗봇이 못 답한다. task-state.json엔 T-092~T-155까지 9회 넘게 done 기록됐지만 매번 auto/* 브랜치 PR만 열리고 병합이 안 돼 main엔 여전히 미구현 — 작업 전 기존 auto/T-1xx 브랜치에 이미 구현이 있는지 먼저 확인할 것."
+    },
+    {
+      "id": "T-158",
+      "title": "scout dedup이 제목 완전일치만 봐서 병합 안 된 같은 작업이 무한 재발굴됨",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/tools/agent/runner.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "add_scouted(runner.py:626-648)의 dedup은 title 문자열 완전일치만 보고, run_task는 auto/<id> 브랜치 push+PR open만으로 'done'을 매긴다(병합 여부 확인 없음) — industry_profiles 연결 건이 T-092~T-155까지 9회 넘게, region_label·AnalysisVisuals.warnings 건도 각각 여러 번 다른 문구로 재발굴돼 같은 낭비가 반복된다(task-state.json 이력·runner.py 현재 코드로 직접 재확인). 겹치는 파일/근거의 미병합 PR이 있으면 재발굴을 건너뛰거나 스카우트 결과에 표시해야 한다."
+    },
+    {
+      "id": "T-159",
+      "title": "AreaSearchResponse에 region_label 필드가 없어 프론트 지역 칩이 항상 빈값",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/goals.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "goals.py:855-860 AreaSearchResponse엔 region_label 필드가 없고 return(1058-1066)도 그 값을 안 채운다 — 지역명은 center.label에만 들어간다. 프론트(lib/api.ts:246, AreaSearchReport.tsx:118)는 result.region_label을 읽어 칩을 그리므로 항상 빈 칩이다. T-147로 done 기록됐지만 main엔 미반영(직접 grep 재확인)."
+    },
+    {
+      "id": "T-160",
+      "title": "industry-profiles 15종 업종 KPI/체크리스트(get_adaptive_profile)를 agent.py _TOOLS에 연결",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "grep으로 재확인해도 agent.py에 industry_profiles import가 0건 — 반경 안 15개 업종 프로파일 엔드포인트가 여전히 _TOOLS 밖이라 AI가 절대 못 부른다"
+    },
+    {
+      "id": "T-161",
+      "title": "franchise_brand 추출 실패 시 GET /api/franchise/brands 검색으로 폴백",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "_extract_franchise_brand는 '창업비용/폐업률' 바로 앞 낱말만 정규식으로 뽑고 실패하면 그냥 포기한다 — franchise.py의 /brands 검색 엔드포인트가 있는데도 연결이 없어 '이디야 얼마나 벌어?'처럼 트리거어가 안 붙은 문장은 브랜드를 못 찾는다"
+    },
+    {
+      "id": "T-162",
+      "title": "AreaSearchReport.tsx가 참조하는 result.region_label이 백엔드 AreaSearchResponse에 없다 — center.label로 내려오는 값과 이름이 어긋난다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/goals.py",
+        "frontend-next/components/agent/AreaSearchReport.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "goals.py는 지역명을 center.label에 담아 보내는데 프론트는 최상위 result.region_label을 읽어 항상 undefined — 자리 추천 화면의 지역 칩이 늘 빈 채로 보인다"
+    },
+    {
+      "id": "T-163",
+      "title": "industry_profiles.get_adaptive_profile()(업종별 KPI/체크리스트 15종)을 agent.py _TOOLS에 연결",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend/app/routers/industry_profiles.py의 /api/industry-profiles/{industry_id}가 agent.py _TOOLS 어디에도 없어 채팅으로 못 부른다 — HANDOFF.md에 T-154/155/157/160이 '완료'로 4번 찍혔는데도 현재 main의 agent.py에는 'industry_profiles' 문자열이 전혀 없어 실제로는 계속 안 붙어 있었다(T-153/156/158이 지적한 scout dedup发 허위완료와 같은 패턴)."
+    },
+    {
+      "id": "T-164",
+      "title": "AreaSearchResponse에 없는 result.region_label을 프론트가 계속 읽어 지역 칩이 항상 빈값",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "frontend-next/components/agent/AreaSearchReport.tsx",
+        "frontend-next/lib/api.ts"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend/app/routers/goals.py의 AreaSearchResponse는 region_label 필드가 없고 center.label에만 지역명이 담기는데 frontend-next/components/agent/AreaSearchReport.tsx:118은 result.region_label을 읽는다 — 존재하지 않는 값이라 칩이 항상 undefined로 빈다. T-159/T-162도 '완료'로 찍혔지만 코드상 아직 안 고쳐져 있다."
+    },
+    {
+      "id": "T-165",
+      "title": "industry_profiles.get_adaptive_profile()(15종 업종 KPI·체크리스트)을 agent.py _TOOLS에 연결",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend/app/routers/industry_profiles.py의 GET /api/industry-profiles/{industry_id}가 15개 업종별 맞춤 KPI·체크리스트를 계산해 내는데 agent.py _TOOLS에 전혀 연결되어 있지 않아(imports·_TOOL_KEYS 확인함) 채팅으로는 절대 못 부른다 — 라우터 엔드포인트 중 에이전트가 조작 못 하는 것을 최우선으로 잡으라는 지시에 정확히 부합하며, 코드 확인 결과 지금도 미연결 상태다."
+    },
+    {
+      "id": "T-166",
+      "title": "AreaSearchResponse에 region_label 필드가 없어 AreaSearchReport.tsx의 지역 칩이 항상 빈값",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/goals.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "goals.py의 area_search()가 region_label 지역명을 이미 계산해 두고도(933행) 응답에는 center.label로만 넣고 top-level region_label로는 안 내려준다 — frontend-next/components/agent/AreaSearchReport.tsx:118은 result.region_label을 읽으므로 항상 undefined라 지역 칩이 비어 보인다. 화면이 계산된 값을 못 믿을 값(빈값)으로 보여주는 자리이고, 지금 코드로 재확인했다."
+    },
+    {
+      "id": "T-167",
+      "title": "industry_profiles.get_adaptive_profile(업종별 KPI·체크리스트 15종)을 agent.py _TOOLS에 실제로 연결",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend/app/routers/industry_profiles.py의 GET /api/industry-profiles, /{industry_id}가 agent.py에 import 0건(방금 grep 재확인) — task-state.json엔 T-092/095/099/100/104/154/155/157/160/163/165 등 8회 이상 'done'으로 찍혔지만 매번 실제 코드는 안 바뀌었다. '카페 창업할 때 뭘 챙겨야 해' 류 질문에 챗봇이 여전히 답을 못 한다. 이번엔 커밋 후 grep으로 industry_profiles 문자열이 agent.py에 실제로 있는지 재확인하고 done 표기할 것."
+    },
+    {
+      "id": "T-168",
+      "title": "franchise_brand 이름이 문장에서 안 잡히면 GET /api/franchise/brands 목록 검색으로 폴백하는 로직 실제 구현",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "agent.py는 franchise_brand_detail만 import하고 franchise.py의 franchise_brands(/brands, _search_brands 자동완성)는 import·호출 0건(방금 grep 재확인) — T-093/094/096/098/101/105/161 등 7회 이상 'done'으로 찍혔지만 실제 구현은 없었다. '이디야 얼마나 벌어?'처럼 트리거어 없이 브랜드명만 나오면 site_score로 조용히 폴백한다."
+    },
+    {
+      "id": "T-169",
+      "title": "AreaSearchResponse에 region_label 필드 없음 — 프론트 지역 칩이 항상 빈값",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/goals.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "AreaSearchReport.tsx:118이 result.region_label을 읽는데 goals.py:855의 AreaSearchResponse에 그 필드가 없어(로컬 변수 region_label만 있고 응답 모델엔 없음) 항상 undefined다 — task-state.json에 이미 6번 'done'으로 기록됐지만 grep으로 확인한 현재 main 코드엔 여전히 없다, 처리 후 반드시 grep으로 실제 응답 필드 존재를 검증할 것"
+    },
+    {
+      "id": "T-170",
+      "title": "업종별 KPI·체크리스트(GET /api/industry-profiles/{industry_id})가 agent.py _TOOLS에 없음",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "agent.py 전체에 industry_profiles 관련 도구 키가 없어(grep 확인) '카페 창업 체크리스트 알려줘' 같은 질문이 site_score로 잘못 폴백한다 — task-state.json엔 이 통합이 4~5차례 'done'으로 기록돼 있으나 main에는 실제로 반영된 적이 없다, 처리 후 grep으로 _TOOLS 딕셔너리에 실제 키가 생겼는지 검증할 것"
+    },
+    {
+      "id": "T-171",
+      "title": "industry_profiles.get_adaptive_profile(15종 업종 KPI·체크리스트)을 agent.py _TOOLS 경로에 실제로 연결",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/app/routers/industry_profiles.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "GET /api/industry-profiles/{industry_id}가 agent.py의 _TOOLS/도구 실행 경로 어디에도 없어 채팅으로는 절대 못 부른다 — /ask가 address 없으면 400을 내므로 업종만 물어도 위치가 있어야 하니, 새 도구로 분기하지 말고 site_score 응답에 딸려 intent.business_type(=industry_id, agent.py 101행 주석대로 이미 industry-profiles id와 일치)로 체크리스트를 붙이는 방향이 맞다. docs/agent/HANDOFF.md에 T-163/165/167로 3번 '완료' 기록됐는데 실제 코드엔 전혀 없다 — 이전 시도가 반영 안 된 원인(주소 필수 400 충돌 등)을 먼저 확인할 것"
+    },
+    {
+      "id": "T-172",
+      "title": "franchise_brand이 문장에서 안 뽑히면 GET /api/franchise/brands 검색으로 폴백하는 로직이 없다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "_extract_franchise_brand는 '창업비용/폐업률/가맹점 수' 트리거 바로 앞 낱말만 신뢰해 정확히 그 패턴이 아니면 None을 반환하고 franchise_brand_detail 도구가 선택되지 않는다 — franchise.py의 GET /brands(부분일치 검색)로 폴백 조회하면 '이디야 얼마나 있어' 같은 변형 질문도 잡을 수 있다. test_agent.py에 이 폴백을 검증하는 테스트가 없어 실제로 미구현 상태이며, HANDOFF에 T-161/168로 2번 '완료' 기록됐지만 코드엔 없다"
+    },
+    {
+      "id": "T-173",
+      "title": "industry_profiles.get_adaptive_profile()(업종별 KPI·체크리스트)이 agent.py _TOOLS에 여전히 미연결 — 8회 이상 '완료' 기록에도 실제 코드엔 없음",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "방금 grep으로 agent.py 전체에 'industry_profiles' 문자열이 0건임을 재확인 — GET /api/industry-profiles/{industry_id}가 라우터에 존재하는데도 채팅으로는 절대 못 부른다. task-state.json에 T-092/095/099/100/104/154/155/157/160/163/165/167/170/171 등 반복해서 done 처리됐지만 코드에 반영된 적이 없다. 처리 후 반드시 grep으로 _TOOLS 딕셔너리에 실제 키가 생겼는지, 그리고 커밋이 main(or 검증 가능한 브랜치)에 실제로 들어갔는지 확인할 것 — 이 항목 자체가 '검증 없이 done 찍는' 파이프라인 결함의 증거이기도 하다."
+    },
+    {
+      "id": "T-174",
+      "title": "AreaSearchResponse에 region_label 필드가 없어 지역 칩이 항상 빈값 — 6회 이상 '완료' 기록에도 미수정",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/goals.py",
+        "frontend-next/components/agent/AreaSearchReport.tsx",
+        "frontend-next/lib/api.ts"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend/app/routers/goals.py:855 AreaSearchResponse 모델엔 region_label 필드가 없다(center만 있음). 933행에서 지역명을 region_label 지역변수로 계산해 놓고도 응답엔 안 담는다. 반면 frontend-next/lib/api.ts:246은 TS 인터페이스에 region_label을 이미 선언해 놨고 AreaSearchReport.tsx:118은 result.region_label을 그대로 읽어 칩을 채운다 — 실제 API 응답엔 그 필드가 없으니 항상 undefined로 빈칸이다. 정확히 '엔진은 맞는데 화면이 없는 값을 말한다' 패턴. task-state.json에 T-159/162/164/166/169로 5회 done 처리됐으나 지금 코드로 재확인해도 여전히 없다 — 고친 뒤 grep으로 실제 필드 존재를 재확인할 것."
+    },
+    {
+      "id": "T-175",
+      "title": "프랜차이즈 브랜드명이 트리거 패턴과 정확히 안 맞으면 franchise_brand_detail을 아예 안 부르고 site_score로 조용히 폴백 — GET /api/franchise/brands 검색 폴백 미구현",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py",
+        "backend/tests/test_agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "_extract_franchise_brand(agent.py:896)는 '창업비용/폐업률/가맹점 수' 같은 트리거 낱말 바로 앞 낱말만 브랜드로 인정한다. franchise.py의 GET /brands(부분일치 목록)는 agent.py 어디에서도 import·호출되지 않아(재확인) '이디야 얼마나 벌어?' 처럼 트리거어 없이 브랜드명만 있는 문장은 franchise_brand_detail이 아예 선택 안 되고 site_score로 조용히 폴백한다 — 사용자는 엉뚱한 답을 받고도 이유를 모른다. task-state.json에 T-093/094/096/098/101/105/161/168/172로 9회 done 기록됐지만 코드엔 반영된 적이 없다."
+    },
+    {
+      "id": "T-176",
+      "title": "AreaSearchResponse에 region_label 필드가 없어 지역 칩이 항상 빈값",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/goals.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "frontend-next/components/agent/AreaSearchReport.tsx:118과 lib/api.ts:246은 result.region_label을 top-level로 읽는데 backend/app/routers/goals.py의 AreaSearchResponse(855행)엔 그 필드가 없다 — region_label 값은 933행에서 계산되지만 CenterOut.label 안에만 담기고 응답 최상위엔 안 실려 칩이 항상 undefined다. HANDOFF.md에 같은 항목이 '완료'로 6회 이상 기록됐지만 실제 코드엔 여전히 없다."
+    },
+    {
+      "id": "T-177",
+      "title": "업종별 KPI·체크리스트(GET /api/industry-profiles/{industry_id})가 agent.py _TOOLS에 미연결",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend/app/routers/industry_profiles.py의 get_adaptive_profile(15개 업종 전용 KPI·체크리스트)이 agent.py _TOOLS 딕셔너리(1129행)에 없어 채팅으로는 절대 못 부른다. HANDOFF.md에 같은 항목이 '완료'로 8회 이상 기록됐지만 grep 결과 agent.py에 industry_profile 관련 코드가 전혀 없다."
+    },
+    {
+      "id": "T-178",
+      "title": "franchise_brand이 문장에서 안 뽑히면 GET /api/franchise/brands 검색 폴백이 없다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "_extract_franchise_brand(937행)이 브랜드명을 못 찾으면 franchise_brand_detail을 아예 안 부르고 조용히 site_score로 폴백한다 — franchise.py의 /brands(147행) 부분일치 검색으로 후보를 찾는 경로가 없다. HANDOFF.md에 같은 항목이 '완료'로 여러 번 기록됐지만 agent.py엔 franchise_brands 검색 호출이 없다."
+    },
+    {
+      "id": "T-179",
+      "title": "업종별 KPI·체크리스트(GET /api/industry-profiles/{industry_id})가 agent.py _TOOLS에 여전히 미연결",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend/app/services/industry_profiles.get_adaptive_profile은 이미 15종 업종 KPI를 내는데 agent.py grep 결과 참조가 전혀 없다 — docs/agent/HANDOFF.md에 이 항목이 8회 이상 '완료'로 기록됐지만 코드엔 실제로 없어 채팅으로는 절대 못 부른다"
+    },
+    {
+      "id": "T-180",
+      "title": "franchise_brand이 문장에서 정확히 안 뽑히면 GET /api/franchise/brands 검색으로 폴백하는 로직이 없다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "_extract_franchise_brand은 정규식 매칭만 하고 실패하면 그대로 site_score로 폴백한다 — franchise.py의 franchise_brands 검색 엔드포인트(fuzzy q 검색)가 있는데도 안 쓴다. 이 항목도 여러 번 '완료' 기록됐지만 agent.py에 franchise_brands import·호출이 없다"
+    },
+    {
+      "id": "T-181",
+      "title": "PurchaseVerdictResponse.market_band에 insufficient_sample/relaxations/data_source가 없어 표본 1~2건짜리 실거래 비교가 캡션 없이 신뢰할 만한 색으로 그려진다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/goals.py",
+        "frontend-next/components/agent/PurchaseVerdictReport.tsx"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "property_market.py의 MarketBand.insufficient_sample(n<8)이 property-market·profitability 화면에는 정상적으로 전달·표시되는데 goals.py의 MarketBandOut만 그 필드를 빼먹어, 매입 판정 화면에서 표본 부족 경고 없이 P25/P50/P75가 확정된 시세처럼 보인다"
+    },
+    {
+      "id": "T-182",
+      "title": "industry_profiles.get_adaptive_profile()가 agent.py _TOOLS에 여전히 미연결 — 업종별 KPI·체크리스트를 채팅으로 못 부른다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "GET /api/industry-profiles/{industry_id}는 실제 동작하는 엔드포인트인데 _TOOLS 딕셔너리(1129번 줄)에 키가 없어 에이전트가 절대 호출하지 못한다 — '이 업종 KPI 뭐가 중요해' 같은 질문에 답할 방법이 없다. HANDOFF.md에 8회 이상 '완료'로 기록됐지만 코드에는 반영된 적이 없다."
+    },
+    {
+      "id": "T-183",
+      "title": "PurchaseVerdictResponse.market_band(MarketBandOut)에 insufficient_sample/relaxations/data_source가 빠져 표본 1~2건짜리 실거래 비교가 신뢰할 만한 값처럼 보인다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/goals.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "goals.py:575의 MarketBandOut 생성부가 band(fetch_market_band 결과, property_market.py의 MarketBand)에서 p25/p50/p75/n/radius_m만 꺼내고 insufficient_sample·relaxations·data_source는 버린다. 같은 band 객체를 쓰는 profitability_analyze는 이 필드들을 그대로 응답에 실어 '표본 부족' 경고를 붙이는데 purchase_verdict만 빠뜨려 화면이 못 믿을 값을 확정치처럼 점수에 반영한다."
+    },
+    {
+      "id": "T-184",
+      "title": "AreaSearchResponse에 region_label 필드가 없어 동네 탐색 결과 화면의 지역 칩이 항상 빈값",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/goals.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "frontend-next/components/agent/AreaSearchReport.tsx:118이 result.region_label을 읽어 헤드라인 칩에 쓰는데, backend AreaSearchResponse(goals.py:855)에는 그 필드 자체가 없다(center.label만 있음). TS 타입이 optional이라 타입체크는 통과하고 런타임에 조용히 undefined가 된다 — 6회 이상 '완료' 기록에도 실제로는 안 고쳐졌다."
+    },
+    {
+      "id": "T-185",
+      "title": "diagnose의 상권매출 추세 원인이 trdar_for_point의 contains/distance_m(최근접 폴백 여부)를 안 실어 폭넓게 확정형으로 서술됨",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/goals.py",
+        "backend/app/services/diagnosis.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "site_score.py는 같은 TrdarMatch.contains를 inside_area로 실어 프론트가 '(최근접 XXXm)'을 붙이는데(frontend-next/components/AdaptiveDashboard.tsx:186), goals.py의 _sales_trend/diagnose는 trdar_nm만 쓰고 contains/distance_m을 버려 evidence.diagnosis.trend와 그걸 근거로 한 '상권 추세' 원인 문장(diagnosis.py의 5번 cause)이, 실제로는 폴리곤 밖 최근접 상권(최대 300m 이내)일 때도 캐치 없이 '해당 상권이 줄고 있다'고 단정한다."
+    },
+    {
+      "id": "T-186",
+      "title": "runner.py의 commit_and_push가 'PR 오픈=done'으로 기록하고 add_scouted dedup은 제목 완전일치만 봐 같은 미구현이 15회+ 재발견·재작업된다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/tools/agent/runner.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "git log상 runner.py는 두 커밋뿐인데 task-state.json엔 industry_profiles 연결·franchise_brand 폴백·AreaSearchResponse.region_label이 각각 15회 넘게 done 처리돼 있고 실제 main 코드엔 셋 다 여전히 없음을 직접 확인함 — PR 병합 확인 없이 done 처리하고 문구만 다른 재발견을 못 거르는 게 원인"
+    },
+    {
+      "id": "T-187",
+      "title": "업종별 KPI·체크리스트(industry_profiles.get_adaptive_profile)를 agent.py _TOOLS에 연결",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "backend/app/routers/agent.py에 industry_profiles import가 0건 — 카페·미용실 등 15개 업종 전용 KPI/체크리스트를 채팅으로 부를 방법이 없음. backend/app/routers/ 엔드포인트 중 agent.py _TOOLS에 없는 것을 최우선으로 담으라는 지시에 해당"
+    },
+    {
+      "id": "T-188",
+      "title": "franchise_brand이 문장에서 안 뽑힐 때 GET /api/franchise/brands 검색으로 폴백",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/routers/agent.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "agent.py에 franchise/brands 호출이 0건 — _extract_franchise_brand가 실패하면 franchise_brand_detail을 아예 안 부르고 조용히 site_score로 내려가, 정규식이 못 잡는 브랜드 표현은 항상 기본 분석만 나옴"
+    },
+    {
+      "id": "T-189",
+      "title": "restaurant 프리셋이 inds_mcls_cd=I201(한식)로 고정돼 있어 비-한식 음식점도 한식으로 표시·집계됨",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/services/sbiz_upjong.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "오너가 2026-07-29 저녁 최우선으로 지목한 버그. agent.py 키워드 폴백이 '샐러드'처럼 한식이 아닌 음식점도 restaurant 프리셋에 매칭시키면 화면 업종 라벨과 동일업종 경쟁수 집계가 실제 업종과 어긋난다 — 소분류(scls)로 정확히 보내거나 프리셋 불명확 시 '일반 음식점'처럼 특정하지 않는 라벨로 폴백해야 한다."
+    },
+    {
+      "id": "T-190",
+      "title": "경쟁/포화 지표 9개 업종에서 점수 반전 없이 표시(초록 막대로 오인)",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "frontend-next/lib/metricDirection.ts"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "industry_kpis.py의 competition_pressure·same_specialty_supply·same_subject_competition·lodging_competition·professional_competition·fitness_competition·leisure_competition·retail_competition·pharmacy_competition·market_overlap는 모두 cafe_saturation/cannibalization_risk와 같은 '높을수록 나쁨' 계산(_kpi_saturation·_kpi_cannibalization_risk 별칭)인데 HIGHER_IS_WORSE 집합에 없어, 식당·병원·약국·학원·숙박·전문직·헬스·레저·소매 등 9개 업종 대시보드에서 포화·경쟁이 심할수록 오히려 초록 막대와 '상위 N%'(좋다는 뜻)로 표시된다 — 바로 이 파일 주석이 설명하는, 과거 cafe_saturation/competition에서 이미 한 번 고친 것과 동일한 버그가 나중에 추가된 업종별 키에서 재발한 것"
+    },
+    {
+      "id": "T-191",
+      "title": "seoul_sales.py resolve_seoul_service_code가 매핑에 없는 업종(미용실·헬스장·오락·숙박·주유소·전기차충전·전문서비스, 심지어 restaurant까지)을 조용히 카페/한식 매출로 대체한다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/services/seoul_sales.py",
+        "backend/data/seoul_service_upjong_map.json"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "seoul_service_upjong_map.json엔 7개 코드만 있고, restaurant 프리셋의 label \"일반 음식점\"은 I201 키워드 \"음식점\"의 부분 문자열이라 다시 한식(CS100010)으로, 매핑에 없는 나머지 업종은 전부 최종 기본값 카페(CS100001)로 떨어진다 — 이 값이 경고 없이 lease_feasibility.py의 benchmark_monthly_revenue_man으로 화면에 노출된다. 바로 앞서 고친 'restaurant=I201 고정' 버그와 같은 유형이 다른 파일에서 재발한 것"
+    },
+    {
+      "id": "T-192",
+      "title": "seoul_sales.py fetch_sales_benchmark의 Open API 경로가 점포 수 0/None을 대체하면서 CSV 스냅샷 경로와 달리 경고를 안 남긴다",
+      "status": "done",
+      "owner": null,
+      "priority": 10,
+      "files": [
+        "backend/app/services/seoul_sales.py"
+      ],
+      "branch": null,
+      "attempts": 1,
+      "blocked_reason": null,
+      "why": "267행 stores = api_stores or fallback_store_count or 1은 대체가 일어나도 warnings에 아무것도 안 남기는데, 같은 상황의 스냅샷 경로(199-202행)는 \"점포 수 미확인 — 반경 내 동일업종 수로 대체\" 경고를 남긴다 — 신뢰도 낮은 대체값이 API 경로에서만 확정치처럼 보인다"
+    }
+  ],
+  "runs": []
+}

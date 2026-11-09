@@ -1,0 +1,59 @@
+{
+  "target_models": {
+    "cafe": { "label": "카페", "risk_sensitivity": 1.0 },
+    "restaurant": { "label": "음식점", "risk_sensitivity": 1.0 },
+    "bakery": { "label": "베이커리", "risk_sensitivity": 1.0 }
+  },
+  "cluster_groups": {
+    "direct_competitor": { "key": "direct", "label": "직접 경쟁" },
+    "partial_competitor": { "key": "partial", "label": "부분 경쟁" },
+    "synergy": { "key": "synergy", "label": "보완 시너지" },
+    "infrastructure": { "key": "infra", "label": "생활 인프라" },
+    "arts_synergy": { "key": "arts_synergy", "label": "운동·웰빙 시너지" },
+    "risk": { "key": "risk", "label": "주의 요인" },
+    "severe_risk": { "key": "severe_risk", "label": "강한 리스크" }
+  },
+  "distance_bands_m": [
+    { "max": 0, "same_building": true, "weight": 2.0 },
+    { "max": 50, "weight": 1.0 },
+    { "max": 100, "weight": 0.85 },
+    { "max": 300, "weight": 0.6 },
+    { "max": 500, "weight": 0.4 },
+    { "max": 1000, "weight": 0.2 }
+  ],
+  "rules": {
+    "cafe": {
+      "cafe": { "relation": "direct_competitor", "weight": -1.0 },
+      "bakery": { "relation": "partial_competitor", "weight": -0.3 },
+      "restaurant": { "relation": "partial_competitor", "weight": -0.1 },
+      "office_business": { "relation": "synergy", "weight": 0.6 },
+      "healthcare": { "relation": "synergy", "weight": 0.45 },
+      "higher_education": { "relation": "synergy", "weight": 0.4 },
+      "fitness": { "relation": "arts_synergy", "weight": 0.5 },
+      "transit_hub": { "relation": "infrastructure", "weight": 0.35 },
+      "generic_food_drink": { "relation": "partial_competitor", "weight": -0.05 }
+    },
+    "restaurant": {
+      "restaurant": { "relation": "direct_competitor", "weight": -1.0 },
+      "cafe": { "relation": "partial_competitor", "weight": -0.1 },
+      "bakery": { "relation": "partial_competitor", "weight": -0.1 },
+      "office_business": { "relation": "synergy", "weight": 0.55 },
+      "higher_education": { "relation": "synergy", "weight": 0.45 },
+      "healthcare": { "relation": "synergy", "weight": 0.3 },
+      "fitness": { "relation": "arts_synergy", "weight": 0.3 },
+      "transit_hub": { "relation": "infrastructure", "weight": 0.3 },
+      "generic_food_drink": { "relation": "partial_competitor", "weight": -0.1 }
+    },
+    "bakery": {
+      "bakery": { "relation": "direct_competitor", "weight": -1.0 },
+      "cafe": { "relation": "partial_competitor", "weight": -0.35 },
+      "restaurant": { "relation": "partial_competitor", "weight": -0.1 },
+      "office_business": { "relation": "synergy", "weight": 0.5 },
+      "higher_education": { "relation": "synergy", "weight": 0.45 },
+      "healthcare": { "relation": "synergy", "weight": 0.3 },
+      "fitness": { "relation": "arts_synergy", "weight": 0.35 },
+      "transit_hub": { "relation": "infrastructure", "weight": 0.4 },
+      "generic_food_drink": { "relation": "partial_competitor", "weight": -0.05 }
+    }
+  }
+}

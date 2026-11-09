@@ -1,0 +1,62 @@
+# 24시간 자율 개발 러너 (Railway 별도 서비스)
+#
+# 백엔드 API 컨테이너(backend/Dockerfile)와 다른 물건이다. 저 쪽은 앱을 서빙하고
+# 이 쪽은 **저장소를 고친다**. 그래서 필요한 것도 다르다:
+#   - 코드를 굽지 않고 런타임에 clone 한다. push 하려면 원격이 붙은 작업 트리가
+#     필요하고, 이미지에 구워 넣으면 낡은 코드로 일하게 된다.
+#   - 백엔드 테스트(pytest)와 프론트 검사(npm)를 둘 다 돌려야 하므로 python과
+#     node가 같이 있어야 한다. 검증이 유일한 안전망이라 여기서 아끼면 안 된다.
+
+FROM python:3.11-slim
+
+# NODE_MAJOR는 22여야 한다. 프론트 테스트가 `node --experimental-strip-types`를
+# 쓰는데 그 플래그는 Node 22부터다. 20이면 테스트가 시작조차 못 하고, 러너는
+# 그걸 "작업 실패"로 잘못 기록한다 — 실제로 프론트를 건드리는 작업 3건이
+# 연달아 이렇게 죽었고, 오류가 stderr로만 나가 사유도 빈칸이었다.
+#
+# (주석을 ENV 연속 줄 **안에** 넣으면 Docker가 파싱을 못 해 빌드가 깨진다.)
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONUNBUFFERED=1 \
+    PYTHONUTF8=1 \
+    NODE_MAJOR=22 \
+    WORKSPACE=/workspace
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      ca-certificates curl git gnupg libgeos-c1v5 \
+    && mkdir -p /etc/apt/keyrings \
+    && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key \
+       | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
+    && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${NODE_MAJOR}.x nodistro main" \
+       > /etc/apt/sources.list.d/nodesource.list \
+    && curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+       -o /etc/apt/keyrings/githubcli.gpg \
+    && echo "deb [signed-by=/etc/apt/keyrings/githubcli.gpg] https://cli.github.com/packages stable main" \
+       > /etc/apt/sources.list.d/github-cli.list \
+    && apt-get update && apt-get install -y --no-install-recommends nodejs gh \
+    && rm -rf /var/lib/apt/lists/*
+
+# 백엔드 검증이 DepthmapX를 부르는 경로가 있다. 없으면 그 테스트만 죽는 게 아니라
+# 어떤 작업은 검증 자체가 안 된다.
+ARG DEPTHMAPX_VERSION=0.8.0
+RUN curl -fsSL \
+      "https://github.com/SpaceGroupUCL/depthmapX/releases/download/v${DEPTHMAPX_VERSION}/depthmapXcli_linux64" \
+      -o /usr/local/bin/depthmapXcli \
+    && chmod +x /usr/local/bin/depthmapXcli
+
+RUN npm install -g @anthropic-ai/claude-code
+
+# 의존성은 이미지에 미리 넣는다 — 매 사이클 설치하면 사이클이 느려지고, 네트워크가
+# 흔들리는 날엔 일을 못 한다. 코드만 런타임에 받는다.
+COPY backend/requirements.txt /tmp/backend-requirements.txt
+COPY backend/requirements-dev.txt /tmp/backend-requirements-dev.txt
+# dev 쪽도 넣는다. 러너의 일은 **검증**이고, 테스트 의존성이 빠지면 수집
+# 단계에서 넘어져 "작업이 실패했다"로 잘못 기록된다 — 실제로 T-001이 그랬다.
+RUN pip install --no-cache-dir \
+      -r /tmp/backend-requirements.txt \
+      -r /tmp/backend-requirements-dev.txt
+
+COPY scripts/agent-entrypoint.sh /usr/local/bin/agent-entrypoint.sh
+RUN chmod +x /usr/local/bin/agent-entrypoint.sh
+
+WORKDIR /workspace
+CMD ["/usr/local/bin/agent-entrypoint.sh"]

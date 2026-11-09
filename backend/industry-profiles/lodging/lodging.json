@@ -1,0 +1,191 @@
+{
+  "id": "lodging",
+  "name": "숙박·호텔",
+  "parentCategory": "lodging",
+  "version": "1.0.0",
+  "effectiveFrom": "2026-07-15",
+  "supportedUserTypes": [
+    "entrepreneur",
+    "franchise"
+  ],
+  "matchRules": {
+    "sbizCodes": {
+      "lcls": ["I1"],
+      "mcls": ["I101", "I102"],
+      "scls": ["I10101", "I10102", "I10103"]
+    },
+    "businessTypePresets": ["lodging"],
+    "fallbackArchetype": "lodging"
+  },
+  "analysis": {
+    "catchment": {
+      "primary": "transit",
+      "transitMinutes": [
+        30,
+        60
+      ],
+      "driveMinutes": [
+        20,
+        40
+      ]
+    },
+    "timeSlots": [
+      "late_night",
+      "weekend_afternoon"
+    ],
+    "competitorGroups": {
+      "direct": [
+        "hotel_motel"
+      ],
+      "secondary": [
+        "guesthouse_pension"
+      ],
+      "indirect": [
+        "goshiwon_residence"
+      ],
+      "channel": [
+        "ota_platform"
+      ]
+    },
+    "siteFeatures": {
+      "integration": 0.15,
+      "choice": 0.20,
+      "mean_depth": 0.05,
+      "connectivity": 0.05,
+      "transit": 0.20,
+      "demand": 0.25,
+      "competition": 0.10
+    },
+    "competitorRules": {
+      "vertical": "lodging",
+      "distance_bands_m": [
+        { "max": 200, "weight": 1.0 },
+        { "max": 400, "weight": 0.8 },
+        { "max": 700, "weight": 0.6 },
+        { "max": 1000, "weight": 0.4 },
+        { "max": 1500, "weight": 0.2 }
+      ],
+      "intensity_thresholds": [10, 20, 35],
+      "buckets": [
+        {
+          "key": "direct",
+          "label": "직접 경쟁 (호텔·모텔)",
+          "weight": 1.0,
+          "mcls_codes": ["I101"],
+          "scls_codes": ["I10101", "I10102"],
+          "keywords": ["호텔", "모텔", "여관", "리조트", "레지던스", "관광호텔"]
+        },
+        {
+          "key": "guesthouse",
+          "label": "게스트하우스·펜션",
+          "weight": 0.9,
+          "scls_codes": ["I10103"],
+          "keywords": ["게스트하우스", "호스텔", "민박", "펜션", "한옥스테이", "스테이", "유스호스텔"]
+        },
+        {
+          "key": "substitute_residence",
+          "label": "기타 숙박 (고시원·기숙사)",
+          "weight": 0.3,
+          "mcls_codes": ["I102"],
+          "keywords": ["고시원", "고시텔", "리빙텔", "기숙사"]
+        }
+      ]
+    },
+    "publicSalesMappings": []
+  },
+  "ui": {
+    "summaryKpis": [
+      {
+        "key": "tourist_stay",
+        "label": "관광 체류 수요"
+      },
+      {
+        "key": "transit_gateway",
+        "label": "교통 관문성"
+      },
+      {
+        "key": "lodging_competition",
+        "label": "경쟁 숙박 공급"
+      },
+      {
+        "key": "night_activity",
+        "label": "심야 상권 활력"
+      }
+    ],
+    "primaryTabs": [
+      "tourist_demand",
+      "lodging_competition",
+      "night_activity",
+      "transport",
+      "compare"
+    ],
+    "secondaryTabs": [
+      "parking"
+    ],
+    "mapLayers": [
+      "competing_lodging",
+      "transit_catchment",
+      "drive_catchment",
+      "late_night_pop",
+      "foreign_stay"
+    ],
+    "alerts": [
+      "lodging_saturation",
+      "weak_transit_access"
+    ],
+    "recommendations": [
+      "tourist_or_business_focus",
+      "night_amenity_mix"
+    ],
+    "reportSections": [
+      "summary",
+      "tourist_demand",
+      "competition",
+      "access",
+      "night_activity",
+      "risks"
+    ]
+  },
+  "userOverrides": {
+    "franchise": {
+      "summaryKpis": [
+        {
+          "key": "cannibalization_risk",
+          "label": "기존점 잠식 위험"
+        },
+        {
+          "key": "new_coverage",
+          "label": "신규 커버리지"
+        },
+        {
+          "key": "brand_whitespace",
+          "label": "브랜드 공백"
+        },
+        {
+          "key": "network_efficiency",
+          "label": "지점망 효율"
+        }
+      ],
+      "primaryTabs": [
+        "network",
+        "cannibalization",
+        "new_coverage",
+        "candidates"
+      ],
+      "mapLayers": [
+        "existing_stores",
+        "existing_store_overlap",
+        "transit_catchment",
+        "new_coverage",
+        "brand_whitespace"
+      ],
+      "reportSections": [
+        "approval_summary",
+        "network_impact",
+        "cannibalization",
+        "new_market",
+        "decision"
+      ]
+    }
+  }
+}

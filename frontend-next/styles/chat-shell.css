@@ -1,0 +1,610 @@
+/* 첫 메인 화면(자연어 질의창)의 셸 — 소유자가 준 "Prism AI Chat UI Kit"
+   디자인을 그대로 옮긴 것. 수치(여백·모서리·글자 크기·색)는 원본
+   `AI Chat.dc.html`에서 뽑았고, 이 파일 밖의 화면(지도 탭·보고서 내부 카드
+   등)에는 영향을 주지 않도록 토큰을 .prism 안에만 둔다.
+
+   원본과 다르게 만든 것 — 근거를 남긴다:
+   - 왼쪽 대화 목록은 넣었고(요청), 저장은 브라우저 localStorage다. 서버 저장·
+     계정이 없어서 사용자 카드 자리에는 저장 위치를 적었다.
+   - 헤더의 모델 선택(Prism 4 Pro)과 밝게/어둡게 토글도 뺐다. 고를 모델이
+     하나고 다크 테마가 없다 — 눌러도 아무 일 없는 컨트롤은 고장으로 읽힌다.
+   - 입력창 왼쪽 아래 +·분기 버튼도 뺐다. 첨부·커넥터가 없다. */
+
+.prism-app,
+.prism {
+  /* 원본 토큰 (light). 이 앱은 다크 테마가 없어 [data-theme="dark"] 블록은
+     옮기지 않았다. */
+  --prism-bg: #f7f6f3;
+  --prism-srf: #ffffff;
+  --prism-brd: #d6dde0;
+  --prism-brd2: #ebeef0;
+  --prism-txt: #17191c;
+  --prism-txt2: #515c67;
+  --prism-txt3: #b9c2ca;
+  --prism-hov: #ebeef0;
+  --prism-pri: #17191c;
+  --prism-onp: #ffffff;
+  --prism-shd: 0 8px 24px -4px rgba(0, 0, 0, 0.12);
+  /* Instrument Sans는 라틴 전용이라 한글은 뒤의 Pretendard가 받는다 —
+     원본의 폰트 스택 순서를 그대로 유지한다. */
+  --prism-ui: "Instrument Sans", "Pretendard Variable", Pretendard, -apple-system, "Segoe UI", sans-serif;
+  --prism-serif: Merriweather, "Pretendard Variable", Pretendard, ui-serif, Georgia, serif;
+
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+  background: var(--prism-bg);
+  color: var(--prism-txt);
+  font-family: var(--prism-ui);
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 스크롤은 여기만 한다. 입력창은 이 영역 밖(아래 고정)에 있어서, 답변이 아무리
+   길어도 입력창을 밀어내지 못한다 — 종전에 sticky로 붙여 두었더니 배경이
+   비쳐 "답변이 채팅창 아래로 내려간다"로 보였다. */
+.prism__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* 빈 첫 화면 — 가운데 한 줄만 둔다. */
+.prism__hero {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  padding: 96px 24px 64px;
+}
+
+.prism__hero-title {
+  font-family: var(--prism-serif);
+  font-weight: 300;
+  font-size: 30px;
+  line-height: 130%;
+  text-align: center;
+  color: var(--prism-txt);
+}
+
+.prism__thread {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 24px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 아래 고정 영역 — 추천 질문, 입력창, 주의 문구. */
+.prism__footer {
+  flex-shrink: 0;
+  padding: 12px 24px 24px;
+}
+
+.prism__footer-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 첫 응답에서 전체로 보여 준 최신 분석을 후속 질문 중에도 다시 찾을 수 있게 한다. */
+.agent-result-dock {
+  width: 100%;
+  min-height: 64px;
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--blue-90);
+  border-radius: 14px;
+  background: var(--accent-background-light-blue);
+  color: var(--prism-txt);
+  text-align: left;
+  cursor: pointer;
+  box-shadow: var(--shadow-strong);
+}
+
+.agent-result-dock:hover {
+  border-color: var(--blue-50);
+}
+
+.agent-result-dock:focus-visible {
+  outline: 2px solid var(--prism-pri);
+  outline-offset: 2px;
+}
+
+.agent-result-dock__icon {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: var(--prism-pri);
+  color: var(--prism-onp);
+}
+
+.agent-result-dock__body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.agent-result-dock__body strong,
+.agent-result-dock__body span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.agent-result-dock__body strong {
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.agent-result-dock__body span {
+  color: var(--prism-txt2);
+  font-size: 12px;
+}
+
+.agent-result-dock__action {
+  color: var(--prism-pri);
+  font-size: 12px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.prism__pills {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.prism-pill {
+  height: 28px;
+  border-radius: 9999px;
+  border: 1px solid var(--prism-brd);
+  background: transparent;
+  color: var(--prism-txt);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  font-family: var(--prism-ui);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.prism-pill:hover:not(:disabled) {
+  background: var(--prism-hov);
+}
+
+.prism-pill:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.prism-pill span {
+  padding: 0 2px;
+}
+
+.prism-composer {
+  border-radius: 16px;
+  background: var(--prism-srf);
+  border: 1px solid var(--prism-brd);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+}
+
+.prism-composer__input {
+  width: 100%;
+  min-height: 48px;
+  max-height: 180px;
+  border: 0;
+  outline: 0;
+  resize: none;
+  background: transparent;
+  color: var(--prism-txt);
+  font-family: var(--prism-ui);
+  font-size: 15px;
+  line-height: 150%;
+  padding: 0;
+}
+
+/* 아이폰 사파리는 16px보다 작은 입력칸에 초점이 가면 화면을 확대하고 되돌리지 않는다 —
+   질문을 치려고 누르는 순간 상담 시트가 옆으로 잘렸다(15px였다). 휴대폰에서만 16px
+   (2026-11-06 UX 자동 개선, 지도·평면도 탭 입력칸과 같은 이유). */
+@media (max-width: 640px) {
+  .prism-composer__input {
+    font-size: 16px;
+  }
+}
+
+.prism-composer__input::placeholder {
+  color: var(--prism-txt3);
+}
+
+.prism-composer__row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.prism-composer__actions {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+}
+
+/* 남은 자리 안내 — 원본의 왼쪽 아이콘 버튼 자리에 글자로 둔다. */
+.prism-composer__hint {
+  font-size: 11px;
+  color: var(--prism-txt3);
+}
+
+.prism-composer__btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  background: transparent;
+  border: 0;
+  color: var(--prism-txt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* 휴대폰: 전송·마이크 단추가 32px라 붙어 있는 둘 중 엉뚱한 쪽(마이크)을 누르기 쉬웠다 —
+   40px (2026-11-06). 입력칸이 이미 두 줄 높이라 시트 높이는 그대로다. */
+@media (max-width: 640px) {
+  .prism-composer__btn {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.prism-composer__btn:hover:not(:disabled) {
+  background: var(--prism-hov);
+}
+
+.prism-composer__btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* 듣는 중 — 마이크가 켜져 있는지 모르면 불안하다(종전 화면에서 지킨 규칙). */
+.prism-composer__btn--listening {
+  background: #dc2626;
+  color: #fff;
+}
+
+.prism-composer__btn--listening:hover:not(:disabled) {
+  background: #dc2626;
+}
+
+.prism-composer__send {
+  background: var(--prism-pri);
+  color: var(--prism-onp);
+}
+
+.prism-composer__send:hover:not(:disabled) {
+  background: var(--prism-pri);
+  opacity: 0.85;
+}
+
+.prism-composer__send:disabled {
+  background: var(--prism-brd);
+  color: var(--prism-srf);
+  opacity: 1;
+}
+
+.prism__foot {
+  text-align: center;
+  font-size: 11px;
+  color: var(--prism-txt3);
+}
+
+/* 목적별 단계 입구(GoalPicker) — 원본에 없는 우리 기능이라, 눈에 덜 띄게
+   추천 질문 아래에 둔다. 빈 화면에만 나온다. */
+.prism__extra {
+  display: flex;
+  justify-content: center;
+  font-size: 12px;
+}
+
+@media (max-width: 720px) {
+  .prism__hero {
+    padding: 48px 16px 32px;
+  }
+
+  .prism__hero-title {
+    font-size: 24px;
+  }
+
+  .prism__footer {
+    padding: 8px 12px 16px;
+  }
+
+  .agent-result-dock {
+    grid-template-columns: 32px minmax(0, 1fr);
+    min-height: 56px;
+    padding: 8px 10px;
+  }
+
+  .agent-result-dock__icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .agent-result-dock__action {
+    display: none;
+  }
+
+  .prism__thread {
+    padding: 20px 12px 8px;
+  }
+}
+
+
+/* ── 왼쪽 대화 세션 패널 (킷의 aside 수치 그대로) ───────────────────── */
+
+.prism-app {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  min-height: 0;
+  background: var(--prism-bg);
+  color: var(--prism-txt);
+  font-family: var(--prism-ui);
+}
+
+.prism-side {
+  width: 264px;
+  flex-shrink: 0;
+  background: #f2f0eb;
+  border-right: 1px solid var(--prism-brd);
+  display: flex;
+  flex-direction: column;
+  padding: 16px 12px;
+  gap: 16px;
+  font-size: 14px;
+}
+
+.prism-side__brand {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  padding: 0 4px;
+}
+
+.prism-side__logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--prism-pri);
+  color: var(--prism-onp);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.prism-side__name {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.prism-side__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.prism-side__new,
+.prism-side__search-open,
+.prism-side__search {
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  font-family: var(--prism-ui);
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.prism-side__new {
+  background: var(--prism-srf);
+  border: 1px solid var(--prism-brd);
+  color: var(--prism-txt);
+}
+
+.prism-side__search-open {
+  background: transparent;
+  border: 0;
+  color: var(--prism-txt2);
+}
+
+.prism-side__new:hover,
+.prism-side__search-open:hover {
+  background: var(--prism-hov);
+}
+
+.prism-side__search {
+  background: var(--prism-srf);
+  border: 1px solid var(--prism-brd);
+  color: var(--prism-txt2);
+  cursor: text;
+}
+
+.prism-side__search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-family: var(--prism-ui);
+  font-size: 13px;
+  color: var(--prism-txt);
+}
+
+.prism-side__list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  margin: 0 -4px;
+  padding: 0 4px;
+}
+
+.prism-side__empty {
+  margin: 0;
+  padding: 8px 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--prism-txt3);
+}
+
+.prism-side__group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.prism-side__group-label {
+  padding: 8px 12px 4px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--prism-txt3);
+}
+
+.prism-side__item {
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  padding: 0 4px 0 12px;
+}
+
+.prism-side__item:hover {
+  background: var(--prism-hov);
+}
+
+.prism-side__item--active {
+  background: var(--prism-srf);
+}
+
+.prism-side__item-open {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font-family: var(--prism-ui);
+  font-size: 13px;
+  color: var(--prism-txt);
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+/* 지우기는 그 줄에 마우스를 올렸을 때만 — 늘 보이면 목록이 X 밭이 된다. */
+.prism-side__item-del {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 9999px;
+  background: transparent;
+  color: var(--prism-txt3);
+  font-size: 11px;
+  line-height: 1;
+  cursor: pointer;
+  visibility: hidden;
+}
+
+.prism-side__item:hover .prism-side__item-del,
+.prism-side__item-del:focus-visible {
+  visibility: visible;
+}
+
+.prism-side__item-del:hover {
+  color: var(--prism-txt);
+  background: var(--prism-brd2);
+}
+
+.prism-side__foot {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-top: 1px solid var(--prism-brd);
+}
+
+.prism-side__avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  background: var(--prism-brd2);
+  color: var(--prism-txt2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.prism-side__foot-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.prism-side__foot-title {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.prism-side__foot-sub {
+  font-size: 11px;
+  color: var(--prism-txt3);
+}
+
+/* 좁은 화면에서는 접는다 — 264px을 떼어 주면 대화가 읽히지 않는다. 목록은
+   화면을 넓히면 그대로 있다(저장은 localStorage라 사라지지 않는다). */
+@media (max-width: 900px) {
+  .prism-side {
+    display: none;
+  }
+}

@@ -1,0 +1,50 @@
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: spacesyntax-db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-spacesyntax}
+      POSTGRES_USER: ${POSTGRES_USER:-spacesyntax}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-spacesyntax}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-spacesyntax} -d ${POSTGRES_DB:-spacesyntax}",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-spacesyntax}:${POSTGRES_PASSWORD:-spacesyntax}@db:5432/${POSTGRES_DB:-spacesyntax}
+      KAKAO_REST_KEY: ${KAKAO_REST_KEY:-}
+      DATA_GO_API_KEY: ${DATA_GO_API_KEY:-}
+      DATA_SEOUL_GO_API_KEY: ${DATA_SEOUL_GO_API_KEY:-}
+      VWORLD_API_KEY: ${VWORLD_API_KEY:-}
+      VWORLD_DOMAIN: ${VWORLD_DOMAIN:-}
+      SGIS_CONSUMER_KEY: ${SGIS_CONSUMER_KEY:-}
+      SGIS_CONSUMER_SECRET: ${SGIS_CONSUMER_SECRET:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-5.4-mini}
+      STATIC_DIR: /app/static
+      DEPTHMAPX_ENABLED: ${DEPTHMAPX_ENABLED:-true}
+      DEPTHMAPX_COMMAND: ${DEPTHMAPX_COMMAND:-python /app/tools/depthmapx_bridge.py --cli /usr/local/bin/depthmapXcli}
+      DEPTHMAPX_TIMEOUT_SECONDS: ${DEPTHMAPX_TIMEOUT_SECONDS:-180}
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./frontend:/app/static:ro
+      - ./backend/data:/app/data:ro
+
+volumes:
+  pgdata:
