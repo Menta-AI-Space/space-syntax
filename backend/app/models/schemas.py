@@ -1109,6 +1109,8 @@ class FloorplanEditIntentRequest(BaseModel):
     instruction: str = Field(..., min_length=1, max_length=300)
     # LLM이 「적용할까요?」라고 물은 뒤 사용자가 「아니 2미터로」처럼 고쳐 말하면 직전 지시를 함께 보낸다.
     previous_instruction: str | None = Field(None, max_length=300)
+    # 화면 언어 — "en"이면 제안·되물음을 영어로 쓴다(2026-11-09 영어 기본).
+    lang: Literal["en", "ko"] = "ko"
     point: FloorplanEditPointIn
     box: FloorplanLineIn | None = None
     canvas_width: float = Field(..., gt=0)
@@ -1167,6 +1169,8 @@ class FloorplanExplainRequest(BaseModel):
     summary: "FloorplanSummaryOut"
     issues: list[FloorplanIssueOut] = Field(default_factory=list)
     rule_text: str = Field(..., min_length=1, max_length=4000)
+    # 화면 언어 — "en"이면 AI 해석을 영어로 쓴다(2026-11-09 영어 기본).
+    lang: Literal["en", "ko"] = "ko"
 
 
 class FloorplanChatMessage(BaseModel):

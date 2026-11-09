@@ -293,7 +293,7 @@ async def analyze(request: FloorplanAnalyzeRequest):
 async def explain(request: FloorplanExplainRequest):
     """LLM 해석 — 분석 뒤에 따로 부른다. LLM이 꺼져 있거나 실패하면 규칙 문장을
     그대로 돌려주므로 프론트는 source로 구분한다."""
-    text, source = await explain_floorplan(request.summary, request.issues, request.rule_text)
+    text, source = await explain_floorplan(request.summary, request.issues, request.rule_text, lang=request.lang)
     return ExplanationOut(text=text, source=source)
 
 
@@ -317,6 +317,7 @@ async def edit_intent(request: FloorplanEditIntentRequest):
         canvas_width=request.canvas_width,
         canvas_height=request.canvas_height,
         previous_instruction=request.previous_instruction,
+        lang=request.lang,
     )
     line = lambda s: FloorplanLineIn(x1=s[0], y1=s[1], x2=s[2], y2=s[3])  # noqa: E731
     return FloorplanEditIntentResponse(

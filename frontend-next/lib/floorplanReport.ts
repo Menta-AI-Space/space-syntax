@@ -215,6 +215,12 @@ export function formatCompareValue(
 
 /** 비교 결과의 첫 줄 — 손님 발길이 잘 안 닿는 넓이가 몇 % 줄었나/늘었나. */
 export function compareHeadline(comparison: FloorplanCompareResponse): string {
+  // 로봇 통로를 잰 도면(물류센터)은 로봇 비율이 머리글 — 랙을 옮긴 뒤 가장 먼저 볼 숫자다(2026-11-09).
+  const robot = comparison.deltas.find((d) => d.key === "robot_passable");
+  if (robot && robot.direction !== "same") {
+    const verb = robot.after > robot.before ? "늘었습니다" : "줄었습니다";
+    return `로봇이 지나갈 수 있는 바닥이 ${robot.before.toFixed(0)}% → ${robot.after.toFixed(0)}%로 ${verb}`;
+  }
   const dead = comparison.deltas.find((d) => d.key === "dead_area");
   if (!dead || dead.direction === "same") return "손님 발길이 잘 안 닿는 구석은 거의 그대로입니다";
   const verb = dead.after < dead.before ? "줄었습니다" : "늘었습니다";

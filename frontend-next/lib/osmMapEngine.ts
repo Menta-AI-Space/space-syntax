@@ -55,6 +55,20 @@ function zoomFromLevel(level: number): number {
 
 let apiPromise: Promise<MapsApi> | null = null;
 
+// 타일 실패 알림 — 몇 장 연속 실패하면 화면이 「바탕이 비었다」고 말할 수 있게.
+const tileErrorListeners = new Set<() => void>();
+let tileErrorCount = 0;
+export function subscribeOsmTileError(fn: () => void): () => void {
+  tileErrorListeners.add(fn);
+  return () => {
+    tileErrorListeners.delete(fn);
+  };
+}
+function noteTileError() {
+  tileErrorCount += 1;
+  if (tileErrorCount === 3) for (const fn of tileErrorListeners) fn();
+}
+
 export function loadOsmMaps(): Promise<MapsApi> {
   if (!apiPromise) apiPromise = import("leaflet").then((mod) => buildApi(mod.default ?? (mod as unknown as typeof L)));
   return apiPromise;
@@ -77,11 +91,13 @@ function buildApi(leaflet: typeof L): MapsApi {
     readonly map: L.Map;
     constructor(el: HTMLElement, opts: { center: LatLngLike; level: number }) {
       this.map = leaflet.map(el, { zoomControl: true, attributionControl: true });
+      tileErrorCount = 0;
       leaflet
         .tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
           maxZoom: 19,
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         })
+        .on("tileerror", noteTileError)
         .addTo(this.map);
       this.map.setView([opts.center.lat, opts.center.lng], zoomFromLevel(opts.level));
     }

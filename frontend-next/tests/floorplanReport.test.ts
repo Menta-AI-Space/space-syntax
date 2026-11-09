@@ -178,3 +178,19 @@ test("roomThroughRanks: 지나가는 길목 원값 대신 공간끼리 상위 %"
   assert.equal(m.get(5), "상위 100%");
   assert.equal(m.has(3), false);
 });
+
+
+test("compareHeadline leads with the robot share when the plan measured it", () => {
+  const base = { label: "", before: 0, after: 0, change_pct: 0, unit: "", note: "" };
+  const comparison = {
+    deltas: [
+      { ...base, key: "dead_area", before: 100, after: 90, change_pct: -10, direction: "better", unit: "㎡" },
+      { ...base, key: "robot_passable", before: 86, after: 97, change_pct: 12.8, direction: "better", unit: "%" },
+    ],
+    appeared: [], resolved: [], summary: "", warnings: [],
+  } as unknown as FloorplanCompareResponse;
+  assert.equal(compareHeadline(comparison), "로봇이 지나갈 수 있는 바닥이 86% → 97%로 늘었습니다");
+  // 로봇 줄이 「그대로」면 종전처럼 손님 구석 머리글
+  comparison.deltas[1].direction = "same";
+  assert.match(compareHeadline(comparison), /손님 발길이 잘 안 닿는 구석이/);
+});

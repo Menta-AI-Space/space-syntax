@@ -58,3 +58,9 @@ test("pastTense turns proposals into done sentences", () => {
   assert.equal(pastTense("7번 매장 근처 가로 벽에 폭 3.0m 문을 냅니다"), "7번 매장 근처 가로 벽에 폭 3.0m 문을 냈습니다");
   assert.equal(pastTense("고른 네모 안의 벽 7개를 지웁니다"), "고른 네모 안의 벽 7개를 지웠습니다");
 });
+
+test("confirmIntent understands short English answers too (English mode)", () => {
+  for (const t of ["yes", "Sure!", "apply it", "do it", "OK"]) assert.equal(confirmIntent(t), "yes", t);
+  for (const t of ["no", "cancel", "Nope"]) assert.equal(confirmIntent(t), "no", t);
+  assert.equal(confirmIntent("no, make it 2m"), null);
+});

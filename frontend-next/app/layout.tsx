@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="ko">
+    <html lang="en">
       <head>
         {/* Pretendard Variable — tokens.css의 --font-primary가 참조하는 실제
             폰트. dynamic-subset이라 필요한 글리프만 로드된다. */}

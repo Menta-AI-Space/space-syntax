@@ -41,6 +41,7 @@ from app.routers import (
     undervalued_areas,
     undervalued_parcels,
     upjong,
+    translate,
 )
 from app.services.sgis_grid import is_grid_data_available, query_grid_radius
 from app.services import telegram_agent_bot
@@ -161,6 +162,7 @@ app.include_router(floorplan.router, dependencies=_protected)
 app.include_router(parcel_structure.router, dependencies=_protected)
 app.include_router(street_grade.router, dependencies=_protected)
 app.include_router(planned_site.router, dependencies=_protected)
+app.include_router(translate.router, dependencies=_protected)
 # 동네(행정동) 검색은 공개 데이터 — 자동완성에서 바로 부를 수 있게 인증 없이 연다.
 app.include_router(geo.router)
 

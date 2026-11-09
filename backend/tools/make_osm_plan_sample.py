@@ -114,9 +114,11 @@ def _dor_category(code: str) -> str | None:
 
 
 def lots_from_parcels(
-    parcel_paths: list[Path], crs: str, clip_ll, road_lines: list[LineString]
+    parcel_paths: list[Path], crs: str, clip_ll, road_lines: list[LineString], merge_housing: bool = True
 ) -> list[tuple[str | None, Polygon]]:
-    """필지 GeoJSON → (이름, 폴리곤). 주거는 길로 나뉜 블록으로 합친다."""
+    """필지 GeoJSON → (이름, 폴리곤). merge_housing이면 주거를 길로 나뉜 블록으로 합치고, 아니면
+    필지 하나하나를 그대로 둔다(콘도 호실처럼 같은 땅 모양이 겹치면 하나로). 2026-11-09 소유자
+    「블록이 너무 크다, 작은 획지 단위로」 → 미국 샘플은 merge_housing=False."""
     to_m = Transformer.from_crs("EPSG:4326", crs, always_xy=True)
     singles: list[tuple[str | None, Polygon]] = []
     housing: list[Polygon] = []
@@ -138,10 +140,20 @@ def lots_from_parcels(
                     poly = poly.buffer(0)
                 if poly.is_empty or poly.area < 150:
                     continue
-                if cat == "B":
+                if cat == "B" and merge_housing:
                     housing.append(poly)
                 else:
                     singles.append((cat, poly))
+    # 같은 땅 모양이 여러 번(콘도 호실마다 한 필지) — 하나만 둔다
+    seen: set[bytes] = set()
+    deduped: list[tuple[str | None, Polygon]] = []
+    for cat, poly in singles:
+        key = poly.simplify(0.05).wkb
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append((cat, poly))
+    singles = deduped
     # 주거: 서로 붙은 필지를 합치고 길로 다시 나눈다 — 호실 하나하나는 획지가 아니다.
     merged = unary_union([p.buffer(0.5) for p in housing]).buffer(-0.5) if housing else None
     blocks: list[Polygon] = []
@@ -180,7 +192,10 @@ def lots_from_parcels(
     return out
 
 
-def build(osm_path: Path, crs: str, bbox: tuple[float, float, float, float] | None, parcels: list[Path] | None = None):
+def build(
+    osm_path: Path, crs: str, bbox: tuple[float, float, float, float] | None, parcels: list[Path] | None = None,
+    merge_housing: bool = True,
+):
     root = ET.parse(osm_path).getroot()
     nodes: dict[str, tuple[float, float]] = {}
     for n in root.iter("node"):
@@ -229,7 +244,7 @@ def build(osm_path: Path, crs: str, bbox: tuple[float, float, float, float] | No
     road_lines = _largest_component(road_lines)
 
     if parcels:
-        return road_lines, lots_from_parcels(parcels, crs, clip_ll, road_lines), bbox
+        return road_lines, lots_from_parcels(parcels, crs, clip_ll, road_lines, merge_housing), bbox
 
     faces = [
         f for f in polygonize(unary_union(road_lines))
@@ -291,9 +306,10 @@ def main() -> None:
     ap.add_argument("--title", default="OSM plan sample")
     ap.add_argument("--bbox", help="minlon,minlat,maxlon,maxlat — 파일 bounds보다 좁게 자를 때")
     ap.add_argument("--parcels", type=Path, nargs="*", help="실제 필지 GeoJSON(WGS84, DOR_UC 필드) — 주면 블록 대신 필지를 획지로 쓴다")
+    ap.add_argument("--no-merge-housing", action="store_true", help="주거 필지도 합치지 않고 하나하나 둔다(작은 획지 단위)")
     args = ap.parse_args()
     bbox = tuple(float(v) for v in args.bbox.split(",")) if args.bbox else None
-    road_lines, lots, used = build(args.osm, args.crs, bbox, args.parcels)  # type: ignore[arg-type]
+    road_lines, lots, used = build(args.osm, args.crs, bbox, args.parcels, merge_housing=not args.no_merge_housing)  # type: ignore[arg-type]
     write_dxf(args.out, road_lines, lots, args.crs, args.title)
     named = sum(1 for n, _ in lots if n)
     print(f"bbox {used} → 도로 {len(road_lines)}개, 블록 {len(lots)}개(이름 {named}개) → {args.out}")

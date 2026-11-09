@@ -92,12 +92,18 @@ def _rename_headings(text: str) -> str:
     return text
 
 
+EN_SUFFIX = """
+
+[Language] Write the whole answer in natural English for an international audience — including the section headings
+("Summary", "What to fix and how", "Where to place what"). Store names like 「매장 07」 become "Store 7". Keep all numbers and units."""
+
+
 async def explain_floorplan(
-    summary: FloorplanSummaryOut, issues: list[FloorplanIssueOut], rule_text: str
+    summary: FloorplanSummaryOut, issues: list[FloorplanIssueOut], rule_text: str, lang: str = "ko"
 ) -> tuple[str, str]:
     """(text, source). Falls back to the rule text when the LLM is off or fails."""
     text = await complete_text(
-        system=SYSTEM_PROMPT,
+        system=SYSTEM_PROMPT + (EN_SUFFIX if lang == "en" else ""),
         user=build_user_prompt(summary, issues, rule_text),
         # 추론 모델은 예산의 상당부분을 추론에 쓰므로 본문 분량(250자)보다
         # 넉넉히 준다 — 모자라면 본문이 빈 채로 돌아온다.
@@ -105,5 +111,5 @@ async def explain_floorplan(
         timeout_s=25.0,
     )
     if text and text.strip():
-        return _rename_headings(text.strip()), "llm"
+        return (text.strip() if lang == "en" else _rename_headings(text.strip())), "llm"
     return rule_text, "rule"

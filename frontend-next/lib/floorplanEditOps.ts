@@ -75,11 +75,11 @@ export const QUICK_EDITS = ["여기 문 내줘", "이 벽 없애 줘", "이 문 
  * 「응」「적용해」→ yes, 「아니」「취소」→ no. 「아니 2미터로」처럼 뒤에 내용이 붙으면 고쳐 말한 것이라
  * null — 호출부가 직전 지시와 함께 다시 보낸다. 말소리 인식은 문장부호·띄어쓰기가 들쭉날쭉해 지운 뒤 본다.
  */
-const YES = /^(응|웅|어|엉|네|넹|넵|예|ㅇㅇ|ㅇㅋ|오케이|오키|ok|okay|yes|좋아|좋아요|좋습니다|그래|그래요|그렇게|그렇게해|그렇게해줘|그렇게해주세요|적용|적용해|적용해줘|적용해주세요|적용할게|적용하자|해|해줘|해주세요|하자|바꿔|바꿔줘|바꿔주세요|그걸로|그걸로해|맞아|맞아요|고|ㄱㄱ|콜)+(요)?$/i;
-const NO = /^(아니|아니야|아니요|아뇨|아냐|노|no|ㄴㄴ|취소|취소해|취소해줘|됐어|됐어요|괜찮아|싫어|그만|하지마|하지말아줘|안해|안할래|놔둬|놔둬요|그대로둬)+(요)?$/i;
+const YES = /^(응|웅|어|엉|네|넹|넵|예|ㅇㅇ|ㅇㅋ|오케이|오키|ok|okay|yes|좋아|좋아요|좋습니다|그래|그래요|그렇게|그렇게해|그렇게해줘|그렇게해주세요|적용|적용해|적용해줘|적용해주세요|적용할게|적용하자|해|해줘|해주세요|하자|바꿔|바꿔줘|바꿔주세요|그걸로|그걸로해|맞아|맞아요|고|ㄱㄱ|콜|yeah|yep|yup|sure|apply|applyit|doit|goahead|okdoit|yesplease|please|confirm)+(요)?$/i;
+const NO = /^(아니|아니야|아니요|아뇨|아냐|노|no|ㄴㄴ|취소|취소해|취소해줘|됐어|됐어요|괜찮아|싫어|그만|하지마|하지말아줘|안해|안할래|놔둬|놔둬요|그대로둬|nope|cancel|nah|dont|nevermind|stop)+(요)?$/i;
 
 export function confirmIntent(text: string): "yes" | "no" | null {
-  const t = text.replace(/[\s.,!?~。…ㅠㅜ]+/g, "").toLowerCase();
+  const t = text.replace(/[\s.,!?~。…ㅠㅜ'’]+/g, "").toLowerCase();
   if (!t) return null;
   if (YES.test(t)) return "yes";
   if (NO.test(t)) return "no";

@@ -63,3 +63,18 @@ test("never throws on hostile or unexpected shapes", () => {
   assert.deepEqual(buildEvidenceTree({}), []);
   assert.equal(leafValue(buildEvidenceTree(cyclic), "이름"), "loop");
 });
+
+// 판정문 evidence의 실제 키가 영어로 펼쳐지지 않는다 (2026-11-09).
+test("labels decision evidence keys in Korean and names list items", () => {
+  const nodes = buildEvidenceTree({
+    site_score: { subscores: [{ key: "street", label: "길 구조", score: 78 }], segment: { integration_top_pct: 15 } },
+    rank_drivers: [{ key: "rent", label: "월세", impact: 8 }],
+  });
+  assert.equal(nodes[0].label, "입지 점수");
+  assert.equal(leafValue(nodes, "통합도 상위(%)"), "15");
+  assert.equal(leafValue(nodes, "Key"), null);
+  const site = nodes[0];
+  assert.ok(site.kind === "branch");
+  const sub = site.children.find((n) => n.label.startsWith("항목별 점수"));
+  assert.ok(sub && sub.kind === "branch" && sub.children[0].label === "길 구조");
+});

@@ -1,5 +1,6 @@
 "use client";
 
+import { onTranslations, translateText } from "@/lib/autoTranslate";
 import { SpeakButton } from "@/components/SpeakButton";
 import { FloorplanVoiceEdit } from "@/components/floorplan/FloorplanVoiceEdit";
 import { FloorplanChat } from "@/components/floorplan/FloorplanChat";
@@ -378,6 +379,9 @@ export function FloorplanAnalyzer({
   const [voiceError, setVoiceError] = useState("");
   const [voiceReply, setVoiceReply] = useState("");
   const voiceSeqRef = useRef(0);
+  // 영어 모드에서 도면 이름표 번역이 도착하면 캔버스를 다시 그린다.
+  const [trVersion, setTrVersion] = useState(0);
+  useEffect(() => onTranslations(() => setTrVersion((v) => v + 1)), []);
 
   const [extracting, setExtracting] = useState(false);
   const [extractError, setExtractError] = useState("");
@@ -605,6 +609,9 @@ export function FloorplanAnalyzer({
       setResult(response);
       setResultStale(false);
       setAnalyzeSeq((n) => n + 1);
+      // 2026-11-09 소유자: 「말로 고치기를 앞으로 돌출하게 해서 잘 보여 줘야지」 — 분석이 끝나면 말로 고치기
+      // 창을 바로 연다(도구 단추를 찾아 누르지 않아도). 「선택」을 누르면 종전처럼 찍은 자리 점수로 돌아간다.
+      if (mode === "select") changeMode("voice");
       // 원본은 **처음 분석한 도면**으로 둔다 — 문을 뚫고 다시 분석하면 원본이 고친 판으로
       // 덮여 「바꾼 것과 비교하기」가 사라졌다(2026-10-27 「문이 인식 안 된다」).
       setBaseline((prev) => prev ?? { lines, openings });
@@ -1366,11 +1373,13 @@ export function FloorplanAnalyzer({
       for (const label of ordered) {
         const x = label.x * displayScale;
         const y = label.y * displayScale;
-        const half = ctx.measureText(label.text).width / 2 + 1;
+        // 영어 모드면 도면 이름표도 옮긴다(캔버스 글은 화면 자동 번역이 못 닿는다 — lib/autoTranslate).
+        const shown = translateText(label.text);
+        const half = ctx.measureText(shown).width / 2 + 1;
         const box = { x0: x - half, x1: x + half, y0: y - 6, y1: y + 6 };
         if (drawn.some((d) => box.x0 < d.x1 && box.x1 > d.x0 && box.y0 < d.y1 && box.y1 > d.y0)) continue;
         drawn.push(box);
-        ctx.fillText(label.text, x, y);
+        ctx.fillText(shown, x, y);
       }
       ctx.font = "bold 9px Pretendard, sans-serif";
       for (const sym of symbols) {
@@ -1406,7 +1415,8 @@ export function FloorplanAnalyzer({
         ctx.fillText(label, x, y);
       };
       // 번호 오른쪽의 이름표 — 흰 바탕을 깔아 히트맵 위에서도 읽히게.
-      const tag = (px: number, py: number, color: string, text: string) => {
+      const tag = (px: number, py: number, color: string, raw: string) => {
+        const text = translateText(raw);
         const x = px * displayScale + 12;
         const y = py * displayScale;
         ctx.save();
@@ -1498,6 +1508,7 @@ export function FloorplanAnalyzer({
     voiceDrag,
     voiceChangeLive,
     voicePendingLive,
+    trVersion,
     labels,
     symbols,
     showLabels,
@@ -1631,10 +1642,10 @@ export function FloorplanAnalyzer({
                   type="button"
                   role="radio"
                   aria-checked={mode === m.mode}
-                  className={`floorplan-mode-btn${mode === m.mode ? ` floorplan-mode-btn--on floorplan-mode-btn--${m.mode}` : ""}`}
+                  className={`floorplan-mode-btn${m.mode === "voice" ? " floorplan-mode-btn--cta" : ""}${mode === m.mode ? ` floorplan-mode-btn--on floorplan-mode-btn--${m.mode}` : ""}`}
                   onClick={() => changeMode(m.mode)}
                 >
-                  {m.label}
+                  {m.mode === "voice" ? "🎤 말로 고치기" : m.label}
                 </button>
               ))}
             </div>
@@ -2331,6 +2342,8 @@ function IssueThumb({
   canvasHeight: number;
 }) {
   const ref = useRef<HTMLCanvasElement>(null);
+  const [trVersion, setTrVersion] = useState(0);
+  useEffect(() => onTranslations(() => setTrVersion((v) => v + 1)), []);
   useEffect(() => {
     const canvas = ref.current;
     const ctx = canvas?.getContext("2d");
@@ -2406,7 +2419,8 @@ function IssueThumb({
       drawn.some((d) => b[0] < d[2] && b[2] > d[0] && b[1] < d[3] && b[3] > d[1]);
     for (const label of nearby) {
       const lx = X(label.x);
-      const w = ctx.measureText(label.text).width + 6;
+      const shown = translateText(label.text);
+      const w = ctx.measureText(shown).width + 6;
       const at = (y: number): [number, number, number, number] => [lx - w / 2, y - 8, lx + w / 2, y + 8];
       const away = Y(label.y) < my ? [my - 21, my + 21] : [my + 21, my - 21]; // 원래 있던 쪽으로 먼저
       const ly = [Y(label.y), ...away].find((y) => y > 8 && y < THUMB_H - 8 && !hits(at(y)));
@@ -2416,7 +2430,7 @@ function IssueThumb({
       ctx.fillStyle = "rgba(255,255,255,0.9)";
       ctx.fillRect(lx - w / 2, ly - 8, w, 16);
       ctx.fillStyle = "#111827";
-      ctx.fillText(label.text, lx, ly);
+      ctx.fillText(shown, lx, ly);
     }
     // 구역 테두리와 번호 — 큰 도면의 마커와 같은 번호.
     if (cells.length) {
@@ -2436,7 +2450,7 @@ function IssueThumb({
     ctx.fillStyle = "#ffffff";
     ctx.font = "bold 11px Pretendard, sans-serif";
     ctx.fillText(String(number), mx, my);
-  }, [issue, number, lines, openings, labels, cellSize, canvasWidth, canvasHeight]);
+  }, [issue, number, lines, openings, labels, cellSize, canvasWidth, canvasHeight, trVersion]);
 
   return (
     <canvas

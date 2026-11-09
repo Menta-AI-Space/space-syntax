@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { SpeakButton } from "@/components/SpeakButton";
+import { useLang } from "@/lib/i18n";
 
 import type { FloorplanEditIntentResponse } from "@/lib/api";
 import { pastTense, QUICK_EDITS } from "@/lib/floorplanEditOps";
@@ -59,6 +60,8 @@ export function FloorplanVoiceEdit({
     }
   });
   const ready = !!selectionText && !busy;
+  // 「고른 자리」가 자동 번역에서 「accessible spot」으로 옮겨졌다(「자리」·「목」 용어집에 끌려) — 고정한다.
+  const { t } = useLang();
 
   function send(value: string) {
     const v = value.trim();
@@ -73,7 +76,7 @@ export function FloorplanVoiceEdit({
       <p className="fp-voice__where">
         {selectionText ? (
           <>
-            <strong>고른 자리</strong> {selectionText}
+            <strong>{t("고른 자리", "Selected spot")}</strong> {selectionText}
           </>
         ) : (
           "먼저 도면에서 고칠 자리를 누르거나, 끌어서 네모로 고르세요."

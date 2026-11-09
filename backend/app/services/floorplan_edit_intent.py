@@ -628,12 +628,12 @@ def _unit_per_m(meters_per_unit: float | None, canvas_w: float, canvas_h: float)
     return max(canvas_w, canvas_h, 1.0) / 150.0
 
 
-def _finish(plan: EditPlan) -> EditPlan:
+def _finish(plan: EditPlan, lang: str = "ko") -> EditPlan:
     if plan.steps and not plan.message:
         plan.message = " · ".join(text for _, text in plan.steps)
     # LLM이 먼저 묻는다(2026-11-09 소유자 「LLM이 물으라고」) — 사용자가 「응」이라고 답해야 적용된다.
     if plan.steps and "?" not in plan.message:
-        plan.message = plan.message.rstrip(". ") + ". 적용할까요?"
+        plan.message = plan.message.rstrip(". ") + (". Apply?" if lang == "en" else ". 적용할까요?")
     if not plan.steps and not plan.question:
         # 명령은 알아들었지만 그 자리에 할 게 없던 경우 — 그 이유를 그대로 말한다(「네모 안에 벽이 없습니다」).
         plan.question = plan.warnings[0] if plan.warnings else "바꿀 것을 찾지 못했어요. 자리를 다시 고르거나 다르게 말해 주세요."
@@ -652,6 +652,7 @@ async def plan_edit(
     canvas_width: float,
     canvas_height: float,
     previous_instruction: str | None = None,
+    lang: str = "ko",
     use_llm: bool = True,
 ) -> EditPlan:
     norm_box = None
@@ -675,7 +676,11 @@ async def plan_edit(
         user = _prompt(instruction, ctx)
         if previous_instruction and previous_instruction.strip():
             user = f"직전 지시(사용자가 고쳐 말하는 중): {previous_instruction.strip()}\n" + user
-        raw = await complete_json(system=SYSTEM_PROMPT, user=user, max_tokens=1500, timeout_s=15.0)
+        system = SYSTEM_PROMPT
+        if lang == "en":
+            # 영어 모드(2026-11-09): 지시는 영어로 올 수 있고, message·question은 영어로 — 화면에 한국어가 잠깐 비치지 않게.
+            system += '\n[Language] The user may write in English. Write "message" and "question" in natural English, ending the proposal with "Apply?". Store names like 「매장 07」 become "Store 7".'
+        raw = await complete_json(system=system, user=user, max_tokens=1500, timeout_s=15.0)
         if isinstance(raw, dict):
             ops = [op for op in (raw.get("ops") or []) if isinstance(op, dict)]
             question = raw.get("question")
@@ -689,7 +694,7 @@ async def plan_edit(
                     if _INTERNAL_ID.search(msg):
                         msg = ""
                     plan.message = msg
-                    return _finish(plan)
+                    return _finish(plan, lang)
                 logger.info("말로 고치기: GPT 명령이 모두 무효 — 규칙으로 넘어감 (%s)", plan.warnings)
             elif isinstance(question, str) and question.strip():
                 return EditPlan(question=question.strip(), source="llm")
@@ -703,4 +708,4 @@ async def plan_edit(
         plan.question = question
         return plan
     _apply_ops(ctx, ops, plan)
-    return _finish(plan)
+    return _finish(plan, lang)

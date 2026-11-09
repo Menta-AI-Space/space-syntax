@@ -94,7 +94,8 @@ export function useSpeechInput(onTranscript: (text: string) => void): SpeechInpu
     if (recognitionRef.current) recognitionRef.current.abort();
 
     const recognition = new Ctor();
-    recognition.lang = "ko-KR";
+    // 화면이 영어 모드면 영어로 듣는다(2026-11-09) — ko-KR로 두면 영어 말을 엉뚱하게 받아 적는다.
+    recognition.lang = typeof document !== "undefined" && document.documentElement.lang === "en" ? "en-US" : "ko-KR";
     // 한 문장만 받는다. continuous는 사용자가 말을 멈춰도 계속 듣고 있어서
     // 언제 끝났는지 알 수 없다.
     recognition.continuous = false;

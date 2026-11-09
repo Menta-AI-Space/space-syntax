@@ -406,6 +406,11 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  /* 390px에서 결론 「…예상 매 / 출이」, 후보지 이름 「(망원 / 역」처럼 낱말 가운데서
+     꺾였다 — 판정문 네 화면(비교·계약·매입·진단) 글을 어절 단위로만 꺾고, 띄어쓰기 없는
+     긴 주소만 자른다 (2026-11-09 UX 자동 개선). */
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 }
 
 .verdict-stages {

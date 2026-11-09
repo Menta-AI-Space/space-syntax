@@ -27,9 +27,12 @@ export function toneForSeverity(severity: string | null | undefined): VerdictTon
   return SEVERITY_TONE[String(severity ?? "")] ?? "info";
 }
 
-/** 입력창의 문자열을 숫자로. 비었거나 숫자가 아니면 null. */
+/** 입력창의 문자열을 숫자로. 비었거나 숫자가 아니면 null.
+ *  「1,000」「300만원」「30평」처럼 쉼표·칸 단위를 붙여 써도 읽는다 — 전엔 null이 되어
+ *  후보지 비교에서 월세가 말없이 빠진 채 비교됐다 (2026-11-09 UX 자동 개선). 단위는 칸에
+ *  적힌 것과 같은 뜻인 것만 뗀다(「원」만 붙은 금액은 만원 칸과 뜻이 달라 그대로 null). */
 export function parseNumber(raw: string): number | null {
-  const trimmed = raw.trim();
+  const trimmed = raw.replace(/[,\s]/g, "").replace(/(만원|만|평|층|㎡)$/, "");
   if (!trimmed) return null;
   const value = Number(trimmed);
   return Number.isFinite(value) ? value : null;

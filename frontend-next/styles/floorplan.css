@@ -1760,7 +1760,28 @@
   color: var(--blue-700, #1d4ed8);
 }
 
+/* 말로 고치기 단추는 다른 도구와 달리 늘 눈에 띄게 — 시연의 주인공(2026-11-09 소유자). */
+.floorplan-mode-btn--cta {
+  background: var(--primary-normal, #2563eb);
+  color: #fff;
+  box-shadow: 0 1px 2px rgba(37, 99, 235, 0.3);
+}
+
+.floorplan-mode-btn--cta:hover {
+  filter: brightness(1.08);
+}
+
+.floorplan-mode-btn--cta.floorplan-mode-btn--on,
+.floorplan-mode-btn--voice.floorplan-mode-btn--on {
+  background: var(--primary-normal, #2563eb);
+  color: #fff;
+  outline: 2px solid rgba(37, 99, 235, 0.35);
+  outline-offset: 1px;
+}
+
 .fp-voice {
+  border-color: var(--primary-normal, #2563eb);
+  border-width: 2px;
   margin-top: var(--space-3);
   padding: var(--space-3);
   border: 1px solid var(--line-normal-normal);

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useLang } from "@/lib/i18n";
 import { api, ApiClientError, type AnalyzeResponse, type DecideRequest, type DecideResponse, type DecisionGoal, type FranchiseBrand, type RadiusM, type SimulateResponse, type SiteScoreResponse } from "@/lib/api";
 import { GoalPicker } from "@/components/agent/GoalPicker";
 import { AgentChat, type AgentResultLocation } from "@/components/agent/AgentChat";
@@ -77,12 +78,14 @@ type AppTab =
 // 2026-10-26: 「지도 분석」은 이제 서울 길을 목 좋은 길 3단계로 칠한 지도
 // (StreetGradeMap)이고, 지도 위 질의창은 「AI 입지분석」으로 이름을 바꿨다
 // (소유자 결정 — 앱 출시용 지도 분석, 질의창은 랩미팅 시연용으로 유지).
-const PRIMARY_TABS: { id: AppTab; label: string; short: string }[] = [
-  { id: "analyze", label: "AI 입지분석", short: "AI 입지" },
-  { id: "streetMap", label: "지도 분석", short: "지도" },
-  { id: "floorplan", label: "건축 평면도 분석", short: "평면도" },
-  { id: "plannedSite", label: "신도시 계획도면 분석", short: "계획도면" },
+// 2026-11-09: 도면 둘을 앞으로, 「AI 입지분석」은 맨 뒤로, 「지도 분석」(StreetGradeMap)은 문을 닫았다
+// (소유자 결정). 화면 언어는 영어가 기본이고 `?lang=ko`면 한국어 — lib/i18n.tsx. 첫 탭이 곧 첫 화면이다.
+const PRIMARY_TABS: { id: AppTab; label: string; short: string; labelEn: string; shortEn: string }[] = [
+  { id: "floorplan", label: "건축 평면도 분석", short: "평면도", labelEn: "Floor Plan Analysis", shortEn: "Floor plan" },
+  { id: "plannedSite", label: "신도시 계획도면 분석", short: "계획도면", labelEn: "New Town Plan Analysis", shortEn: "Town plan" },
+  { id: "analyze", label: "AI 입지분석", short: "AI 입지", labelEn: "AI Site Analysis", shortEn: "AI site" },
 ];
+const HOME_TAB: AppTab = PRIMARY_TABS[0].id;
 
 type SheetSize = "peek" | "half" | "full";
 const SHEET_ORDER: SheetSize[] = ["peek", "half", "full"];
@@ -90,7 +93,8 @@ const SHEET_ORDER: SheetSize[] = ["peek", "half", "full"];
 const CHAT_MIN_W = 360;
 
 export function AppShell() {
-  const [activeTab, setActiveTab] = useState<AppTab>("analyze");
+  const { lang, setLang, t } = useLang();
+  const [activeTab, setActiveTab] = useState<AppTab>(HOME_TAB);
   const [floorplanHandoff, setFloorplanHandoff] = useState<{ file: File; id: number } | null>(null);
   const [address, setAddress] = useState("신촌역");
   const [pickedLocation, setPickedLocation] = useState<PickedLocation | null>(null);
@@ -701,9 +705,9 @@ export function AppShell() {
         <button
           type="button"
           className="app-home"
-          onClick={() => setActiveTab("analyze")}
-          aria-label="처음 화면으로"
-          aria-current={activeTab === "analyze" ? "page" : undefined}
+          onClick={() => setActiveTab(HOME_TAB)}
+          aria-label={t("처음 화면으로", "Home")}
+          aria-current={activeTab === HOME_TAB ? "page" : undefined}
         >
           {/* 건물 마크. 종전엔 "S"(Space Syntax) 글자였는데 제품명에서 그 이름을
               뺐으므로 글자도 함께 뺀다 — 남겨 두면 어디서 온 S인지 알 수 없다. */}
@@ -719,7 +723,7 @@ export function AppShell() {
               「목이 좋다」를 그대로 이름으로 — 화면이 통합도를 이미 「목」이라 부른다. */}
           <span className="app-home-name">목좋은곳</span>
         </button>
-        <nav className="app-tabs" role="tablist" aria-label="분석 모드">
+        <nav className="app-tabs" role="tablist" aria-label={t("분석 모드", "Analysis modes")}>
           {PRIMARY_TABS.map((tab) => (
             <button
               key={tab.id}
@@ -731,14 +735,29 @@ export function AppShell() {
               aria-controls={`tab-panel-${tab.id}`}
               // 640px 이하에선 .app-tab-full이 숨고 짧은 이름은 aria-hidden이라 탭 이름이 비어
               // 화면 낭독기가 「탭」만 읽었다 (2026-11-08 UX 자동 개선) — 이름을 버튼에 박는다.
-              aria-label={tab.label}
+              aria-label={t(tab.label, tab.labelEn)}
               onClick={() => setActiveTab(tab.id)}
             >
-              <span className="app-tab-full">{tab.label}</span>
-              <span className="app-tab-short" aria-hidden="true">{tab.short}</span>
+              <span className="app-tab-full">{t(tab.label, tab.labelEn)}</span>
+              <span className="app-tab-short" aria-hidden="true">{t(tab.short, tab.shortEn)}</span>
             </button>
           ))}
         </nav>
+        <div className="app-lang" role="group" aria-label={t("화면 언어", "Language")}>
+          {(["en", "ko"] as const).map((code) => (
+            <button
+              key={code}
+              type="button"
+              className={`app-lang__btn${lang === code ? " app-lang__btn--on" : ""}`}
+              aria-pressed={lang === code}
+              lang={code}
+              aria-label={code === "en" ? "English" : "한국어"}
+              onClick={() => setLang(code)}
+            >
+              {code === "en" ? "EN" : "KO"}
+            </button>
+          ))}
+        </div>
       </header>
 
       {/* Tab panels stay mounted (hidden via CSS) rather than unmounting on
@@ -1274,6 +1293,10 @@ export function AppShell() {
           />
         </div>
       </div>
+      {/* 빌드 시각 — 옛 화면이 캐시로 남아 있는지 한눈에 가르는 표식(2026-11-09). 번역하지 않는다. */}
+      <p className="app-build-stamp notranslate" translate="no">
+        build {process.env.NEXT_PUBLIC_BUILD_STAMP ?? "dev"}
+      </p>
     </div>
   );
 }

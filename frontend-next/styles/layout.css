@@ -55,6 +55,42 @@ button {
   flex-shrink: 0;
 }
 
+/* 화면 언어 단추 (2026-11-09) — 영어 기본. 탭 줄 오른쪽 끝, 좁은 화면에서도 줄지 않는다. */
+.app-lang {
+  display: inline-flex;
+  flex-shrink: 0;
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--radius-sm);
+  background: var(--fill-normal);
+}
+
+.app-lang__btn {
+  min-height: 32px;
+  padding: 4px 10px;
+  font: inherit;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--label-alternative);
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .app-lang__btn {
+    min-height: 32px;
+    padding: 4px 7px;
+  }
+}
+
+.app-lang__btn--on {
+  color: var(--label-strong);
+  background: var(--background-elevated-normal);
+  box-shadow: var(--shadow-normal);
+}
+
 .app-header-logo {
   display: inline-flex;
   flex-shrink: 0;
@@ -1888,4 +1924,13 @@ button {
   margin: 4px 0 0;
   padding-left: 18px;
   line-height: 1.45;
+}
+
+/* 화면 맨 아래 빌드 시각 — 옛 캐시 화면인지 가르는 표식 (2026-11-09) */
+.app-build-stamp {
+  margin: var(--space-4) 0 var(--space-2);
+  text-align: center;
+  font-size: 11px;
+  color: var(--label-assistive, #9ca3af);
+  user-select: all;
 }

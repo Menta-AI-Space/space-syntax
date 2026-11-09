@@ -50,7 +50,75 @@ const KEY_LABELS: Record<string, string> = {
   category: "분류",
   detail: "설명",
   note: "메모",
+  // 판정문(비교·계약·매입·진단) evidence가 실제로 싣는 키 — 없으면 「Site score」
+  // 「Integration top pct」처럼 영어 키가 그대로 펼쳐졌다 (2026-11-09 UX 자동 개선,
+  // backend/app/services/decision.py evaluate 결과·routers/goals.py lease 기준).
+  site_score: "입지 점수",
+  verdict_one_liner: "한 줄 평",
+  business_label: "업종",
+  subscores: "항목별 점수",
+  score: "점수",
+  rank_top_pct: "상위(%)",
+  display: "표시",
+  segment: "길 구조",
+  integration_top_pct: "통합도 상위(%)",
+  choice_top_pct: "선택도 상위(%)",
+  mean_depth_top_pct: "평균 깊이 상위(%)",
+  connectivity_top_pct: "연결도 상위(%)",
+  transit: "가까운 역",
+  station_name: "역 이름",
+  demand: "수요",
+  adm_name: "행정동",
+  competition: "경쟁",
+  total_store_count: "전체 점포 수",
+  density_per_km2: "1㎢당 점포 밀도",
+  intensity_label: "경쟁 강도",
+  sales_benchmark: "매출 기준",
+  trdar_nm: "상권 이름",
+  trdar_se_nm: "상권 종류",
+  citywide_median_per_store_won: "서울 점포당 매출 중앙값(원)",
+  location_multiplier: "입지 보정 배율",
+  scope: "기준 범위",
+  cannibalization: "상권 겹침",
+  total_count: "주변 같은 업종 수",
+  self_total_count: "같은 브랜드 수",
+  overlap_with: "겹치는 곳",
+  nearest: "가까운 경쟁 점포",
+  area_insights: "동네 정보",
+  footfall_dong: "생활인구 행정동",
+  footfall_quarter: "생활인구 기준 분기",
+  footfall_total: "생활인구 합계",
+  footfall_ages: "연령대별 생활인구",
+  band: "구간",
+  value: "값",
+  rent_model: "월세 계산",
+  score_components: "점수 구성",
+  site: "입지",
+  rent: "월세",
+  weights_used: "적용 가중치",
+  raw_score: "감점 전 점수",
+  over_budget_penalty: "예산 초과 감점",
+  rank_drivers: "순위를 가른 항목",
+  field_avg: "다른 후보 평균",
+  delta: "차이",
+  impact: "순위 영향(점)",
+  direction: "방향",
+  text: "풀이",
+  lease: "계약 조건",
+  monthly_rent_man: "월세(만원)",
+  maintenance_man: "관리비(만원)",
+  key_money_man: "권리금(만원)",
+  monthly_lease_cost_man: "월 임차 비용(만원)",
+  max_lease_cost_man: "감당 가능 임차 비용(만원)",
+  monthly_fixed_cost_man: "월 고정비(만원)",
+  labor_cost_man: "인건비(만원)",
+  break_even_daily_man: "손익분기 하루 매출(만원)",
+  orders_per_day: "하루 주문 수",
+  monthly_operating_profit_man: "월 영업이익(만원)",
 };
+
+// 사람이 읽을 이름이 따로 있는 기계용 코드(「street」 등)는 펼치지 않는다.
+const HIDDEN_KEYS = new Set(["key"]);
 
 function titleize(key: string): string {
   const spaced = key.replace(/[_-]+/g, " ").trim();
@@ -112,7 +180,10 @@ function walk(value: unknown, key: string, path: string, depth: number, seen: We
       }
       const children: EvidenceNode[] = [];
       value.slice(0, MAX_ITEMS).forEach((item, index) => {
-        const child = walk(item, `${index + 1}번째`, `${path}.${index}`, depth + 1, seen);
+        // 항목에 이름(label·name)이 있으면 「1번째」 대신 그 이름으로 묶는다.
+        const rec = item && typeof item === "object" && !Array.isArray(item) ? (item as Record<string, unknown>) : null;
+        const named = rec ? [rec.label, rec.name].find((v): v is string => typeof v === "string" && v.trim() !== "") : undefined;
+        const child = walk(item, named ? named.trim() : `${index + 1}번째`, `${path}.${index}`, depth + 1, seen);
         if (child) children.push(child);
       });
       if (children.length === 0) return null;
@@ -127,6 +198,7 @@ function walk(value: unknown, key: string, path: string, depth: number, seen: We
 
     const children: EvidenceNode[] = [];
     for (const [childKey, childValue] of Object.entries(obj).slice(0, MAX_ITEMS)) {
+      if (HIDDEN_KEYS.has(childKey)) continue;
       const child = walk(childValue, childKey, `${path}.${childKey}`, depth + 1, seen);
       if (child) children.push(child);
     }

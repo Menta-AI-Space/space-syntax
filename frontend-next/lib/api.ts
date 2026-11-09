@@ -45,6 +45,11 @@ export function errorMessage(data: ApiErrorPayload | null, status: number): stri
   return sanitizeErrorText(raw);
 }
 
+/** 화면 언어 — LLM이 처음부터 그 말로 쓰게 요청에 싣는다(영어 모드에서 한국어가 잠깐 보였다 바뀌지 않게). */
+function uiLang(): "en" | "ko" {
+  return typeof document !== "undefined" && document.documentElement.lang === "ko" ? "ko" : "en";
+}
+
 async function requestJson<T>(path: string, init: RequestInit & { timeoutMs?: number } = {}): Promise<T> {
   const { timeoutMs = DEFAULT_TIMEOUT_MS, headers, signal: providedSignal, ...rest } = init;
   // 호출한 쪽이 signal을 넘겨도 시간 제한은 지킨다. 전엔 signal이 있으면 타이머를 아예 안
@@ -513,11 +518,14 @@ export const api = {
     requestJson<FloorplanCompareResponse>("/api/floorplan/compare", { method: "POST", body: JSON.stringify(body), timeoutMs: 30_000 }),
   /** 말로 고치기 — GPT가 명령을 고르고 서버가 선을 계산한다. 분석은 돌리지 않는다. */
   floorplanEditIntent: (body: FloorplanEditIntentRequest) =>
-    requestJson<FloorplanEditIntentResponse>("/api/floorplan/edit-intent", { method: "POST", body: JSON.stringify(body), timeoutMs: 25_000 }),
+    requestJson<FloorplanEditIntentResponse>("/api/floorplan/edit-intent", { method: "POST", body: JSON.stringify({ ...body, lang: uiLang() }), timeoutMs: 25_000 }),
   floorplanChat: (body: FloorplanChatRequest) =>
     requestJson<FloorplanChatResponse>("/api/floorplan/chat", { method: "POST", body: JSON.stringify(body), timeoutMs: 40_000 }),
+  /** 영어 모드 화면 번역(lib/autoTranslate.ts). 옮기지 못한 자리는 null. */
+  translate: (texts: string[]) =>
+    requestJson<{ translations: Array<string | null> }>("/api/translate", { method: "POST", body: JSON.stringify({ texts }), timeoutMs: 45_000 }),
   floorplanExplain: (body: { summary: FloorplanSummary; issues: FloorplanIssue[]; rule_text: string }) =>
-    requestJson<{ text: string; source: string }>("/api/floorplan/explain", { method: "POST", body: JSON.stringify(body), timeoutMs: 30_000 }),
+    requestJson<{ text: string; source: string }>("/api/floorplan/explain", { method: "POST", body: JSON.stringify({ ...body, lang: uiLang() }), timeoutMs: 30_000 }),
 };
 
 export interface AgentStep { key: string; label: string; status: string }

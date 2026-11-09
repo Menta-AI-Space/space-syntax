@@ -165,6 +165,22 @@ def compare_plans(
         ),
     ]
 
+    # 로봇 통로(2026-11-09, 물류센터): 두 판 다 축척이 있고 어느 한쪽이라도 로봇이 못 가는 통로가 있을 때만 —
+    # 통로가 다 넓은 쇼핑몰 비교에 「로봇 100% → 100%」 줄을 끼우지 않는다. 「랙 옮기고 다시 분석」의 핵심 숫자.
+    if (
+        before.robot_passable_pct is not None
+        and after.robot_passable_pct is not None
+        and min(before.robot_passable_pct, after.robot_passable_pct) < 99.0
+    ):
+        deltas.append(
+            _delta(
+                "robot_passable", "로봇이 지나갈 수 있는 바닥",
+                before.robot_passable_pct, after.robot_passable_pct,
+                higher_is_better=True, unit="%",
+                note="통로 폭이 1.6m(로봇 1.0m + 여유) 이상인 바닥의 비율입니다. 랙 사이를 벌리면 올라갑니다.",
+            )
+        )
+
     appeared, resolved = _match_issues(before_issues, after_issues, after.cell_size)
     return deltas, appeared, resolved
 
@@ -177,6 +193,10 @@ def summarize_comparison(deltas: list[Delta], appeared: list[Issue], resolved: l
         return "바꾼 결과가 지표로는 거의 같습니다. 격자 오차 범위 안이라 좋아졌다고 보기 어렵습니다."
 
     parts: list[str] = []
+    robot = next((d for d in deltas if d.key == "robot_passable"), None)
+    if robot and robot.direction != "same":
+        verb = "늘었습니다" if robot.after > robot.before else "줄었습니다"
+        parts.append(f"로봇이 지나갈 수 있는 바닥이 {robot.before:.0f}% → {robot.after:.0f}%로 {verb}.")
     dead = next((d for d in deltas if d.key == "dead_area"), None)
     if dead and dead.direction != "same":
         verb = "줄었습니다" if dead.after < dead.before else "늘었습니다"

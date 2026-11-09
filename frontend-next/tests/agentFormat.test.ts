@@ -69,6 +69,11 @@ test("parses form text into numbers, rejecting junk", () => {
   assert.equal(parseNumber(""), null);
   assert.equal(parseNumber("삼백"), null);
   assert.equal(parseNumber("1e3"), 1000);
+  assert.equal(parseNumber("1,000"), 1000);
+  assert.equal(parseNumber("300만원"), 300);
+  assert.equal(parseNumber(" 30 평"), 30);
+  assert.equal(parseNumber("만원"), null);
+  assert.equal(parseNumber("3000000원"), null);
 });
 
 test("keeps bar widths inside 0~100", () => {

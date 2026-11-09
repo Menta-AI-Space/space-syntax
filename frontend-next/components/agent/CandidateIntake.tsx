@@ -5,7 +5,7 @@ import { BusinessPicker, type UpjongSelection } from "@/components/BusinessPicke
 import { searchKoreanAddresses, type AddressSearchItem } from "@/lib/address";
 import type { DecideRequest, DecisionPriority } from "@/lib/api";
 import { useFocusOpenStep } from "@/components/agent/AgentForm";
-import { withObjectParticle } from "@/lib/agentFormat";
+import { parseNumber, withObjectParticle } from "@/lib/agentFormat";
 
 interface CandidateDraft {
   key: string;
@@ -31,13 +31,6 @@ let draftSeq = 0;
 function emptyDraft(): CandidateDraft {
   draftSeq += 1;
   return { key: `cand-${draftSeq}`, query: "", address: "", lat: null, lng: null, rent: "", pyeong: "", floor: "" };
-}
-
-function parseNumber(raw: string): number | null {
-  const trimmed = raw.trim();
-  if (!trimmed) return null;
-  const value = Number(trimmed);
-  return Number.isFinite(value) ? value : null;
 }
 
 // 숫자 칸에서 Enter(휴대폰 「다음」)는 같은 후보의 다음 칸으로, 층 칸이면 다음 후보지의 빈 주소

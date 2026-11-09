@@ -383,6 +383,17 @@ class PurchaseVerdictResponse(BaseModel):
     warnings: list[str] = []
 
 
+def _site_fail_detail(exc: BaseException) -> str:
+    """입지 분석 실패 문장. evaluate_candidate가 이미 「○○ 입지 분석 실패: …」로
+    감싸 올리므로 접두어를 다시 붙이지 않는다(「입지 분석 실패: 이 상가 입지 분석
+    실패: …」처럼 겹쳐 보였다 — 2026-11-09 UX 루프)."""
+    detail = getattr(exc, "detail", None) or str(exc) or type(exc).__name__
+    detail = str(detail)
+    if "입지 분석 실패" in detail:
+        return detail
+    return f"입지 분석 실패: {detail}"
+
+
 @router.post("/purchase-verdict", response_model=PurchaseVerdictResponse)
 async def purchase_verdict(request: PurchaseVerdictRequest) -> PurchaseVerdictResponse:
     label = request.label or "이 상가"
@@ -415,8 +426,7 @@ async def purchase_verdict(request: PurchaseVerdictRequest) -> PurchaseVerdictRe
     )
 
     if isinstance(site_res, BaseException):
-        detail = getattr(site_res, "detail", None) or str(site_res) or type(site_res).__name__
-        raise HTTPException(status_code=502, detail=f"입지 분석 실패: {detail}")
+        raise HTTPException(status_code=502, detail=_site_fail_detail(site_res))
     analysis = site_res
     warnings.extend(analysis.warnings)
     row = analysis.row
@@ -690,12 +700,7 @@ async def diagnose(request: DiagnoseRequest) -> DiagnoseResponse:
     )
 
     if isinstance(analysis_res, BaseException):
-        detail = (
-            getattr(analysis_res, "detail", None)
-            or str(analysis_res)
-            or type(analysis_res).__name__
-        )
-        raise HTTPException(status_code=502, detail=f"입지 분석 실패: {detail}")
+        raise HTTPException(status_code=502, detail=_site_fail_detail(analysis_res))
     analysis = analysis_res
     row = analysis.row
     warnings = list(analysis.warnings)

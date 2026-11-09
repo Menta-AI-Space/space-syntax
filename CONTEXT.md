@@ -33,7 +33,9 @@
 
 **목** — 화면에서 쓰는 말. 다른 데를 오갈 때 자연히 지나게 되는 자리. 정식 용어는
 **길 구조**이고, 공간구문론의 Choice와 Integration을 합친 값이다. 관용어 "목이 좋다"와
-뜻이 정확히 겹쳐서 설명 없이 통한다.
+뜻이 정확히 겹쳐서 설명 없이 통한다. **영어는 「목 좋은 곳」 = high-footfall location**(짧게
+high-footfall spot), 점수로서의 「목」 = footfall potential — 2026-11-09 소유자 결정. prime spot은
+제품명(Prime Spot)에만 쓴다. 영어 화면 번역 용어집(`backend/app/services/ui_translate.py`)이 이를 고정한다.
 
 **갭 점수** — 목 백분위 − 가격 백분위. 클수록 "목에 비해 싸다". 계층 안에서만
 의미가 있다. **화면에 내보내는 결론이 아니라 뜰 자리 모델의 입력 feature다.**

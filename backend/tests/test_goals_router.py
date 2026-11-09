@@ -118,3 +118,30 @@ def test_purchase_verdict_market_band_defaults_insufficient_without_a_band(monke
     assert response.market_band.insufficient_sample is True
     assert response.market_band.relaxations == []
     assert response.market_band.data_source == ""
+
+
+def test_purchase_verdict_site_failure_does_not_double_prefix(monkeypatch):
+    """evaluate_candidate가 이미 「이 상가 입지 분석 실패: …」로 올린 오류에
+    라우터가 「입지 분석 실패: 」를 또 붙이면 안 된다."""
+    import pytest
+    from fastapi import HTTPException
+
+    async def _fail(**_kwargs):
+        raise HTTPException(
+            status_code=502, detail="이 상가 입지 분석 실패: 분석 데이터를 불러오지 못했습니다"
+        )
+
+    async def _fake_fetch_comparables(**_kwargs):
+        return None
+
+    monkeypatch.setattr(goals, "analyze_site", _fail)
+    monkeypatch.setattr(goals, "fetch_comparables", _fake_fetch_comparables)
+
+    with pytest.raises(HTTPException) as info:
+        asyncio.run(goals.purchase_verdict(_request()))
+    assert info.value.status_code == 502
+    assert info.value.detail == "이 상가 입지 분석 실패: 분석 데이터를 불러오지 못했습니다"
+
+
+def test_site_fail_detail_prefixes_plain_errors():
+    assert goals._site_fail_detail(RuntimeError("시간 초과")) == "입지 분석 실패: 시간 초과"

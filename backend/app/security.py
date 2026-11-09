@@ -131,6 +131,13 @@ async def rate_limit_middleware(request: Request, call_next):
 
     key = client_key(request)
 
+    # 화면 번역(영어 기본 화면)은 화면이 바뀔 때마다 조각을 모아 보낸다 — 일반 한도(분당 60)를 같이 쓰면
+    # 정작 분석 요청이 막힌다. 따로 넉넉한 칸을 준다(2026-11-09).
+    if path == "/api/translate":
+        if not _limiter.allow(f"tr:{key}", 240):
+            return _rate_limit_response(key, path, "general", "Too many translation requests. Please wait a moment.")
+        return await call_next(request)
+
     # NOTE: return, never raise. Middleware runs outside Starlette's
     # ExceptionMiddleware, so a raised HTTPException would surface as a 500.
     if not _limiter.allow(f"all:{key}", settings.rate_limit_per_minute):

@@ -3,7 +3,7 @@
 import { SpeakButton } from "@/components/SpeakButton";
 import { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import { loadKakaoMaps } from "@/lib/kakao";
-import { inKorea, loadOsmMaps, type MapsApi } from "@/lib/osmMapEngine";
+import { inKorea, loadOsmMaps, subscribeOsmTileError, type MapsApi } from "@/lib/osmMapEngine";
 import "leaflet/dist/leaflet.css";
 import {
   api,
@@ -40,13 +40,13 @@ import { UNGRADED_COLOR, outerRings } from "@/lib/parcelGrade";
 
 type LayerRole = "road" | "lot" | "other";
 
-// 샘플 셋. 운정은 실제 LH 도면(업무복합 F10 입찰 2026-10-28) — 바둑판 가상 지구는 「이게 무슨
-// 도면이냐」가 먼저 나와서 바꿨다(2026-10-24). 두바이·미국은 2026-11-09(해커톤 01, 글로벌 대회)에
-// 더했다 — 그 나라 공식 CAD 도면은 공개돼 있지 않아 OpenStreetMap의 **실제 도로망**으로 만든
-// DXF다(`backend/tools/make_osm_plan_sample.py`, 블록 = 획지 대용, 좌표계 UTM). 한국 밖이라 주변
-// 기존 도로·아파트·역 데이터 없이 도면 안 길만으로 계산한다(서버가 알아서 뺀다).
+// 샘플 둘. 운정은 실제 LH 도면(업무복합 F10 입찰 2026-10-28) — 바둑판 가상 지구는 「이게 무슨
+// 도면이냐」가 먼저 나와서 바꿨다(2026-10-24). 미국은 2026-11-09(해커톤 01, 글로벌 대회)에 더했다 —
+// 길은 OpenStreetMap 실제 도로망, 땅은 카운티 실제 필지로 만든 DXF다(`backend/tools/make_osm_plan_sample.py`,
+// 좌표계 UTM). 한국 밖이라 주변 기존 도로·아파트·역 데이터 없이 도면 안 길만으로 계산한다(서버가 알아서 뺀다).
+// 두바이 다운타운(OSM 블록판)도 있었으나 소유자 지시로 같은 날 뺐다 — 실제 필지가 아니라 블록이었다.
 type SamplePlan = {
-  id: "unjeong" | "dubai" | "us";
+  id: "unjeong" | "us";
   label: string;
   path: string;
   fileName: string;
@@ -67,32 +67,22 @@ const SAMPLE_PLANS: SamplePlan[] = [
     about: "파주 운정3지구 운정중앙역 일대 LH 획지결정도 한 장입니다. 계산하면 업무복합용지 F10(LH 입찰 2026-10-28)을 골라 옆 땅과 견줍니다.",
   },
   {
-    id: "dubai",
-    label: "샘플: 두바이 다운타운",
-    path: "/samples/planned-site-dubai-downtown.dxf",
-    fileName: "Dubai_Downtown_OSM.dxf",
-    crs: "EPSG:32640",
-    focus: null,
-    abroad: true,
-    about:
-      "두바이 다운타운(부르즈 할리파·두바이몰 일대) 약 1.4km×1.1km의 실제 도로망입니다. 도로가 둘러싼 블록을 획지로 보고, 계산하면 가장 좋은 블록을 골라 둡니다. 자료: © OpenStreetMap contributors (ODbL).",
-  },
-  {
     id: "us",
     label: "샘플: 미국 셀러브레이션",
     path: "/samples/planned-site-us-celebration.dxf",
     fileName: "Celebration_FL_parcels.dxf",
     crs: "EPSG:32617",
-    // 중심가(마켓 스트리트) 상업 필지. 「가장 좋은 땅」을 고르면 지구 북쪽 25ha 빈 상업 용지(C1)가
-    // 잡혀 시연이 땅덩이 얘기가 된다 — 운정 F10처럼 보여 줄 땅을 정해 둔다(2026-11-09).
-    focus: "C18",
+    // 작은 상업 필지(약 900㎡, 1등급, 옆 땅 4곳). 「가장 좋은 땅」을 고르면 지구 북쪽 25ha 빈 상업 용지(C1)가
+    // 잡혀 시연이 땅덩이 얘기가 된다 — 운정 F10처럼 보여 줄 땅을 정해 둔다(2026-11-09, 필지 단위 판).
+    focus: "C27",
     abroad: true,
     about:
-      "미국 플로리다 셀러브레이션(디즈니가 1994년부터 계획해 지은 신도시) 중심부 약 2.6km×2.2km입니다. 길은 실제 도로망, 땅은 오시올라 카운티 감정평가청의 2025년 실제 필지입니다 — C 상업·업무, 초 학교, P 공원·공공은 필지 그대로, B 주거는 호실·단독주택이 수천 개라 길로 나뉜 블록으로 합쳤습니다. 자료: Osceola County Property Appraiser, © OpenStreetMap contributors (ODbL).",
+      "미국 플로리다 셀러브레이션(디즈니가 1994년부터 계획해 지은 신도시) 중심부 약 1.6km×1.7km입니다. 길은 실제 도로망, 땅은 오시올라 카운티 감정평가청의 2025년 실제 필지 482곳을 하나하나 그대로 썼습니다(C 상업·업무, B 주거, 초 학교, P 공원·공공). 자료: Osceola County Property Appraiser, © OpenStreetMap contributors (ODbL).",
   },
 ];
 // 한국 밖 샘플의 블록 이름 머리글자 → 용도 (OSM landuse·leisure·amenity에서 읽은 것)
-const ABROAD_LAND_USE: [string, string][] = [["C", "상업 블록"], ["B", "주거 블록"], ["P", "공원·녹지"], ["초", "학교"]];
+// B(주거)는 접미를 안 붙인다 — 회색 이름표가 「주거 B21 (주거 블록)」로 겹쳤다(2026-11-09 라이브, 휴대폰).
+const ABROAD_LAND_USE: [string, string][] = [["C", "상업"], ["P", "공원·공공"], ["초", "학교"]];
 
 // 운정3 샘플의 땅 기호 → LH 「파주운정3 지구단위지침서-2편(건축)_260729」(공고 BN-0008014 첨부 hwp)에 적힌 용지 이름.
 // 2026-10-27 소유자: 「문이 뭐야? 이용 계획표를 보고 빨리 정확하게 넣어」. 근거 — 제1장 제3조⑥과 표Ⅱ-1·Ⅱ-2(F 용지 분류),
@@ -491,14 +481,25 @@ export function PlannedSitePanel({
     return b ? { lat: (b.minLat + b.maxLat) / 2, lng: (b.minLng + b.maxLng) / 2 } : null;
   }, [plan]);
   const engine: "kakao" | "osm" = planCentre && !inKorea(planCentre.lat, planCentre.lng) ? "osm" : "kakao";
+  // OSM 바탕 타일이 안 오면(망 차단·오프라인) 흰 바탕만 보여 「화면이 안 나온다」로 읽힌다 — 한 줄 알린다.
+  const [tileNotice, setTileNotice] = useState("");
   useEffect(() => {
     const box = boxRef.current;
     if (!box) return;
     let cancelled = false;
     setMapReady(false);
     setMapFailed(null);
+    const kakaoLoad = () => loadKakaoMaps().then(() => window.kakao.maps as MapsApi);
+    // 한국 밖인데 OSM 엔진(Leaflet 동적 로드)이 안 뜨면 카카오로 물러선다 — 바탕은 비어도 길·땅 그림은
+    // 보여야 한다(2026-11-09, 엣지에서 「미국 샘플 안 보인다」 보고 뒤 대비책). 무엇이 막혔는지는 콘솔에 남긴다.
     const load: Promise<MapsApi> =
-      engine === "osm" ? loadOsmMaps() : loadKakaoMaps().then(() => window.kakao.maps as MapsApi);
+      engine === "osm"
+        ? loadOsmMaps().catch((err) => {
+            console.error("OSM 지도 엔진을 불러오지 못해 카카오 지도로 대신합니다:", err);
+            setTileNotice("바탕 지도(OpenStreetMap)를 불러오지 못해 빈 바탕 위에 길·땅 그림만 보여 줍니다.");
+            return kakaoLoad();
+          })
+        : kakaoLoad();
     load
       .then((maps) => {
         if (cancelled || !boxRef.current) return;
@@ -512,7 +513,7 @@ export function PlannedSitePanel({
       })
       .catch((err) => {
         if (cancelled) return;
-        console.error(err);
+        console.error("지도 만들기 실패:", err);
         setMapFailed("지도를 불러오지 못했습니다 — 인터넷 연결을 확인하고 다시 불러와 주세요.");
       });
     return () => {
@@ -526,6 +527,14 @@ export function PlannedSitePanel({
   }, [mapAttempt, engine]);
   const planCentreRef = useRef(planCentre);
   planCentreRef.current = planCentre;
+  useEffect(
+    () =>
+      subscribeOsmTileError(() =>
+        setTileNotice("바탕 지도(OpenStreetMap) 타일을 불러오지 못했습니다 — 길·땅 그림은 그대로 보이고, 바탕만 비어 있습니다."),
+      ),
+    [],
+  );
+  useEffect(() => setTileNotice(""), [engine, plan]);
 
   const lotsById = new Map((result?.lots || []).map((lot) => [lot.pnu, lot]));
   const picked = pickedId ? lotsById.get(pickedId) ?? null : null;
@@ -771,8 +780,9 @@ export function PlannedSitePanel({
           zIndex: 12,
         });
         shapesRef.current.push({ id: `tip-${lot.lot_id}`, shape: tip });
-        if (greyed) {
-          // 회색 땅 이름표는 늘 — 「아파트 A21」「학교 초5」처럼 무엇인지 보이게.
+        if (greyed && (plan.lots.length <= 40 || isMe || neighbourIds.has(lot.lot_id))) {
+          // 회색 땅 이름표는 늘 — 「아파트 A21」「학교 초5」처럼 무엇인지 보이게. 단 땅이 40곳 넘는 도면
+          // (미국 샘플 148곳)에서는 고른 땅·옆 땅만 — 이름표가 지도를 덮었다(2026-11-09 라이브, 휴대폰).
           const label = new kakao.maps.CustomOverlay({
             position: new kakao.maps.LatLng(centre[1], centre[0]),
             content: `<div class="plan-lot-label">${KIND_LABEL[info!.kind as keyof typeof KIND_LABEL]} ${nameOf(lot.lot_id)}</div>`,
@@ -1341,6 +1351,7 @@ export function PlannedSitePanel({
             </div>
           )}
           <div ref={boxRef} className="pm-canvas" aria-label="계획 택지 지도" />
+          {tileNotice && !mapFailed && <div className="status-banner">{tileNotice}</div>}
           {mapFailed && (
             <div className="status-banner status-banner--error map-error__body" role="alert">
               <p>{mapFailed}</p>
@@ -1358,7 +1369,7 @@ export function PlannedSitePanel({
           )}
           <p className="pm-status" role="status">
             {!plan
-              ? "계획 도면(DXF·PDF)을 올리거나 샘플(운정·두바이·미국)을 불러오세요."
+              ? "계획 도면(DXF·PDF)을 올리거나 샘플(운정·미국)을 불러오세요."
               : !result
                 ? // 위치 확인 전엔 계산 버튼이 잠겨 있다 — 여기서 「계산을 누르세요」라 하면 버튼 문구와 어긋난다
                   // (2026-11-07 UX 자동 개선). 이 지도가 바로 「지도에서 위치 확인」의 그 지도다.
@@ -1500,11 +1511,24 @@ export function PlannedSitePanel({
           {picked.kind === "candidate" && (
             <div className="plan-side" style={{ marginTop: 10 }}>
               {/* 2026-11-07 UX 자동 개선: 제목이 「근처 학교·아파트」인데 목록엔 공공·녹지(문2 문화시설)도
-                  나와 F10에서 「아파트가 없다」는 위 문장과 함께 어긋나 읽혔다 — 실제로 담는 세 종류를 다 적는다. */}
+                  나와 F10에서 「아파트가 없다」는 위 문장과 함께 어긋나 읽혔다 — 실제로 담는 세 종류를 다 적는다.
+                  2026-11-09 소유자: 「너무 길게 나오는데 유용한 정보가 아니다」 — 미국 샘플(필지 482곳)은 150m 안
+                  주거 필지가 수십 개라 이 목록이 화면을 다 차지했다. 기본은 종류별 개수 한 줄로 접고, 펼쳐야 목록. */}
               <div className="plan-side-head">
                 <strong>근처 학교·아파트·공공시설 ({NEARBY_LIMIT_M}m 안)</strong>
+                {!!picked.nearby.length && (
+                  <span className="plan-side-badge">
+                    {(["housing", "school", "public"] as const)
+                      .map((k) => [k, picked.nearby.filter((n) => n.kind === k).length] as const)
+                      .filter(([, c]) => c > 0)
+                      .map(([k, c]) => `${KIND_LABEL[k]} ${c}`)
+                      .join(" · ")}
+                  </span>
+                )}
               </div>
               {picked.nearby.length ? (
+                <details className="plan-note-how">
+                  <summary>{picked.nearby.length}곳 목록 보기</summary>
                 <ul>
                   {picked.nearby.map((n) => (
                     <li key={n.lot_id}>
@@ -1518,6 +1542,7 @@ export function PlannedSitePanel({
                     </li>
                   ))}
                 </ul>
+                </details>
               ) : (
                 <p className="floorplan-scale-hint" style={{ margin: "6px 0 0" }}>
                   없습니다 — 손님은 길을 지나는 사람과 역·간선 쪽에서 옵니다.
@@ -1616,29 +1641,38 @@ export function PlannedSitePanel({
       {!!(result?.warnings.length || result?.caveats.length) && (
         <div className="card">
           <h2>이 숫자를 어디까지 믿을지</h2>
-          {/* 2026-10-26 사용자: 「간단히 다 맞는 건 아니다」를 먼저 — 아래 목록만으로는 신뢰를 잘못 읽는다. */}
+          {/* 2026-10-26 사용자: 「간단히 다 맞는 건 아니다」를 먼저 — 아래 목록만으로는 신뢰를 잘못 읽는다.
+              2026-11-09 소유자: 「너무 길어, 간결하게 핵심만」 — 핵심 한 문장 + 빠진 것은 앞 구절만, 나머지 설명은 접는다. */}
           <p className="floorplan-help-text" style={{ fontWeight: 700 }}>
-            한 줄로: 이 결과가 다 맞는 건 아닙니다. 길 모양으로 본 예상이니 참고로만 보고, 현장·분양 정보와 함께 판단하세요.
+            길 모양만 보고 낸 예상입니다. 실제 유동인구·감정가·분양가가 아니고, 이 도면 안 땅끼리의 상대 순위라 참고로만 보세요.
           </p>
           {/* 2026-11-08 UX 자동 개선: 이번 계산에서 실제로 빠진 것(warnings — 기존 도로·역을 못 불러옴)과
-              늘 붙는 설명(caveats — 「길 모양만 보고 낸 예상」 등)이 한 주황 목록에 섞여, 390에서 6줄이
-              모두 경고처럼 보이고 진짜 빠진 것이 묻혔다. 빠진 것만 주황으로 먼저, 설명은 보통 글씨로. */}
+              늘 붙는 설명(caveats)이 한 주황 목록에 섞여 진짜 빠진 것이 묻혔다. 빠진 것만 주황으로, 그것도
+              「— 」 뒤 설명은 떼고 앞 구절만. */}
           {!!result?.warnings.length && (
             <>
               <p className="plan-caveats-lead">이번 계산에서 빠진 것</p>
               <ul className="warnings-banner plan-caveats">
                 {result.warnings.map((line) => (
-                  <li key={line}>{line}</li>
+                  <li key={line}>{line.split(/\s—\s/)[0].replace(/\.$/, "")}</li>
                 ))}
               </ul>
             </>
           )}
-          {!!result?.caveats.length && (
-            <ul className="plan-caveats">
-              {result.caveats.map((line) => (
-                <li key={line}>{line}</li>
-              ))}
-            </ul>
+          {!!(result?.caveats.length || result?.warnings.some((w) => /\s—\s/.test(w))) && (
+            <details className="plan-note-how">
+              <summary>자세한 설명 보기</summary>
+              <ul className="plan-caveats">
+                {result.warnings
+                  .filter((w) => /\s—\s/.test(w))
+                  .map((line) => (
+                    <li key={line}>{line}</li>
+                  ))}
+                {result.caveats.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+            </details>
           )}
         </div>
       )}
